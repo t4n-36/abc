@@ -2,7 +2,8 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="mobile-web-app-capable" content="yes">
     <title>関数カードゲーム</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -32,6 +33,8 @@
             color: var(--text-primary);
             overflow-x: hidden;
             min-height: 100vh;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
         }
 
         .game-container {
@@ -45,8 +48,33 @@
             font-size: 2rem;
             font-weight: 700;
             color: var(--accent-main);
-            margin-bottom: 40px;
+            margin-bottom: 20px;
             letter-spacing: 0.1em;
+        }
+
+        .header-actions {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+
+        .btn-back {
+            padding: 10px 24px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            background: var(--bg-paper);
+            color: var(--text-primary);
+            border: 1px solid rgba(0, 0, 0, 0.15);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            letter-spacing: 0.05em;
+            box-shadow: 0 2px 6px var(--shadow-light);
+        }
+
+        .btn-back:hover {
+            background: var(--bg-primary);
+            transform: translateY(-2px);
         }
 
         .battle-area {
@@ -68,6 +96,17 @@
             color: var(--text-secondary);
             margin-bottom: 15px;
             letter-spacing: 0.05em;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .clear-condition {
+            font-size: 0.85rem;
+            color: var(--accent-main);
+            font-weight: 600;
         }
 
         .function-formula {
@@ -128,7 +167,7 @@
             border: 1px solid rgba(0, 0, 0, 0.08);
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
+            justify-content: flex-start;
             box-shadow: 0 2px 6px var(--shadow-light);
         }
 
@@ -154,8 +193,10 @@
 
         .card.selected {
             transform: translateY(-8px);
-            box-shadow: 0 6px 16px var(--shadow-medium);
-            border-color: var(--accent-main);
+            box-shadow: 0 8px 20px rgba(217, 119, 87, 0.5);
+            border: 3px solid var(--accent-main);
+            outline: 2px solid rgba(217, 119, 87, 0.3);
+            outline-offset: 2px;
         }
 
         .card.substitute {
@@ -164,18 +205,6 @@
 
         .card.inverse {
             background: var(--card-inverse);
-        }
-
-        .card.merged {
-            border: 2px solid var(--accent-main);
-        }
-
-        .card-name {
-            font-size: 0.95rem;
-            font-weight: 600;
-            text-align: center;
-            margin-bottom: 8px;
-            color: var(--text-primary);
         }
 
         .card-level {
@@ -193,13 +222,48 @@
             font-size: 0.85rem;
             color: var(--accent-main);
             border: 1px solid rgba(0, 0, 0, 0.1);
+            z-index: 2;
+        }
+
+        .card-level.silver {
+            background: linear-gradient(135deg, #f5f5f5, #c0c0c0);
+            border: 2px solid #a8a8a8;
+            color: #5a5a5a;
+            font-weight: 700;
+            box-shadow: 0 2px 6px rgba(192, 192, 192, 0.4);
+        }
+
+        .card-level.gold {
+            background: linear-gradient(135deg, #fff9e6, #ffd700);
+            border: 2px solid #d4af37;
+            color: #8b6914;
+            font-weight: 700;
+            box-shadow: 0 2px 6px rgba(212, 175, 55, 0.5);
+        }
+
+        .card-effect {
+            font-size: 1.8rem;
+            font-weight: 700;
+            text-align: center;
+            color: var(--text-primary);
+            margin: auto 0;
+            letter-spacing: 0.02em;
+        }
+
+        .card-name {
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 12px;
+            color: var(--text-primary);
         }
 
         .card-description {
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             text-align: center;
             color: var(--text-secondary);
-            line-height: 1.4;
+            line-height: 1.3;
+            margin-top: auto;
         }
 
         .actions {
@@ -420,10 +484,115 @@
         }
 
         @media (max-width: 768px) {
-            .title { font-size: 1.6rem; }
-            .function-formula { font-size: 2rem; }
-            .card { width: 130px; height: 180px; }
-            .btn { padding: 10px 20px; font-size: 0.9rem; }
+            .game-container {
+                padding: 20px 15px;
+            }
+
+            .title { 
+                font-size: 1.5rem;
+                margin-bottom: 15px;
+            }
+
+            .battle-area {
+                padding: 25px 20px;
+                margin-bottom: 20px;
+            }
+
+            .function-formula { 
+                font-size: 2.2rem;
+            }
+
+            .turn-info {
+                padding: 15px;
+                font-size: 1rem;
+            }
+
+            .turn-count {
+                font-size: 1.4rem;
+            }
+
+            .card-container {
+                gap: 10px;
+                padding: 15px 10px;
+                min-height: 200px;
+            }
+
+            .card { 
+                width: 150px;
+                height: 200px;
+                padding: 18px 14px;
+            }
+
+            .card-name {
+                font-size: 0.95rem;
+                margin-bottom: 10px;
+            }
+
+            .card-effect {
+                font-size: 1.6rem;
+            }
+
+            .card-description {
+                font-size: 0.75rem;
+            }
+
+            .card-level {
+                width: 28px;
+                height: 28px;
+                font-size: 0.9rem;
+            }
+
+            .btn { 
+                padding: 14px 24px;
+                font-size: 1rem;
+                touch-action: manipulation;
+            }
+
+            .actions {
+                gap: 10px;
+                margin-bottom: 20px;
+            }
+
+            .log {
+                padding: 15px;
+                max-height: 150px;
+            }
+
+            .stage-select-title {
+                font-size: 2rem;
+                margin-bottom: 40px;
+            }
+
+            .stage-grid {
+                gap: 20px;
+            }
+
+            .stage-card {
+                padding: 28px 24px;
+            }
+
+            .clear-condition {
+                font-size: 0.8rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .card-container {
+                justify-content: center;
+            }
+
+            .card {
+                width: 140px;
+                height: 190px;
+            }
+
+            .card-effect {
+                font-size: 1.5rem;
+            }
+
+            .function-formula {
+                font-size: 1.8rem;
+            }
         }
     </style>
 </head>
@@ -489,10 +658,17 @@
         <div class="game-container">
             <h1 class="title">関数カードゲーム</h1>
 
+            <div class="header-actions">
+                <button class="btn-back" onclick="backToStageSelect()">← ステージ選択に戻る</button>
+            </div>
+
             <div class="battle-area">
                 <!-- 目標の関数 -->
                 <div class="function-display">
-                    <div class="function-label">目標の関数</div>
+                    <div class="function-label">
+                        <span>目標の関数</span>
+                        <span class="clear-condition">クリア条件: この関数を0にする</span>
+                    </div>
                     <div class="function-formula" id="enemy-function">g(x) = x² - 6</div>
                 </div>
 
@@ -518,7 +694,6 @@
             <div class="actions">
                 <button class="btn btn-use" id="btn-use" onclick="useCard()" disabled>カード使用</button>
                 <button class="btn btn-merge" id="btn-merge" onclick="toggleMergeMode()">カード合成</button>
-                <button class="btn btn-end" onclick="endTurn()">ターン終了</button>
             </div>
 
             <!-- ログ -->
@@ -597,13 +772,21 @@
                     cardElement.classList.add('selected');
                 }
 
-                if (card.level > 1) {
-                    cardElement.classList.add('merged');
+                // レベル表示のスタイル
+                let levelClass = '';
+                if (card.level === 2) {
+                    levelClass = 'silver';
+                } else if (card.level >= 3) {
+                    levelClass = 'gold';
                 }
 
+                // カード中央の効果表示
+                const centerEffect = getCardCenterEffect(card);
+
                 cardElement.innerHTML = `
-                    <div class="card-level">Lv${card.level}</div>
+                    <div class="card-level ${levelClass}">Lv${card.level}</div>
                     <div class="card-name">${card.name}</div>
+                    <div class="card-effect">${centerEffect}</div>
                     <div class="card-description">${getCardDescription(card)}</div>
                 `;
 
@@ -619,6 +802,22 @@
             }
         }
 
+        // カード中央の効果表示を取得
+        function getCardCenterEffect(card) {
+            if (card.type === 'plus') {
+                return `+${card.level}`;
+            } else if (card.type === 'substitute') {
+                return `f(${card.level})`;
+            } else if (card.type === 'inverse') {
+                if (card.level % 2 === 0) {
+                    return 'f(x)/1';
+                } else {
+                    return '1/f(x)';
+                }
+            }
+            return '';
+        }
+
         // カードの説明文を取得
         function getCardDescription(card) {
             if (card.type === 'plus') {
@@ -627,8 +826,8 @@
                 return `f(x) → f(${card.level})`;
             } else if (card.type === 'inverse') {
                 if (card.level === 1) return 'f(x) → 1/f(x)';
-                if (card.level === 2) return 'f(x) → f(x) (無効化)';
-                return 'f(x) → f(x)';
+                if (card.level % 2 === 0) return 'f(x) → f(x) (無効化)';
+                return 'f(x) → 1/f(x)';
             }
             return card.description;
         }
@@ -670,9 +869,28 @@
             gameState.selectedCardIndex = null;
             document.getElementById('btn-use').disabled = true;
 
+            // ターン減少
+            gameState.remainingTurns--;
+            updateTurnCount();
+
+            // カードを補充（常に5枚をキープ）
+            if (gameState.hand.length < 5) {
+                const newCard = { ...cardTypes.plus, level: 1, id: Date.now() };
+                gameState.hand.unshift(newCard);
+                gameState.newCardIndices = [0];
+                addLog('+1カードを補充');
+            }
+
             renderHand();
             renderFunction();
-            checkGameEnd();
+            
+            // ゲーム終了チェック
+            if (!checkGameEnd()) {
+                // ターン切れチェック
+                if (gameState.remainingTurns <= 0) {
+                    showModal('defeat', '失敗', 'ターン切れです。もう一度挑戦しよう！');
+                }
+            }
         }
 
         // カード効果を適用
@@ -819,43 +1037,30 @@
                 gameState.mergeMode = false;
                 gameState.selectedForMerge = [];
                 document.getElementById('merge-indicator').style.display = 'none';
+
+                // ターン減少
+                gameState.remainingTurns--;
+                updateTurnCount();
+
+                // カードを補充（常に5枚をキープ）
+                while (gameState.hand.length < 5) {
+                    const plusCard = { ...cardTypes.plus, level: 1, id: Date.now() + gameState.hand.length };
+                    gameState.hand.push(plusCard);
+                }
+                if (gameState.hand.length > 5) {
+                    gameState.newCardIndices = [0];
+                }
                 
                 renderHand();
-                setTimeout(() => endTurn(), 500);
+
+                // ターン切れチェック
+                if (gameState.remainingTurns <= 0) {
+                    showModal('defeat', '失敗', 'ターン切れです。もう一度挑戦しよう！');
+                }
             } else {
                 addLog('合成失敗: 同じタイプ・同じレベルのカードを選択してください');
                 gameState.selectedForMerge = [];
                 renderHand();
-            }
-        }
-
-        // ターン終了
-        function endTurn() {
-            if (gameState.mergeMode) {
-                gameState.mergeMode = false;
-                gameState.selectedForMerge = [];
-                document.getElementById('merge-indicator').style.display = 'none';
-                renderHand();
-                return;
-            }
-
-            // ターン減少
-            gameState.remainingTurns--;
-            updateTurnCount();
-
-            // カードを補充
-            if (gameState.hand.length < 5) {
-                const newCard = { ...cardTypes.plus, level: 1, id: Date.now() };
-                gameState.hand.unshift(newCard);
-                gameState.newCardIndices = [0];
-                addLog('+1カードを補充');
-            }
-
-            renderHand();
-
-            // ターン切れチェック
-            if (gameState.remainingTurns <= 0) {
-                showModal('defeat', '失敗', 'ターン切れです。もう一度挑戦しよう！');
             }
         }
 
