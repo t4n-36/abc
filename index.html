@@ -485,77 +485,120 @@
 
         @media (max-width: 768px) {
             .game-container {
-                padding: 20px 15px;
+                padding: 15px 10px;
             }
 
             .title { 
-                font-size: 1.5rem;
-                margin-bottom: 15px;
-            }
-
-            .battle-area {
-                padding: 25px 20px;
-                margin-bottom: 20px;
-            }
-
-            .function-formula { 
-                font-size: 2.2rem;
-            }
-
-            .turn-info {
-                padding: 15px;
-                font-size: 1rem;
-            }
-
-            .turn-count {
-                font-size: 1.4rem;
-            }
-
-            .card-container {
-                gap: 10px;
-                padding: 15px 10px;
-                min-height: 200px;
-            }
-
-            .card { 
-                width: 150px;
-                height: 200px;
-                padding: 18px 14px;
-            }
-
-            .card-name {
-                font-size: 0.95rem;
+                font-size: 1.3rem;
                 margin-bottom: 10px;
             }
 
-            .card-effect {
-                font-size: 1.6rem;
+            .header-actions {
+                margin-bottom: 15px;
             }
 
-            .card-description {
+            .btn-back {
+                padding: 8px 16px;
+                font-size: 0.85rem;
+            }
+
+            .battle-area {
+                padding: 20px 15px;
+                margin-bottom: 15px;
+            }
+
+            .function-label {
+                font-size: 0.8rem;
+                margin-bottom: 10px;
+                gap: 5px;
+            }
+
+            .clear-condition {
                 font-size: 0.75rem;
             }
 
-            .card-level {
-                width: 28px;
-                height: 28px;
+            .function-formula { 
+                font-size: 1.8rem;
+            }
+
+            .turn-info {
+                padding: 12px 15px;
                 font-size: 0.9rem;
             }
 
+            .turn-count {
+                font-size: 1.2rem;
+            }
+
+            .hand-label {
+                font-size: 0.9rem;
+                margin-bottom: 12px;
+            }
+
+            .card-container {
+                gap: 8px;
+                padding: 10px 5px;
+                min-height: 150px;
+            }
+
+            .card { 
+                width: 110px;
+                height: 155px;
+                padding: 14px 10px;
+            }
+
+            .card-name {
+                font-size: 0.75rem;
+                margin-bottom: 6px;
+            }
+
+            .card-effect {
+                font-size: 1.4rem;
+                margin: 8px 0;
+            }
+
+            .card-description {
+                font-size: 0.65rem;
+            }
+
+            .card-level {
+                width: 24px;
+                height: 24px;
+                font-size: 0.75rem;
+                top: 8px;
+                right: 8px;
+            }
+
+            .merge-mode-indicator {
+                padding: 10px;
+                margin-bottom: 12px;
+                font-size: 0.85rem;
+            }
+
             .btn { 
-                padding: 14px 24px;
-                font-size: 1rem;
+                padding: 11px 20px;
+                font-size: 0.9rem;
                 touch-action: manipulation;
             }
 
             .actions {
-                gap: 10px;
-                margin-bottom: 20px;
+                gap: 8px;
+                margin-bottom: 15px;
             }
 
             .log {
-                padding: 15px;
-                max-height: 150px;
+                padding: 12px;
+                max-height: 100px;
+            }
+
+            .log-title {
+                font-size: 0.85rem;
+                margin-bottom: 8px;
+            }
+
+            .log-entry {
+                padding: 4px 0;
+                font-size: 0.75rem;
             }
 
             .stage-select-title {
@@ -570,28 +613,79 @@
             .stage-card {
                 padding: 28px 24px;
             }
-
-            .clear-condition {
-                font-size: 0.8rem;
-            }
         }
 
         @media (max-width: 480px) {
-            .card-container {
-                justify-content: center;
+            .game-container {
+                padding: 10px 8px;
             }
 
-            .card {
-                width: 140px;
-                height: 190px;
+            .title {
+                font-size: 1.2rem;
+                margin-bottom: 8px;
             }
 
-            .card-effect {
-                font-size: 1.5rem;
+            .battle-area {
+                padding: 15px 12px;
+                margin-bottom: 12px;
             }
 
             .function-formula {
-                font-size: 1.8rem;
+                font-size: 1.6rem;
+            }
+
+            .card-container {
+                justify-content: center;
+                gap: 6px;
+                padding: 8px 5px;
+                min-height: 140px;
+            }
+
+            .card {
+                width: 105px;
+                height: 145px;
+                padding: 12px 8px;
+            }
+
+            .card-name {
+                font-size: 0.7rem;
+                margin-bottom: 5px;
+            }
+
+            .card-effect {
+                font-size: 1.3rem;
+                margin: 6px 0;
+            }
+
+            .card-description {
+                font-size: 0.6rem;
+            }
+
+            .card-level {
+                width: 22px;
+                height: 22px;
+                font-size: 0.7rem;
+                top: 6px;
+                right: 6px;
+            }
+
+            .btn {
+                padding: 10px 16px;
+                font-size: 0.85rem;
+            }
+
+            .log {
+                max-height: 80px;
+                padding: 10px;
+            }
+
+            .log-title {
+                font-size: 0.8rem;
+                margin-bottom: 6px;
+            }
+
+            .log-entry {
+                font-size: 0.7rem;
             }
         }
     </style>
@@ -1026,11 +1120,13 @@
                     id: Date.now()
                 };
 
-                const indicesToRemove = [index1, index2].sort((a, b) => b - a);
-                indicesToRemove.forEach(i => gameState.hand.splice(i, 1));
-
-                gameState.hand.unshift(newCard);
-                gameState.newCardIndices = [0];
+                // より左側のインデックスに新しいカードを配置
+                const keepIndex = Math.min(index1, index2);
+                const removeIndex = Math.max(index1, index2);
+                
+                // 削除してから挿入
+                gameState.hand.splice(removeIndex, 1);
+                gameState.hand.splice(keepIndex, 1, newCard);
 
                 addLog(`${card1.name} を合成してLv${newCard.level}にアップグレード`);
                 
@@ -1045,10 +1141,15 @@
                 // カードを補充（常に5枚をキープ）
                 while (gameState.hand.length < 5) {
                     const plusCard = { ...cardTypes.plus, level: 1, id: Date.now() + gameState.hand.length };
-                    gameState.hand.push(plusCard);
+                    gameState.hand.unshift(plusCard); // 左端に追加
                 }
-                if (gameState.hand.length > 5) {
-                    gameState.newCardIndices = [0];
+                
+                // 新しく追加された補充カードにアニメーションを適用
+                const numNewCards = 5 - (gameState.hand.length - (5 - gameState.hand.length));
+                if (gameState.hand.length === 5 && numNewCards > 0) {
+                    gameState.newCardIndices = [0]; // 一番左の補充カードのみ
+                } else {
+                    gameState.newCardIndices = [];
                 }
                 
                 renderHand();
@@ -1071,14 +1172,20 @@
 
         // ゲーム終了チェック
         function checkGameEnd() {
-            const value = evaluateFunction(gameState.enemyFunction);
-
-            if (Math.abs(value) < 0.0001 || value === 0) {
-                showModal('victory', 'クリア！', '目標の関数を0にしました！');
-                return true;
+            const func = gameState.enemyFunction;
+            
+            // 定数になった場合、その値をチェック
+            if (func.exponent === 0) {
+                const value = func.coefficient + func.constant;
+                if (Math.abs(value) < 0.0001 || value === 0) {
+                    showModal('victory', 'クリア！', '目標の関数を0にしました！');
+                    return true;
+                }
             }
-
-            if (isNaN(value) || !isFinite(value)) {
+            
+            // 未定義・発散チェック
+            const testValue = evaluateFunction(func);
+            if (isNaN(testValue) || !isFinite(testValue)) {
                 showModal('defeat', '失敗', '関数が未定義になりました...');
                 return true;
             }
@@ -1086,12 +1193,12 @@
             return false;
         }
 
-        // 関数を評価
+        // 関数を評価（主にチェック用）
         function evaluateFunction(func) {
             if (func.exponent === 0) {
                 return func.coefficient + func.constant;
             }
-            // x=1での評価
+            // x=1での評価（参考値として）
             return func.coefficient * Math.pow(1, func.exponent) + func.constant;
         }
 
