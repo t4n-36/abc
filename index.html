@@ -23,6 +23,9 @@
             --card-plus: #e8dcc4;
             --card-substitute: #d4c5a9;
             --card-inverse: #c9b896;
+            --card-derivative: #b8d4c9;
+            --card-integral: #d4c9d4;
+            --card-multiply: #c9c9b8;
             --shadow-light: rgba(0, 0, 0, 0.08);
             --shadow-medium: rgba(0, 0, 0, 0.12);
         }
@@ -55,10 +58,11 @@
         .header-actions {
             display: flex;
             justify-content: center;
+            gap: 12px;
             margin-bottom: 30px;
         }
 
-        .btn-back {
+        .btn-back, .btn-retry {
             padding: 10px 24px;
             font-size: 0.9rem;
             font-weight: 500;
@@ -72,9 +76,20 @@
             box-shadow: 0 2px 6px var(--shadow-light);
         }
 
-        .btn-back:hover {
+        .btn-back:hover, .btn-retry:hover {
             background: var(--bg-primary);
             transform: translateY(-2px);
+        }
+
+        .btn-retry {
+            background: linear-gradient(135deg, var(--accent-main), #e89577);
+            color: white;
+            border: none;
+        }
+
+        .btn-retry:hover {
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 4px 12px rgba(217, 119, 87, 0.4);
         }
 
         .battle-area {
@@ -83,6 +98,20 @@
             padding: 40px;
             margin-bottom: 30px;
             box-shadow: 0 2px 8px var(--shadow-light);
+            transition: box-shadow 0.3s ease;
+        }
+
+        .battle-area.active {
+            animation: battleGlow 0.6s ease-in-out;
+        }
+
+        @keyframes battleGlow {
+            0%, 100% {
+                box-shadow: 0 2px 8px var(--shadow-light);
+            }
+            50% {
+                box-shadow: 0 0 20px rgba(217, 119, 87, 0.3);
+            }
         }
 
         .function-display {
@@ -114,6 +143,36 @@
             font-weight: 400;
             color: var(--text-primary);
             letter-spacing: 0.05em;
+            transition: all 0.3s ease;
+        }
+
+        .function-formula.changing {
+            animation: functionChange 0.6s ease-in-out;
+        }
+
+        @keyframes functionChange {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            25% {
+                transform: scale(1.1);
+                opacity: 0.7;
+                color: var(--accent-main);
+            }
+            50% {
+                transform: scale(0.95);
+                opacity: 0.5;
+            }
+            75% {
+                transform: scale(1.05);
+                opacity: 0.8;
+                color: var(--accent-main);
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
         }
 
         .turn-info {
@@ -205,6 +264,18 @@
 
         .card.inverse {
             background: var(--card-inverse);
+        }
+
+        .card.derivative {
+            background: var(--card-derivative);
+        }
+
+        .card.integral {
+            background: var(--card-integral);
+        }
+
+        .card.multiply {
+            background: var(--card-multiply);
         }
 
         .card-level {
@@ -697,51 +768,111 @@
         <div class="stage-grid">
             <div class="stage-card" onclick="startStage(1)">
                 <div class="stage-number">Stage 1</div>
-                <div class="stage-title">基礎演算</div>
-                <div class="stage-description">
-                    関数の基本操作を使って目標の関数を0にしよう。<br>
-                    制限ターン内にクリアできるかな?
-                </div>
+                <div class="stage-title">基礎演算 I</div>
+                <div class="stage-description">基本操作を使って関数を0にしよう</div>
                 <div class="stage-info">
                     <div>難易度: ★☆☆☆☆</div>
-                    <div>制限ターン: 10ターン</div>
-                    <div>使用カード: +1、代入、逆数</div>
+                    <div>制限ターン: 5ターン</div>
+                    <div id="stage1-record" style="color: var(--accent-main); font-weight: 600; margin-top: 8px;">最速クリア: 未挑戦</div>
                 </div>
             </div>
 
-            <div class="stage-card" style="opacity: 0.4; cursor: not-allowed;">
+            <div class="stage-card" onclick="startStage(2)">
                 <div class="stage-number">Stage 2</div>
-                <div class="stage-title">微分の導入</div>
-                <div class="stage-description">
-                    微分カードを使って関数を変形しよう。
+                <div class="stage-title">基礎演算 II</div>
+                <div class="stage-description">3次関数を0にしよう</div>
+                <div class="stage-info">
+                    <div>難易度: ★☆☆☆☆</div>
+                    <div>制限ターン: 5ターン</div>
+                    <div id="stage2-record" style="color: var(--accent-main); font-weight: 600; margin-top: 8px;">最速クリア: 未挑戦</div>
                 </div>
+            </div>
+
+            <div class="stage-card" onclick="startStage(3)">
+                <div class="stage-number">Stage 3</div>
+                <div class="stage-title">指定関数への変換</div>
+                <div class="stage-description">目標: 3x² に変換せよ</div>
                 <div class="stage-info">
                     <div>難易度: ★★☆☆☆</div>
-                    <div>Coming Soon...</div>
+                    <div>制限ターン: 5ターン</div>
+                    <div id="stage3-record" style="color: var(--accent-main); font-weight: 600; margin-top: 8px;">最速クリア: 未挑戦</div>
                 </div>
             </div>
 
-            <div class="stage-card" style="opacity: 0.4; cursor: not-allowed;">
-                <div class="stage-number">Stage 3</div>
-                <div class="stage-title">積分の力</div>
-                <div class="stage-description">
-                    積分を駆使して複雑な戦略を立てよう。
+            <div class="stage-card" onclick="startStage(4)">
+                <div class="stage-number">Stage 4</div>
+                <div class="stage-title">微分の導入</div>
+                <div class="stage-description">微分カードで次数を下げよう</div>
+                <div class="stage-info">
+                    <div>難易度: ★★☆☆☆</div>
+                    <div>制限ターン: 5ターン</div>
+                    <div id="stage4-record" style="color: var(--accent-main); font-weight: 600; margin-top: 8px;">最速クリア: 未挑戦</div>
                 </div>
+            </div>
+
+            <div class="stage-card" onclick="startStage(5)">
+                <div class="stage-number">Stage 5</div>
+                <div class="stage-title">積分の導入</div>
+                <div class="stage-description">積分カードで次数を上げてから攻略</div>
+                <div class="stage-info">
+                    <div>難易度: ★★☆☆☆</div>
+                    <div>制限ターン: 6ターン</div>
+                    <div id="stage5-record" style="color: var(--accent-main); font-weight: 600; margin-top: 8px;">最速クリア: 未挑戦</div>
+                </div>
+            </div>
+
+            <div class="stage-card" onclick="startStage(6)">
+                <div class="stage-number">Stage 6</div>
+                <div class="stage-title">係数を揃える</div>
+                <div class="stage-description">目標: 8x² に変換せよ</div>
                 <div class="stage-info">
                     <div>難易度: ★★★☆☆</div>
-                    <div>Coming Soon...</div>
+                    <div>制限ターン: 6ターン</div>
+                    <div id="stage6-record" style="color: var(--accent-main); font-weight: 600; margin-top: 8px;">最速クリア: 未挑戦</div>
                 </div>
             </div>
 
-            <div class="stage-card" style="opacity: 0.4; cursor: not-allowed;">
-                <div class="stage-number">Stage 4</div>
-                <div class="stage-title">マクローリン展開</div>
-                <div class="stage-description">
-                    高度な数学で最強の敵に挑め！
+            <div class="stage-card" onclick="startStage(7)">
+                <div class="stage-number">Stage 7</div>
+                <div class="stage-title">定数への変換</div>
+                <div class="stage-description">関数を定数に変換せよ</div>
+                <div class="stage-info">
+                    <div>難易度: ★★★☆☆</div>
+                    <div>制限ターン: 7ターン</div>
+                    <div id="stage7-record" style="color: var(--accent-main); font-weight: 600; margin-top: 8px;">最速クリア: 未挑戦</div>
                 </div>
+            </div>
+
+            <div class="stage-card" onclick="startStage(8)">
+                <div class="stage-number">Stage 8</div>
+                <div class="stage-title">完全なる一致</div>
+                <div class="stage-description">目標: 6x に変換せよ</div>
+                <div class="stage-info">
+                    <div>難易度: ★★★★☆</div>
+                    <div>制限ターン: 6ターン</div>
+                    <div id="stage8-record" style="color: var(--accent-main); font-weight: 600; margin-top: 8px;">最速クリア: 未挑戦</div>
+                </div>
+            </div>
+
+            <div class="stage-card" onclick="startStage(9)">
+                <div class="stage-number">Stage 9</div>
+                <div class="stage-title">高次関数</div>
+                <div class="stage-description">6次関数を攻略せよ</div>
+                <div class="stage-info">
+                    <div>難易度: ★★★★☆</div>
+                    <div>制限ターン: 7ターン</div>
+                    <div id="stage9-record" style="color: var(--accent-main); font-weight: 600; margin-top: 8px;">最速クリア: 未挑戦</div>
+                </div>
+            </div>
+
+            <div class="stage-card" onclick="startStage(10)">
+                <div class="stage-number">Stage 10</div>
+                <div class="stage-title">最終試練</div>
+                <div class="stage-description">目標: 24x に変換せよ</div>
                 <div class="stage-info">
                     <div>難易度: ★★★★★</div>
-                    <div>Coming Soon...</div>
+                    <div>制限ターン: 6ターン</div>
+                    <div id="stage10-record" style="color: var(--accent-main); font-weight: 600; margin-top: 8px;">最速クリア: 未挑戦</div>
                 </div>
             </div>
         </div>
@@ -754,14 +885,20 @@
 
             <div class="header-actions">
                 <button class="btn-back" onclick="backToStageSelect()">← ステージ選択に戻る</button>
+                <button class="btn-retry" onclick="retryStage()">🔄 リトライ</button>
             </div>
 
             <div class="battle-area">
+                <!-- ステージ情報 -->
+                <div style="text-align: center; margin-bottom: 20px; font-size: 0.9rem; color: var(--text-secondary);" id="stage-info">
+                    Stage 1: 基礎演算 I
+                </div>
+                
                 <!-- 目標の関数 -->
                 <div class="function-display">
                     <div class="function-label">
                         <span>目標の関数</span>
-                        <span class="clear-condition">クリア条件: この関数を0にする</span>
+                        <span class="clear-condition" id="clear-condition-text">クリア条件: この関数を0にする</span>
                     </div>
                     <div class="function-formula" id="enemy-function">g(x) = x² - 6</div>
                 </div>
@@ -769,7 +906,7 @@
                 <!-- ターン情報 -->
                 <div class="turn-info">
                     <span>残りターン</span>
-                    <span class="turn-count" id="turn-count">10</span>
+                    <span class="turn-count" id="turn-count">5</span>
                 </div>
             </div>
 
@@ -808,40 +945,177 @@
     </div>
 
     <script>
+        // ステージデータ
+        const stageData = {
+            1: {
+                name: '基礎演算 I',
+                difficulty: 1,
+                enemyFunction: { coefficient: 1, exponent: 2, constant: -6 }, // x² - 6
+                initialHand: ['plus', 'plus', 'substitute', 'substitute', 'inverse'],
+                cardQueue: ['plus', 'plus', 'plus', 'plus', 'plus'],
+                maxTurns: 5,
+                clearCondition: 'zero',
+                description: '基本操作を使って関数を0にしよう'
+            },
+            2: {
+                name: '基礎演算 II',
+                difficulty: 1,
+                enemyFunction: { coefficient: 1, exponent: 3, constant: -8 }, // x³ - 8
+                initialHand: ['plus', 'plus', 'substitute', 'substitute', 'inverse'],
+                cardQueue: ['plus', 'plus', 'substitute', 'plus', 'plus'],
+                maxTurns: 5,
+                clearCondition: 'zero',
+                description: '3次関数を0にしよう'
+            },
+            3: {
+                name: '指定関数への変換',
+                difficulty: 2,
+                enemyFunction: { coefficient: 1, exponent: 3, constant: 0 }, // x³
+                initialHand: ['derivative', 'substitute', 'plus', 'plus', 'inverse'],
+                cardQueue: ['plus', 'derivative', 'plus', 'substitute', 'plus'],
+                maxTurns: 5,
+                clearCondition: 'target',
+                targetFunction: { coefficient: 3, exponent: 2, constant: 0 }, // 3x²
+                description: '目標: 3x² に変換せよ'
+            },
+            4: {
+                name: '微分の導入',
+                difficulty: 2,
+                enemyFunction: { coefficient: 1, exponent: 4, constant: 0 }, // x⁴
+                initialHand: ['derivative', 'derivative', 'derivative', 'derivative', 'substitute'],
+                cardQueue: ['derivative', 'substitute', 'plus', 'plus', 'plus'],
+                maxTurns: 5,
+                clearCondition: 'zero',
+                description: '微分カードで次数を下げよう'
+            },
+            5: {
+                name: '積分の導入',
+                difficulty: 2,
+                enemyFunction: { coefficient: 2, exponent: 1, constant: 0 }, // 2x
+                initialHand: ['integral', 'integral', 'substitute', 'plus', 'plus'],
+                cardQueue: ['plus', 'plus', 'substitute', 'integral', 'plus'],
+                maxTurns: 6,
+                clearCondition: 'zero',
+                description: '積分カードで次数を上げてから攻略'
+            },
+            6: {
+                name: '係数を揃える',
+                difficulty: 3,
+                enemyFunction: { coefficient: 1, exponent: 2, constant: 0 }, // x²
+                initialHand: ['derivative', 'multiply', 'multiply', 'integral', 'plus'],
+                cardQueue: ['multiply', 'derivative', 'plus', 'plus', 'integral'],
+                maxTurns: 6,
+                clearCondition: 'target',
+                targetFunction: { coefficient: 8, exponent: 2, constant: 0 }, // 8x²
+                description: '目標: 8x² に変換せよ'
+            },
+            7: {
+                name: '定数への変換',
+                difficulty: 3,
+                enemyFunction: { coefficient: 1, exponent: 5, constant: -32 }, // x⁵ - 32
+                initialHand: ['derivative', 'derivative', 'derivative', 'derivative', 'derivative'],
+                cardQueue: ['derivative', 'substitute', 'plus', 'plus', 'plus'],
+                maxTurns: 7,
+                clearCondition: 'constant',
+                description: '関数を定数に変換せよ'
+            },
+            8: {
+                name: '完全なる一致',
+                difficulty: 4,
+                enemyFunction: { coefficient: 1, exponent: 3, constant: 0 }, // x³
+                initialHand: ['derivative', 'multiply', 'plus', 'integral', 'substitute'],
+                cardQueue: ['multiply', 'derivative', 'plus', 'plus', 'derivative'],
+                maxTurns: 6,
+                clearCondition: 'target',
+                targetFunction: { coefficient: 6, exponent: 1, constant: 0 }, // 6x
+                description: '目標: 6x に変換せよ'
+            },
+            9: {
+                name: '高次関数',
+                difficulty: 4,
+                enemyFunction: { coefficient: 1, exponent: 6, constant: -64 }, // x⁶ - 64
+                initialHand: ['derivative', 'derivative', 'derivative', 'substitute', 'substitute'],
+                cardQueue: ['derivative', 'derivative', 'derivative', 'substitute', 'plus'],
+                maxTurns: 7,
+                clearCondition: 'zero',
+                description: '6次関数を攻略せよ'
+            },
+            10: {
+                name: '最終試練',
+                difficulty: 5,
+                enemyFunction: { coefficient: 1, exponent: 4, constant: -16 }, // x⁴ - 16
+                initialHand: ['derivative', 'derivative', 'multiply', 'substitute', 'plus'],
+                cardQueue: ['derivative', 'derivative', 'substitute', 'plus', 'plus'],
+                maxTurns: 6,
+                clearCondition: 'target',
+                targetFunction: { coefficient: 24, exponent: 1, constant: 0 }, // 24x
+                description: '目標: 24x に変換せよ'
+            }
+        };
+
         // ゲーム状態
         let gameState = {
-            enemyFunction: { coefficient: 1, exponent: 2, constant: -6 },  // x² - 6
+            currentStage: 1,
+            enemyFunction: { coefficient: 1, exponent: 2, constant: -6 },
             hand: [],
             selectedCardIndex: null,
             mergeMode: false,
             selectedForMerge: [],
-            remainingTurns: 10,
-            maxTurns: 10,
-            newCardIndices: []
+            remainingTurns: 5,
+            maxTurns: 5,
+            newCardIndices: [],
+            cardQueue: [], // 補充カードのキュー
+            cardQueueIndex: 0 // 現在の補充位置
         };
 
         // カードタイプ定義
         const cardTypes = {
             plus: { name: '+1カード', type: 'plus', description: 'f(x) + 1', color: 'plus' },
             substitute: { name: 'x=1代入', type: 'substitute', description: 'f(1) を計算', color: 'substitute' },
-            inverse: { name: '逆数カード', type: 'inverse', description: '1/f(x)', color: 'inverse' }
+            inverse: { name: '逆数カード', type: 'inverse', description: '1/f(x)', color: 'inverse' },
+            derivative: { name: '微分カード', type: 'derivative', description: "f'(x)", color: 'derivative' },
+            integral: { name: '積分カード', type: 'integral', description: '∫f(x)dx', color: 'integral' },
+            multiply: { name: '×2カード', type: 'multiply', description: '2×f(x)', color: 'multiply' }
         };
 
         // ゲーム初期化関数
-        function init() {
+        function init(stageNum = 1) {
+            const stage = stageData[stageNum];
+            
+            // ステージデータから初期化
+            gameState.currentStage = stageNum;
+            gameState.enemyFunction = { ...stage.enemyFunction };
+            gameState.maxTurns = stage.maxTurns;
+            gameState.remainingTurns = stage.maxTurns;
+            gameState.cardQueue = [...stage.cardQueue];
+            gameState.cardQueueIndex = 0;
+            
             // 初期手札を配る
-            gameState.hand = [
-                { ...cardTypes.plus, level: 1, id: Date.now() + 1 },
-                { ...cardTypes.plus, level: 1, id: Date.now() + 2 },
-                { ...cardTypes.substitute, level: 1, id: Date.now() + 3 },
-                { ...cardTypes.substitute, level: 1, id: Date.now() + 4 },
-                { ...cardTypes.inverse, level: 1, id: Date.now() + 5 }
-            ];
+            gameState.hand = stage.initialHand.map((type, i) => ({
+                ...cardTypes[type],
+                level: 1,
+                id: Date.now() + i
+            }));
+            
+            // ステージ情報を表示
+            document.getElementById('stage-info').textContent = `Stage ${stageNum}: ${stage.name}`;
+            
+            // クリア条件を表示
+            let clearConditionText = '';
+            if (stage.clearCondition === 'zero') {
+                clearConditionText = 'クリア条件: この関数を0にする';
+            } else if (stage.clearCondition === 'constant') {
+                clearConditionText = 'クリア条件: この関数を定数にする';
+            } else if (stage.clearCondition === 'target' && stage.targetFunction) {
+                const targetStr = formatFunction(stage.targetFunction, 'h');
+                clearConditionText = `クリア条件: ${targetStr.replace('h(x) = ', '')} に変換する`;
+            }
+            document.getElementById('clear-condition-text').textContent = clearConditionText;
             
             renderHand();
             renderFunction();
             updateTurnCount();
-            addLog('ゲーム開始！目標の関数を0にしよう');
+            addLog(`Stage ${stageNum}: ${stage.name} 開始！`);
         }
 
         // 手札を描画
@@ -908,6 +1182,12 @@
                 } else {
                     return '1/f(x)';
                 }
+            } else if (card.type === 'derivative') {
+                return card.level === 1 ? "d/dx" : `d${card.level}/dx${card.level}`;
+            } else if (card.type === 'integral') {
+                return card.level === 1 ? "∫dx" : `${'∫'.repeat(card.level)}dx`;
+            } else if (card.type === 'multiply') {
+                return `×${Math.pow(2, card.level)}`;
             }
             return '';
         }
@@ -922,6 +1202,16 @@
                 if (card.level === 1) return 'f(x) → 1/f(x)';
                 if (card.level % 2 === 0) return 'f(x) → f(x) (無効化)';
                 return 'f(x) → 1/f(x)';
+            } else if (card.type === 'derivative') {
+                if (card.level === 1) return "f(x) → f'(x)";
+                if (card.level === 2) return "f(x) → f''(x)";
+                return `f(x) → f${"'".repeat(card.level)}(x)`;
+            } else if (card.type === 'integral') {
+                if (card.level === 1) return 'f(x) → ∫f(x)dx';
+                return `f(x) → ${'∫'.repeat(card.level)}f(x)${'dx'.repeat(card.level)}`;
+            } else if (card.type === 'multiply') {
+                const multiplier = Math.pow(2, card.level);
+                return `f(x) → ${multiplier}f(x)`;
             }
             return card.description;
         }
@@ -968,14 +1258,24 @@
             updateTurnCount();
 
             // カードを補充（常に5枚をキープ）
-            if (gameState.hand.length < 5) {
-                const newCard = { ...cardTypes.plus, level: 1, id: Date.now() };
+            if (gameState.hand.length < 5 && gameState.cardQueueIndex < gameState.cardQueue.length) {
+                const nextCardType = gameState.cardQueue[gameState.cardQueueIndex];
+                const newCard = { ...cardTypes[nextCardType], level: 1, id: Date.now() };
                 gameState.hand.unshift(newCard);
                 gameState.newCardIndices = [0];
-                addLog('+1カードを補充');
+                gameState.cardQueueIndex++;
+                addLog(`${newCard.name} を補充`);
             }
 
             renderHand();
+            
+            // バトルエリアのグローエフェクト
+            const battleArea = document.querySelector('.battle-area');
+            battleArea.classList.add('active');
+            setTimeout(() => {
+                battleArea.classList.remove('active');
+            }, 600);
+            
             renderFunction();
             
             // ゲーム終了チェック
@@ -1020,12 +1320,49 @@
                     }
                 }
                 // レベル2（偶数）なら何もしない（無効化）
+            } else if (card.type === 'derivative') {
+                // 微分: ax^n + c → n*a*x^(n-1)
+                for (let i = 0; i < card.level; i++) {
+                    if (func.exponent > 0) {
+                        func.coefficient = func.coefficient * func.exponent;
+                        func.exponent = func.exponent - 1;
+                        func.constant = 0; // 定数項は消える
+                    } else {
+                        // 定数を微分すると0
+                        func.coefficient = 0;
+                        func.exponent = 0;
+                        func.constant = 0;
+                    }
+                }
+            } else if (card.type === 'integral') {
+                // 積分: ax^n → a/(n+1)*x^(n+1) (定数項は無視)
+                for (let i = 0; i < card.level; i++) {
+                    func.coefficient = func.coefficient / (func.exponent + 1);
+                    func.exponent = func.exponent + 1;
+                    // 積分定数は追加しない（簡易版）
+                }
+            } else if (card.type === 'multiply') {
+                // 係数倍
+                const multiplier = Math.pow(2, card.level);
+                func.coefficient = func.coefficient * multiplier;
+                func.constant = func.constant * multiplier;
             }
         }
 
         // 関数を描画
         function renderFunction() {
-            document.getElementById('enemy-function').innerHTML = formatFunction(gameState.enemyFunction, 'g');
+            const element = document.getElementById('enemy-function');
+            
+            // アニメーションクラスを追加
+            element.classList.add('changing');
+            
+            // 新しい関数を表示
+            element.innerHTML = formatFunction(gameState.enemyFunction, 'g');
+            
+            // アニメーション終了後にクラスを削除
+            setTimeout(() => {
+                element.classList.remove('changing');
+            }, 600);
         }
 
         // 関数を整形
@@ -1139,15 +1476,16 @@
                 updateTurnCount();
 
                 // カードを補充（常に5枚をキープ）
-                while (gameState.hand.length < 5) {
-                    const plusCard = { ...cardTypes.plus, level: 1, id: Date.now() + gameState.hand.length };
-                    gameState.hand.unshift(plusCard); // 左端に追加
+                while (gameState.hand.length < 5 && gameState.cardQueueIndex < gameState.cardQueue.length) {
+                    const nextCardType = gameState.cardQueue[gameState.cardQueueIndex];
+                    const plusCard = { ...cardTypes[nextCardType], level: 1, id: Date.now() + gameState.hand.length };
+                    gameState.hand.unshift(plusCard);
+                    gameState.cardQueueIndex++;
                 }
                 
                 // 新しく追加された補充カードにアニメーションを適用
-                const numNewCards = 5 - (gameState.hand.length - (5 - gameState.hand.length));
-                if (gameState.hand.length === 5 && numNewCards > 0) {
-                    gameState.newCardIndices = [0]; // 一番左の補充カードのみ
+                if (gameState.hand.length === 5) {
+                    gameState.newCardIndices = [0];
                 } else {
                     gameState.newCardIndices = [];
                 }
@@ -1170,15 +1508,92 @@
             document.getElementById('turn-count').textContent = gameState.remainingTurns;
         }
 
+        // ローカルストレージ関数
+        function saveBestClear(stage, turnsUsed) {
+            const key = `stage${stage}_best`;
+            const current = localStorage.getItem(key);
+            
+            if (!current || turnsUsed < parseInt(current)) {
+                localStorage.setItem(key, turnsUsed.toString());
+                return true; // 新記録
+            }
+            return false;
+        }
+
+        function getBestClear(stage) {
+            const key = `stage${stage}_best`;
+            const best = localStorage.getItem(key);
+            return best ? parseInt(best) : null;
+        }
+
+        function updateStageRecordDisplay() {
+            for (let i = 1; i <= 10; i++) {
+                const best = getBestClear(i);
+                const recordElement = document.getElementById(`stage${i}-record`);
+                if (recordElement) {
+                    if (best) {
+                        recordElement.textContent = `最速クリア: ${best}ターン消費`;
+                    } else {
+                        recordElement.textContent = '最速クリア: 未挑戦';
+                    }
+                }
+            }
+        }
+
         // ゲーム終了チェック
         function checkGameEnd() {
             const func = gameState.enemyFunction;
+            const stage = stageData[gameState.currentStage];
+            const clearCondition = stage.clearCondition;
             
-            // 定数になった場合、その値をチェック
+            // target条件: 指定の関数に一致
+            if (clearCondition === 'target' && stage.targetFunction) {
+                const target = stage.targetFunction;
+                if (Math.abs(func.coefficient - target.coefficient) < 0.0001 &&
+                    func.exponent === target.exponent &&
+                    Math.abs(func.constant - target.constant) < 0.0001) {
+                    const turnsUsed = gameState.maxTurns - gameState.remainingTurns;
+                    const isNewRecord = saveBestClear(gameState.currentStage, turnsUsed);
+                    
+                    let message = `${turnsUsed}ターンでクリア！\n目標の関数に変換しました！`;
+                    if (isNewRecord) {
+                        message += '\n🎉 新記録達成！';
+                    }
+                    
+                    showModal('victory', 'クリア！', message);
+                    return true;
+                }
+            }
+            
+            // 定数になった場合
             if (func.exponent === 0) {
                 const value = func.coefficient + func.constant;
-                if (Math.abs(value) < 0.0001 || value === 0) {
-                    showModal('victory', 'クリア！', '目標の関数を0にしました！');
+                
+                if (clearCondition === 'zero') {
+                    // 0にする条件
+                    if (Math.abs(value) < 0.0001 || value === 0) {
+                        const turnsUsed = gameState.maxTurns - gameState.remainingTurns;
+                        const isNewRecord = saveBestClear(gameState.currentStage, turnsUsed);
+                        
+                        let message = `${turnsUsed}ターンでクリア！`;
+                        if (isNewRecord) {
+                            message += '\n🎉 新記録達成！';
+                        }
+                        
+                        showModal('victory', 'クリア！', message);
+                        return true;
+                    }
+                } else if (clearCondition === 'constant') {
+                    // 定数にする条件
+                    const turnsUsed = gameState.maxTurns - gameState.remainingTurns;
+                    const isNewRecord = saveBestClear(gameState.currentStage, turnsUsed);
+                    
+                    let message = `${turnsUsed}ターンでクリア！\n関数を定数 ${value} にしました！`;
+                    if (isNewRecord) {
+                        message += '\n🎉 新記録達成！';
+                    }
+                    
+                    showModal('victory', 'クリア！', message);
                     return true;
                 }
             }
@@ -1229,12 +1644,22 @@
 
         // ステージ開始
         function startStage(stageNumber) {
-            document.getElementById('stage-select').style.display = 'none';
-            document.getElementById('game-screen').classList.add('active');
-            
-            if (stageNumber === 1) {
-                init();
+            console.log('Starting stage:', stageNumber);
+            try {
+                document.getElementById('stage-select').style.display = 'none';
+                document.getElementById('game-screen').classList.add('active');
+                
+                init(stageNumber);
+            } catch (error) {
+                console.error('Error starting stage:', error);
+                alert('ステージ開始エラー: ' + error.message);
             }
+        }
+
+        // ステージリトライ
+        function retryStage() {
+            const currentStageNum = gameState.currentStage;
+            init(currentStageNum);
         }
 
         // ステージ選択に戻る
@@ -1243,18 +1668,29 @@
             document.getElementById('game-screen').classList.remove('active');
             document.getElementById('stage-select').style.display = 'flex';
             
+            // 記録を更新
+            updateStageRecordDisplay();
+            
             // ゲーム状態をリセット
             gameState = {
+                currentStage: 1,
                 enemyFunction: { coefficient: 1, exponent: 2, constant: -6 },
                 hand: [],
                 selectedCardIndex: null,
                 mergeMode: false,
                 selectedForMerge: [],
-                remainingTurns: 10,
-                maxTurns: 10,
-                newCardIndices: []
+                remainingTurns: 5,
+                maxTurns: 5,
+                newCardIndices: [],
+                cardQueue: [],
+                cardQueueIndex: 0
             };
         }
+
+        // ページ読み込み時に記録を表示
+        window.addEventListener('DOMContentLoaded', () => {
+            updateStageRecordDisplay();
+        });
     </script>
 </body>
 </html>
