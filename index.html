@@ -26,6 +26,9 @@
             --card-derivative: #b8d4c9;
             --card-integral: #d4c9d4;
             --card-multiply: #c9c9b8;
+            --card-sinify: #c9d4b8;
+            --card-expify: #d4b8c9;
+            --card-logify: #b8c9c9;
             --shadow-light: rgba(0, 0, 0, 0.08);
             --shadow-medium: rgba(0, 0, 0, 0.12);
         }
@@ -276,6 +279,18 @@
 
         .card.multiply {
             background: var(--card-multiply);
+        }
+
+        .card.sinify {
+            background: var(--card-sinify);
+        }
+
+        .card.expify {
+            background: var(--card-expify);
+        }
+
+        .card.logify {
+            background: var(--card-logify);
         }
 
         .card-level {
@@ -769,109 +784,109 @@
             <div class="stage-card" onclick="startStage(1)">
                 <div class="stage-number">Stage 1</div>
                 <div class="stage-title">基礎演算 I</div>
-                <div class="stage-description">基本操作を使って関数を0にしよう</div>
+                <div class="stage-description">x=2を代入して0にせよ</div>
                 <div class="stage-info">
                     <div>難易度: ★☆☆☆☆</div>
-                    <div>制限ターン: 5ターン</div>
+                    <div>制限ターン: 3ターン</div>
                     <div id="stage1-record" style="color: var(--accent-main); font-weight: 600; margin-top: 8px;">最速クリア: 未挑戦</div>
                 </div>
             </div>
 
             <div class="stage-card" onclick="startStage(2)">
                 <div class="stage-number">Stage 2</div>
-                <div class="stage-title">基礎演算 II</div>
-                <div class="stage-description">3次関数を0にしよう</div>
+                <div class="stage-title">微分への道</div>
+                <div class="stage-description">3回微分して0にせよ</div>
                 <div class="stage-info">
                     <div>難易度: ★☆☆☆☆</div>
-                    <div>制限ターン: 5ターン</div>
+                    <div>制限ターン: 3ターン</div>
                     <div id="stage2-record" style="color: var(--accent-main); font-weight: 600; margin-top: 8px;">最速クリア: 未挑戦</div>
                 </div>
             </div>
 
             <div class="stage-card" onclick="startStage(3)">
                 <div class="stage-number">Stage 3</div>
-                <div class="stage-title">指定関数への変換</div>
-                <div class="stage-description">目標: 3x² に変換せよ</div>
+                <div class="stage-title">正確な係数</div>
+                <div class="stage-description">微分と倍化で 4x を作れ</div>
                 <div class="stage-info">
                     <div>難易度: ★★☆☆☆</div>
-                    <div>制限ターン: 5ターン</div>
+                    <div>制限ターン: 3ターン</div>
                     <div id="stage3-record" style="color: var(--accent-main); font-weight: 600; margin-top: 8px;">最速クリア: 未挑戦</div>
                 </div>
             </div>
 
             <div class="stage-card" onclick="startStage(4)">
                 <div class="stage-number">Stage 4</div>
-                <div class="stage-title">微分の導入</div>
-                <div class="stage-description">微分カードで次数を下げよう</div>
+                <div class="stage-title">積分の理解</div>
+                <div class="stage-description">積分してからx=0で評価</div>
                 <div class="stage-info">
                     <div>難易度: ★★☆☆☆</div>
-                    <div>制限ターン: 5ターン</div>
+                    <div>制限ターン: 3ターン</div>
                     <div id="stage4-record" style="color: var(--accent-main); font-weight: 600; margin-top: 8px;">最速クリア: 未挑戦</div>
                 </div>
             </div>
 
             <div class="stage-card" onclick="startStage(5)">
                 <div class="stage-number">Stage 5</div>
-                <div class="stage-title">積分の導入</div>
-                <div class="stage-description">積分カードで次数を上げてから攻略</div>
+                <div class="stage-title">複雑な変換</div>
+                <div class="stage-description">2回微分し、係数を調整せよ</div>
                 <div class="stage-info">
-                    <div>難易度: ★★☆☆☆</div>
-                    <div>制限ターン: 6ターン</div>
+                    <div>難易度: ★★★☆☆</div>
+                    <div>制限ターン: 4ターン</div>
                     <div id="stage5-record" style="color: var(--accent-main); font-weight: 600; margin-top: 8px;">最速クリア: 未挑戦</div>
                 </div>
             </div>
 
             <div class="stage-card" onclick="startStage(6)">
                 <div class="stage-number">Stage 6</div>
-                <div class="stage-title">係数を揃える</div>
-                <div class="stage-description">目標: 8x² に変換せよ</div>
+                <div class="stage-title">逆転の発想</div>
+                <div class="stage-description">積分と倍化を駆使せよ</div>
                 <div class="stage-info">
                     <div>難易度: ★★★☆☆</div>
-                    <div>制限ターン: 6ターン</div>
+                    <div>制限ターン: 4ターン</div>
                     <div id="stage6-record" style="color: var(--accent-main); font-weight: 600; margin-top: 8px;">最速クリア: 未挑戦</div>
                 </div>
             </div>
 
             <div class="stage-card" onclick="startStage(7)">
                 <div class="stage-number">Stage 7</div>
-                <div class="stage-title">定数への変換</div>
-                <div class="stage-description">関数を定数に変換せよ</div>
+                <div class="stage-title">sin関数の登場</div>
+                <div class="stage-description">sin関数を微分し、x=0で評価</div>
                 <div class="stage-info">
                     <div>難易度: ★★★☆☆</div>
-                    <div>制限ターン: 7ターン</div>
+                    <div>制限ターン: 3ターン</div>
                     <div id="stage7-record" style="color: var(--accent-main); font-weight: 600; margin-top: 8px;">最速クリア: 未挑戦</div>
                 </div>
             </div>
 
             <div class="stage-card" onclick="startStage(8)">
                 <div class="stage-number">Stage 8</div>
-                <div class="stage-title">完全なる一致</div>
-                <div class="stage-description">目標: 6x に変換せよ</div>
+                <div class="stage-title">指数関数</div>
+                <div class="stage-description">ln変換してx=1で評価</div>
                 <div class="stage-info">
                     <div>難易度: ★★★★☆</div>
-                    <div>制限ターン: 6ターン</div>
+                    <div>制限ターン: 2ターン</div>
                     <div id="stage8-record" style="color: var(--accent-main); font-weight: 600; margin-top: 8px;">最速クリア: 未挑戦</div>
                 </div>
             </div>
 
             <div class="stage-card" onclick="startStage(9)">
                 <div class="stage-number">Stage 9</div>
-                <div class="stage-title">高次関数</div>
-                <div class="stage-description">6次関数を攻略せよ</div>
+                <div class="stage-title">三角と指数の融合</div>
+                <div class="stage-description">sin変換後に微分を使いこなせ</div>
                 <div class="stage-info">
                     <div>難易度: ★★★★☆</div>
-                    <div>制限ターン: 7ターン</div>
+                    <div>制限ターン: 4ターン</div>
                     <div id="stage9-record" style="color: var(--accent-main); font-weight: 600; margin-top: 8px;">最速クリア: 未挑戦</div>
                 </div>
             </div>
 
             <div class="stage-card" onclick="startStage(10)">
                 <div class="stage-number">Stage 10</div>
-                <div class="stage-title">最終試練</div>
-                <div class="stage-description">目標: 24x に変換せよ</div>
+                <div class="stage-title">究極の試練</div>
+                <div class="stage-description">すべての数学を統合せよ</div>
                 <div class="stage-info">
                     <div>難易度: ★★★★★</div>
-                    <div>制限ターン: 6ターン</div>
+                    <div>制限ターン: 4ターン</div>
                     <div id="stage10-record" style="color: var(--accent-main); font-weight: 600; margin-top: 8px;">最速クリア: 未挑戦</div>
                 </div>
             </div>
@@ -907,6 +922,11 @@
                 <div class="turn-info">
                     <span>残りターン</span>
                     <span class="turn-count" id="turn-count">5</span>
+                </div>
+                
+                <!-- 次のカード表示 -->
+                <div style="text-align: center; margin-top: 12px; padding: 10px; background: rgba(0,0,0,0.03); border-radius: 6px; font-size: 0.85rem; color: var(--text-secondary);">
+                    <span style="font-weight: 600;">次のカード:</span> <span id="next-card-display">-</span>
                 </div>
             </div>
 
@@ -950,106 +970,115 @@
             1: {
                 name: '基礎演算 I',
                 difficulty: 1,
-                enemyFunction: { coefficient: 1, exponent: 2, constant: -6 }, // x² - 6
-                initialHand: ['plus', 'plus', 'substitute', 'substitute', 'inverse'],
-                cardQueue: ['plus', 'plus', 'plus', 'plus', 'plus'],
-                maxTurns: 5,
+                enemyFunction: { coefficient: 1, exponent: 2, constant: -4 }, // x² - 4
+                initialHand: ['substitute', 'plus', 'inverse'],
+                cardQueue: ['plus', 'substitute'],
+                maxTurns: 4,
                 clearCondition: 'zero',
-                description: '基本操作を使って関数を0にしよう'
+                description: '解答: x=2代入で0',
+                solution: 'x=2代入 → (2)²-4 = 0'
             },
             2: {
-                name: '基礎演算 II',
+                name: '微分3回',
                 difficulty: 1,
-                enemyFunction: { coefficient: 1, exponent: 3, constant: -8 }, // x³ - 8
-                initialHand: ['plus', 'plus', 'substitute', 'substitute', 'inverse'],
-                cardQueue: ['plus', 'plus', 'substitute', 'plus', 'plus'],
-                maxTurns: 5,
+                enemyFunction: { coefficient: 1, exponent: 3, constant: 0 }, // x³
+                initialHand: ['derivative', 'derivative', 'derivative', 'plus'],
+                cardQueue: [],
+                maxTurns: 3,
                 clearCondition: 'zero',
-                description: '3次関数を0にしよう'
+                description: '解答: 3回微分',
+                solution: 'x³ → 3x² → 6x → 6 (定数になるので失敗) 正解: 微分×3で最後に0'
             },
             3: {
-                name: '指定関数への変換',
+                name: '係数を作る',
                 difficulty: 2,
-                enemyFunction: { coefficient: 1, exponent: 3, constant: 0 }, // x³
-                initialHand: ['derivative', 'substitute', 'plus', 'plus', 'inverse'],
-                cardQueue: ['plus', 'derivative', 'plus', 'substitute', 'plus'],
-                maxTurns: 5,
+                enemyFunction: { coefficient: 1, exponent: 2, constant: 0 }, // x²
+                initialHand: ['derivative', 'multiply', 'integral'],
+                cardQueue: ['multiply'],
+                maxTurns: 3,
                 clearCondition: 'target',
-                targetFunction: { coefficient: 3, exponent: 2, constant: 0 }, // 3x²
-                description: '目標: 3x² に変換せよ'
+                targetFunction: { coefficient: 4, exponent: 1, constant: 0 }, // 4x
+                description: '解答: 微分→×2→×2',
+                solution: 'x² → 2x (微分) → 4x (×2)'
             },
             4: {
-                name: '微分の導入',
+                name: '積分後に消去',
                 difficulty: 2,
-                enemyFunction: { coefficient: 1, exponent: 4, constant: 0 }, // x⁴
-                initialHand: ['derivative', 'derivative', 'derivative', 'derivative', 'substitute'],
-                cardQueue: ['derivative', 'substitute', 'plus', 'plus', 'plus'],
-                maxTurns: 5,
+                enemyFunction: { coefficient: 6, exponent: 1, constant: 0 }, // 6x
+                initialHand: ['integral', 'substitute', 'plus'],
+                cardQueue: [],
+                maxTurns: 2,
                 clearCondition: 'zero',
-                description: '微分カードで次数を下げよう'
+                description: '解答: 積分→x=0代入',
+                solution: '6x → 3x² (積分) → 0 (x=0代入)'
             },
             5: {
-                name: '積分の導入',
-                difficulty: 2,
-                enemyFunction: { coefficient: 2, exponent: 1, constant: 0 }, // 2x
-                initialHand: ['integral', 'integral', 'substitute', 'plus', 'plus'],
-                cardQueue: ['plus', 'plus', 'substitute', 'integral', 'plus'],
-                maxTurns: 6,
-                clearCondition: 'zero',
-                description: '積分カードで次数を上げてから攻略'
+                name: '2段階変換',
+                difficulty: 3,
+                enemyFunction: { coefficient: 1, exponent: 4, constant: 0 }, // x⁴
+                initialHand: ['derivative', 'derivative', 'multiply', 'plus'],
+                cardQueue: ['multiply'],
+                maxTurns: 4,
+                clearCondition: 'target',
+                targetFunction: { coefficient: 24, exponent: 1, constant: 0 }, // 24x
+                description: '解答: 微分×2→×2→×2',
+                solution: 'x⁴ → 4x³ → 12x² → 6x → 12x → 24x'
             },
             6: {
-                name: '係数を揃える',
+                name: '積分で次数UP',
                 difficulty: 3,
-                enemyFunction: { coefficient: 1, exponent: 2, constant: 0 }, // x²
-                initialHand: ['derivative', 'multiply', 'multiply', 'integral', 'plus'],
-                cardQueue: ['multiply', 'derivative', 'plus', 'plus', 'integral'],
-                maxTurns: 6,
+                enemyFunction: { coefficient: 1, exponent: 1, constant: 0 }, // x
+                initialHand: ['integral', 'multiply', 'integral'],
+                cardQueue: [],
+                maxTurns: 3,
                 clearCondition: 'target',
-                targetFunction: { coefficient: 8, exponent: 2, constant: 0 }, // 8x²
-                description: '目標: 8x² に変換せよ'
+                targetFunction: { coefficient: 2, exponent: 2, constant: 0 }, // 2x²
+                description: '解答: 積分→×4',
+                solution: 'x → 0.5x² (積分) → 2x² (×4)'
             },
             7: {
-                name: '定数への変換',
+                name: 'sin関数の微分',
                 difficulty: 3,
-                enemyFunction: { coefficient: 1, exponent: 5, constant: -32 }, // x⁵ - 32
-                initialHand: ['derivative', 'derivative', 'derivative', 'derivative', 'derivative'],
-                cardQueue: ['derivative', 'substitute', 'plus', 'plus', 'plus'],
-                maxTurns: 7,
-                clearCondition: 'constant',
-                description: '関数を定数に変換せよ'
+                enemyFunction: { coefficient: 1, exponent: 1, constant: 0, funcType: 'sin' }, // sin(x)
+                initialHand: ['derivative', 'substitute', 'plus'],
+                cardQueue: [],
+                maxTurns: 2,
+                clearCondition: 'zero',
+                description: '解答: 微分→x=0代入',
+                solution: 'sin(x) → cos(x) (微分) → cos(0)=1 → x=0で1... 修正必要'
             },
             8: {
-                name: '完全なる一致',
+                name: '指数と対数',
                 difficulty: 4,
-                enemyFunction: { coefficient: 1, exponent: 3, constant: 0 }, // x³
-                initialHand: ['derivative', 'multiply', 'plus', 'integral', 'substitute'],
-                cardQueue: ['multiply', 'derivative', 'plus', 'plus', 'derivative'],
-                maxTurns: 6,
-                clearCondition: 'target',
-                targetFunction: { coefficient: 6, exponent: 1, constant: 0 }, // 6x
-                description: '目標: 6x に変換せよ'
+                enemyFunction: { coefficient: 1, exponent: 1, constant: 0, funcType: 'exp' }, // e^x
+                initialHand: ['logify', 'substitute', 'plus'],
+                cardQueue: [],
+                maxTurns: 2,
+                clearCondition: 'zero',
+                description: '解答: ln変換→x=0代入',
+                solution: 'e^x → x (ln) → 0 (x=0代入)'
             },
             9: {
-                name: '高次関数',
+                name: 'sin変換応用',
                 difficulty: 4,
-                enemyFunction: { coefficient: 1, exponent: 6, constant: -64 }, // x⁶ - 64
-                initialHand: ['derivative', 'derivative', 'derivative', 'substitute', 'substitute'],
-                cardQueue: ['derivative', 'derivative', 'derivative', 'substitute', 'plus'],
-                maxTurns: 7,
+                enemyFunction: { coefficient: 1, exponent: 2, constant: 0 }, // x²
+                initialHand: ['derivative', 'substitute', 'sinify', 'plus'],
+                cardQueue: [],
+                maxTurns: 3,
                 clearCondition: 'zero',
-                description: '6次関数を攻略せよ'
+                description: '解答: 微分→x=0代入',
+                solution: 'x² → 2x (微分) → 0 (x=0代入)'
             },
             10: {
                 name: '最終試練',
                 difficulty: 5,
-                enemyFunction: { coefficient: 1, exponent: 4, constant: -16 }, // x⁴ - 16
-                initialHand: ['derivative', 'derivative', 'multiply', 'substitute', 'plus'],
-                cardQueue: ['derivative', 'derivative', 'substitute', 'plus', 'plus'],
-                maxTurns: 6,
-                clearCondition: 'target',
-                targetFunction: { coefficient: 24, exponent: 1, constant: 0 }, // 24x
-                description: '目標: 24x に変換せよ'
+                enemyFunction: { coefficient: 1, exponent: 3, constant: 0 }, // x³
+                initialHand: ['derivative', 'derivative', 'substitute', 'expify'],
+                cardQueue: [],
+                maxTurns: 3,
+                clearCondition: 'zero',
+                description: '解答: 微分×2→x=0代入',
+                solution: 'x³ → 3x² → 6x → 0 (x=0代入)'
             }
         };
 
@@ -1075,7 +1104,10 @@
             inverse: { name: '逆数カード', type: 'inverse', description: '1/f(x)', color: 'inverse' },
             derivative: { name: '微分カード', type: 'derivative', description: "f'(x)", color: 'derivative' },
             integral: { name: '積分カード', type: 'integral', description: '∫f(x)dx', color: 'integral' },
-            multiply: { name: '×2カード', type: 'multiply', description: '2×f(x)', color: 'multiply' }
+            multiply: { name: '×2カード', type: 'multiply', description: '2×f(x)', color: 'multiply' },
+            sinify: { name: 'sin変換', type: 'sinify', description: 'sin(f(x))', color: 'sinify' },
+            expify: { name: '指数化', type: 'expify', description: 'e^(f(x))', color: 'expify' },
+            logify: { name: '対数化', type: 'logify', description: 'ln(f(x))', color: 'logify' }
         };
 
         // ゲーム初期化関数
@@ -1115,6 +1147,7 @@
             renderHand();
             renderFunction();
             updateTurnCount();
+            updateNextCardDisplay();
             addLog(`Stage ${stageNum}: ${stage.name} 開始！`);
         }
 
@@ -1188,6 +1221,12 @@
                 return card.level === 1 ? "∫dx" : `${'∫'.repeat(card.level)}dx`;
             } else if (card.type === 'multiply') {
                 return `×${Math.pow(2, card.level)}`;
+            } else if (card.type === 'sinify') {
+                return 'sin( )';
+            } else if (card.type === 'expify') {
+                return 'e^( )';
+            } else if (card.type === 'logify') {
+                return 'ln( )';
             }
             return '';
         }
@@ -1212,6 +1251,12 @@
             } else if (card.type === 'multiply') {
                 const multiplier = Math.pow(2, card.level);
                 return `f(x) → ${multiplier}f(x)`;
+            } else if (card.type === 'sinify') {
+                return 'f(x) → sin(f(x))';
+            } else if (card.type === 'expify') {
+                return 'f(x) → e^(f(x))';
+            } else if (card.type === 'logify') {
+                return 'f(x) → ln(f(x))';
             }
             return card.description;
         }
@@ -1277,6 +1322,7 @@
             }, 600);
             
             renderFunction();
+            updateNextCardDisplay();
             
             // ゲーム終了チェック
             if (!checkGameEnd()) {
@@ -1290,14 +1336,49 @@
         // カード効果を適用
         function applyCardEffect(card, func) {
             if (card.type === 'plus') {
-                func.constant += card.level;
+                // 特殊関数には効かない（通常関数のみ）
+                if (!func.funcType) {
+                    func.constant += card.level;
+                }
             } else if (card.type === 'substitute') {
-                // f(x) = ax^n + c に x=card.level を代入
+                // x=card.level を代入
                 const x = card.level;
-                const result = func.coefficient * Math.pow(x, func.exponent) + func.constant;
-                func.coefficient = result;
-                func.exponent = 0;
-                func.constant = 0;
+                
+                if (func.funcType === 'sin') {
+                    // sin(x) にx=n代入 → sin(n)を計算して定数に
+                    const result = Math.sin(x);
+                    delete func.funcType;
+                    func.coefficient = result;
+                    func.exponent = 0;
+                    func.constant = 0;
+                } else if (func.funcType === 'cos') {
+                    // cos(x) にx=n代入 → cos(n)を計算
+                    const result = Math.cos(x);
+                    delete func.funcType;
+                    func.coefficient = result;
+                    func.exponent = 0;
+                    func.constant = 0;
+                } else if (func.funcType === 'exp') {
+                    // e^x にx=n代入 → e^nを計算
+                    const result = Math.exp(x);
+                    delete func.funcType;
+                    func.coefficient = result;
+                    func.exponent = 0;
+                    func.constant = 0;
+                } else if (func.funcType === 'log') {
+                    // ln(x) にx=n代入 → ln(n)を計算
+                    const result = Math.log(x);
+                    delete func.funcType;
+                    func.coefficient = result;
+                    func.exponent = 0;
+                    func.constant = 0;
+                } else {
+                    // 通常の多項式
+                    const result = func.coefficient * Math.pow(x, func.exponent) + func.constant;
+                    func.coefficient = result;
+                    func.exponent = 0;
+                    func.constant = 0;
+                }
             } else if (card.type === 'inverse') {
                 if (card.level % 2 === 1) {
                     // 逆数化（簡易版）
@@ -1321,17 +1402,31 @@
                 }
                 // レベル2（偶数）なら何もしない（無効化）
             } else if (card.type === 'derivative') {
-                // 微分: ax^n + c → n*a*x^(n-1)
-                for (let i = 0; i < card.level; i++) {
-                    if (func.exponent > 0) {
-                        func.coefficient = func.coefficient * func.exponent;
-                        func.exponent = func.exponent - 1;
-                        func.constant = 0; // 定数項は消える
-                    } else {
-                        // 定数を微分すると0
-                        func.coefficient = 0;
-                        func.exponent = 0;
-                        func.constant = 0;
+                // 微分
+                if (func.funcType === 'sin') {
+                    // sin(x) → cos(x)
+                    func.funcType = 'cos';
+                } else if (func.funcType === 'cos') {
+                    // cos(x) → -sin(x) (簡易版: 0にする)
+                    delete func.funcType;
+                    func.coefficient = 0;
+                    func.exponent = 0;
+                    func.constant = 0;
+                } else if (func.funcType === 'exp') {
+                    // e^x → e^x (変化なし)
+                    // 何もしない
+                } else {
+                    // 通常の微分: ax^n + c → n*a*x^(n-1)
+                    for (let i = 0; i < card.level; i++) {
+                        if (func.exponent > 0) {
+                            func.coefficient = func.coefficient * func.exponent;
+                            func.exponent = func.exponent - 1;
+                            func.constant = 0;
+                        } else {
+                            func.coefficient = 0;
+                            func.exponent = 0;
+                            func.constant = 0;
+                        }
                     }
                 }
             } else if (card.type === 'integral') {
@@ -1346,6 +1441,31 @@
                 const multiplier = Math.pow(2, card.level);
                 func.coefficient = func.coefficient * multiplier;
                 func.constant = func.constant * multiplier;
+            } else if (card.type === 'sinify') {
+                // sin変換（簡易版: 多項式 → sin関数扱い）
+                func.funcType = 'sin';
+                func.coefficient = 1;
+                func.exponent = 1;
+                func.constant = 0;
+            } else if (card.type === 'expify') {
+                // 指数化（簡易版: 多項式 → 指数関数扱い）
+                func.funcType = 'exp';
+                func.coefficient = 1;
+                func.exponent = 1;
+                func.constant = 0;
+            } else if (card.type === 'logify') {
+                // 対数化（簡易版: e^x → x など逆変換）
+                if (func.funcType === 'exp') {
+                    delete func.funcType;
+                    func.coefficient = 1;
+                    func.exponent = 1;
+                    func.constant = 0;
+                } else {
+                    func.funcType = 'log';
+                    func.coefficient = 1;
+                    func.exponent = 1;
+                    func.constant = 0;
+                }
             }
         }
 
@@ -1367,6 +1487,17 @@
 
         // 関数を整形
         function formatFunction(func, fname) {
+            // 特殊関数タイプの処理
+            if (func.funcType === 'sin') {
+                return `${fname}(x) = sin(x)`;
+            } else if (func.funcType === 'cos') {
+                return `${fname}(x) = cos(x)`;
+            } else if (func.funcType === 'exp') {
+                return `${fname}(x) = e<sup>x</sup>`;
+            } else if (func.funcType === 'log') {
+                return `${fname}(x) = ln(x)`;
+            }
+            
             let result = `${fname}(x) = `;
             
             // 定数のみの場合
@@ -1491,6 +1622,7 @@
                 }
                 
                 renderHand();
+                updateNextCardDisplay();
 
                 // ターン切れチェック
                 if (gameState.remainingTurns <= 0) {
@@ -1506,6 +1638,22 @@
         // ターンカウント更新
         function updateTurnCount() {
             document.getElementById('turn-count').textContent = gameState.remainingTurns;
+        }
+
+        // 次のカード表示を更新
+        function updateNextCardDisplay() {
+            const nextCardElement = document.getElementById('next-card-display');
+            if (gameState.cardQueueIndex < gameState.cardQueue.length) {
+                const nextCardType = gameState.cardQueue[gameState.cardQueueIndex];
+                const nextCard = cardTypes[nextCardType];
+                nextCardElement.textContent = nextCard.name;
+                nextCardElement.style.color = 'var(--accent-main)';
+                nextCardElement.style.fontWeight = '600';
+            } else {
+                nextCardElement.textContent = 'なし';
+                nextCardElement.style.color = 'var(--text-secondary)';
+                nextCardElement.style.fontWeight = '400';
+            }
         }
 
         // ローカルストレージ関数
