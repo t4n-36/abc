@@ -2,10 +2,9 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>関数カードゲーム</title>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -14,23 +13,18 @@
         }
 
         :root {
-            --bg-primary: #f5f3ed;
-            --bg-paper: #fffef9;
-            --text-primary: #2d2d2d;
-            --text-secondary: #6b6b6b;
-            --accent-main: #d97757;
-            --accent-sub: #8b7355;
-            --card-plus: #e8dcc4;
-            --card-substitute: #d4c5a9;
-            --card-inverse: #c9b896;
-            --card-derivative: #b8d4c9;
-            --card-integral: #d4c9d4;
-            --card-multiply: #c9c9b8;
-            --card-sinify: #c9d4b8;
-            --card-expify: #d4b8c9;
-            --card-logify: #b8c9c9;
-            --shadow-light: rgba(0, 0, 0, 0.08);
-            --shadow-medium: rgba(0, 0, 0, 0.12);
+            --bg-primary: #0a0e27;
+            --bg-secondary: #151b3d;
+            --accent-blue: #00d4ff;
+            --accent-purple: #b026ff;
+            --accent-green: #00ff88;
+            --text-primary: #ffffff;
+            --text-secondary: #a0aec0;
+            --card-plus: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --card-substitute: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --card-inverse: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --player-color: #00ff88;
+            --enemy-color: #ff4757;
         }
 
         body {
@@ -39,160 +33,120 @@
             color: var(--text-primary);
             overflow-x: hidden;
             min-height: 100vh;
-            touch-action: manipulation;
-            -webkit-tap-highlight-color: transparent;
         }
 
         .game-container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
-            padding: 40px 20px;
+            padding: 20px;
+            position: relative;
         }
 
         .title {
+            font-family: 'Orbitron', sans-serif;
             text-align: center;
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--accent-main);
-            margin-bottom: 20px;
-            letter-spacing: 0.1em;
-        }
-
-        .header-actions {
-            display: flex;
-            justify-content: center;
-            gap: 12px;
+            font-size: 2.5rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
             margin-bottom: 30px;
+            text-shadow: 0 0 30px rgba(0, 212, 255, 0.3);
+            animation: glow 2s ease-in-out infinite alternate;
         }
 
-        .btn-back, .btn-retry {
-            padding: 10px 24px;
-            font-size: 0.9rem;
-            font-weight: 500;
-            background: var(--bg-paper);
-            color: var(--text-primary);
-            border: 1px solid rgba(0, 0, 0, 0.15);
-            border-radius: 6px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            letter-spacing: 0.05em;
-            box-shadow: 0 2px 6px var(--shadow-light);
-        }
-
-        .btn-back:hover, .btn-retry:hover {
-            background: var(--bg-primary);
-            transform: translateY(-2px);
-        }
-
-        .btn-retry {
-            background: linear-gradient(135deg, var(--accent-main), #e89577);
-            color: white;
-            border: none;
-        }
-
-        .btn-retry:hover {
-            transform: translateY(-2px) scale(1.05);
-            box-shadow: 0 4px 12px rgba(217, 119, 87, 0.4);
+        @keyframes glow {
+            from { filter: drop-shadow(0 0 10px rgba(0, 212, 255, 0.5)); }
+            to { filter: drop-shadow(0 0 20px rgba(176, 38, 255, 0.5)); }
         }
 
         .battle-area {
-            background: var(--bg-paper);
-            border-radius: 8px;
-            padding: 40px;
-            margin-bottom: 30px;
-            box-shadow: 0 2px 8px var(--shadow-light);
-            transition: box-shadow 0.3s ease;
-        }
-
-        .battle-area.active {
-            animation: battleGlow 0.6s ease-in-out;
-        }
-
-        @keyframes battleGlow {
-            0%, 100% {
-                box-shadow: 0 2px 8px var(--shadow-light);
-            }
-            50% {
-                box-shadow: 0 0 20px rgba(217, 119, 87, 0.3);
-            }
+            display: grid;
+            grid-template-rows: auto auto auto;
+            gap: 40px;
+            margin-bottom: 40px;
         }
 
         .function-display {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .function-label {
-            font-size: 0.9rem;
-            font-weight: 500;
-            color: var(--text-secondary);
-            margin-bottom: 15px;
-            letter-spacing: 0.05em;
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
-
-        .clear-condition {
-            font-size: 0.85rem;
-            color: var(--accent-main);
-            font-weight: 600;
-        }
-
-        .function-formula {
-            font-size: 2.5rem;
-            font-weight: 400;
-            color: var(--text-primary);
-            letter-spacing: 0.05em;
+            background: var(--bg-secondary);
+            border-radius: 20px;
+            padding: 30px;
+            position: relative;
+            overflow: hidden;
+            border: 2px solid rgba(255, 255, 255, 0.1);
             transition: all 0.3s ease;
         }
 
-        .function-formula.changing {
-            animation: functionChange 0.6s ease-in-out;
+        .function-display::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(0, 212, 255, 0.1) 0%, transparent 70%);
+            animation: rotate 10s linear infinite;
         }
 
-        @keyframes functionChange {
-            0% {
-                transform: scale(1);
-                opacity: 1;
-            }
-            25% {
-                transform: scale(1.1);
-                opacity: 0.7;
-                color: var(--accent-main);
-            }
-            50% {
-                transform: scale(0.95);
-                opacity: 0.5;
-            }
-            75% {
-                transform: scale(1.05);
-                opacity: 0.8;
-                color: var(--accent-main);
-            }
-            100% {
-                transform: scale(1);
-                opacity: 1;
-            }
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
         }
 
-        .turn-info {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px;
-            background: var(--bg-primary);
-            border-radius: 6px;
-            font-size: 1rem;
-            font-weight: 500;
+        .function-display.player {
+            border-color: var(--player-color);
+            box-shadow: 0 0 30px rgba(0, 255, 136, 0.2);
         }
 
-        .turn-count {
-            color: var(--accent-main);
-            font-weight: 700;
+        .function-display.enemy {
+            border-color: var(--enemy-color);
+            box-shadow: 0 0 30px rgba(255, 71, 87, 0.2);
+        }
+
+        .function-label {
+            font-family: 'Orbitron', sans-serif;
             font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .function-label.player { color: var(--player-color); }
+        .function-label.enemy { color: var(--enemy-color); }
+
+        .function-formula {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+            letter-spacing: 2px;
+        }
+
+        .turn-indicator {
+            text-align: center;
+            padding: 20px;
+            background: var(--bg-secondary);
+            border-radius: 15px;
+            font-size: 1.5rem;
+            font-weight: 700;
+            border: 2px solid var(--accent-blue);
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .enemy-next-action {
+            text-align: center;
+            padding: 15px;
+            background: rgba(255, 71, 87, 0.1);
+            border-radius: 10px;
+            margin-top: 10px;
+            font-size: 1rem;
+            color: var(--enemy-color);
+            border: 1px solid var(--enemy-color);
         }
 
         .hand-area {
@@ -200,46 +154,45 @@
         }
 
         .hand-label {
-            font-size: 1rem;
-            font-weight: 500;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.3rem;
             margin-bottom: 20px;
             text-align: center;
-            color: var(--text-secondary);
-            letter-spacing: 0.05em;
+            color: var(--accent-blue);
         }
 
         .card-container {
             display: flex;
-            gap: 12px;
+            gap: 15px;
             justify-content: center;
             flex-wrap: wrap;
-            min-height: 180px;
+            min-height: 200px;
             padding: 20px;
+            background: rgba(21, 27, 61, 0.5);
+            border-radius: 20px;
+            border: 2px dashed rgba(0, 212, 255, 0.3);
         }
 
         .card {
-            width: 140px;
-            height: 190px;
+            width: 160px;
+            height: 220px;
             background: var(--card-plus);
-            border-radius: 6px;
-            padding: 20px 16px;
+            border-radius: 15px;
+            padding: 20px;
             cursor: pointer;
             position: relative;
-            transition: all 0.2s ease;
-            border: 1px solid rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            border: 2px solid rgba(255, 255, 255, 0.2);
             display: flex;
             flex-direction: column;
-            justify-content: flex-start;
-            box-shadow: 0 2px 6px var(--shadow-light);
-        }
-
-        .card.new-card {
-            animation: slideIn 0.4s ease-out;
+            justify-content: space-between;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            animation: slideIn 0.5s ease-out;
         }
 
         @keyframes slideIn {
             from {
-                transform: translateX(-80px);
+                transform: translateX(-100px);
                 opacity: 0;
             }
             to {
@@ -249,16 +202,14 @@
         }
 
         .card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 4px 12px var(--shadow-medium);
+            transform: translateY(-10px) scale(1.05);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7);
         }
 
         .card.selected {
-            transform: translateY(-8px);
-            box-shadow: 0 8px 20px rgba(217, 119, 87, 0.5);
-            border: 3px solid var(--accent-main);
-            outline: 2px solid rgba(217, 119, 87, 0.3);
-            outline-offset: 2px;
+            transform: translateY(-20px) scale(1.1);
+            box-shadow: 0 0 40px rgba(0, 212, 255, 0.8);
+            border-color: var(--accent-blue);
         }
 
         .card.substitute {
@@ -269,183 +220,146 @@
             background: var(--card-inverse);
         }
 
-        .card.derivative {
-            background: var(--card-derivative);
+        .card.merged {
+            border: 3px solid gold;
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.6);
         }
 
-        .card.integral {
-            background: var(--card-integral);
-        }
-
-        .card.multiply {
-            background: var(--card-multiply);
-        }
-
-        .card.sinify {
-            background: var(--card-sinify);
-        }
-
-        .card.expify {
-            background: var(--card-expify);
-        }
-
-        .card.logify {
-            background: var(--card-logify);
+        .card-name {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 10px;
         }
 
         .card-level {
             position: absolute;
             top: 10px;
             right: 10px;
-            width: 26px;
-            height: 26px;
-            background: rgba(255, 255, 255, 0.9);
+            width: 30px;
+            height: 30px;
+            background: rgba(0, 0, 0, 0.5);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: 600;
-            font-size: 0.85rem;
-            color: var(--accent-main);
-            border: 1px solid rgba(0, 0, 0, 0.1);
-            z-index: 2;
-        }
-
-        .card-level.silver {
-            background: linear-gradient(135deg, #f5f5f5, #c0c0c0);
-            border: 2px solid #a8a8a8;
-            color: #5a5a5a;
             font-weight: 700;
-            box-shadow: 0 2px 6px rgba(192, 192, 192, 0.4);
-        }
-
-        .card-level.gold {
-            background: linear-gradient(135deg, #fff9e6, #ffd700);
-            border: 2px solid #d4af37;
-            color: #8b6914;
-            font-weight: 700;
-            box-shadow: 0 2px 6px rgba(212, 175, 55, 0.5);
-        }
-
-        .card-effect {
-            font-size: 1.8rem;
-            font-weight: 700;
-            text-align: center;
-            color: var(--text-primary);
-            margin: auto 0;
-            letter-spacing: 0.02em;
-        }
-
-        .card-name {
-            font-size: 0.9rem;
-            font-weight: 600;
-            text-align: center;
-            margin-bottom: 12px;
-            color: var(--text-primary);
+            font-size: 1rem;
         }
 
         .card-description {
-            font-size: 0.75rem;
+            font-size: 0.85rem;
             text-align: center;
-            color: var(--text-secondary);
-            line-height: 1.3;
-            margin-top: auto;
+            opacity: 0.9;
+            line-height: 1.4;
         }
 
         .actions {
             display: flex;
-            gap: 12px;
+            gap: 15px;
             justify-content: center;
             flex-wrap: wrap;
-            margin-bottom: 30px;
         }
 
         .btn {
-            padding: 12px 28px;
-            font-size: 0.95rem;
-            font-weight: 500;
+            font-family: 'Orbitron', sans-serif;
+            padding: 15px 30px;
+            font-size: 1.1rem;
+            font-weight: 700;
             border: none;
-            border-radius: 6px;
+            border-radius: 10px;
             cursor: pointer;
-            transition: all 0.2s ease;
-            letter-spacing: 0.05em;
-            box-shadow: 0 2px 6px var(--shadow-light);
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
         }
 
         .btn-use {
-            background: var(--accent-main);
+            background: linear-gradient(135deg, #00d4ff, #0099ff);
             color: white;
         }
 
-        .btn-use:hover:not(:disabled) {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 10px var(--shadow-medium);
+        .btn-use:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0, 212, 255, 0.5);
         }
 
         .btn-merge {
-            background: var(--accent-sub);
+            background: linear-gradient(135deg, #f5af19, #f12711);
             color: white;
         }
 
         .btn-merge:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 10px var(--shadow-medium);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(245, 175, 25, 0.5);
         }
 
         .btn-end {
-            background: var(--bg-paper);
-            color: var(--text-primary);
-            border: 1px solid rgba(0, 0, 0, 0.15);
+            background: linear-gradient(135deg, #11998e, #38ef7d);
+            color: white;
         }
 
         .btn-end:hover {
-            background: var(--bg-primary);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(56, 239, 125, 0.5);
         }
 
         .btn:disabled {
-            opacity: 0.4;
+            opacity: 0.5;
             cursor: not-allowed;
             transform: none;
         }
 
-        .merge-mode-indicator {
+        .target-select {
             text-align: center;
-            padding: 12px;
-            background: #fff4e6;
-            border: 1px solid var(--accent-main);
-            border-radius: 6px;
-            margin-bottom: 20px;
-            font-weight: 500;
-            font-size: 0.95rem;
-            color: var(--accent-main);
-        }
-
-        .log {
-            background: var(--bg-paper);
-            border-radius: 6px;
             padding: 20px;
-            max-height: 180px;
-            overflow-y: auto;
-            box-shadow: 0 2px 6px var(--shadow-light);
+            background: var(--bg-secondary);
+            border-radius: 15px;
+            margin-bottom: 20px;
+            border: 2px solid var(--accent-purple);
         }
 
-        .log-title {
-            font-size: 0.95rem;
-            font-weight: 500;
-            margin-bottom: 12px;
-            color: var(--text-secondary);
-            letter-spacing: 0.05em;
+        .target-select h3 {
+            font-family: 'Orbitron', sans-serif;
+            margin-bottom: 15px;
+            color: var(--accent-purple);
         }
 
-        .log-entry {
-            padding: 6px 0;
-            font-size: 0.85rem;
-            color: var(--text-secondary);
-            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        .target-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
         }
 
-        .log-entry:last-child {
-            border-bottom: none;
+        .btn-target {
+            padding: 15px 40px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            border: 3px solid;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Orbitron', sans-serif;
+            text-transform: uppercase;
+        }
+
+        .btn-target.player {
+            background: rgba(0, 255, 136, 0.1);
+            border-color: var(--player-color);
+            color: var(--player-color);
+        }
+
+        .btn-target.enemy {
+            background: rgba(255, 71, 87, 0.1);
+            border-color: var(--enemy-color);
+            color: var(--enemy-color);
+        }
+
+        .btn-target:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 30px currentColor;
         }
 
         .modal {
@@ -455,7 +369,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.4);
+            background: rgba(0, 0, 0, 0.9);
             z-index: 1000;
             justify-content: center;
             align-items: center;
@@ -466,689 +380,229 @@
         }
 
         .modal-content {
-            background: var(--bg-paper);
-            padding: 50px 40px;
-            border-radius: 8px;
+            background: var(--bg-secondary);
+            padding: 50px;
+            border-radius: 20px;
             text-align: center;
-            max-width: 400px;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+            border: 3px solid;
+            max-width: 500px;
+            animation: modalAppear 0.5s ease-out;
+        }
+
+        @keyframes modalAppear {
+            from {
+                transform: scale(0.5);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .modal-content.victory {
+            border-color: var(--player-color);
+            box-shadow: 0 0 50px rgba(0, 255, 136, 0.5);
+        }
+
+        .modal-content.defeat {
+            border-color: var(--enemy-color);
+            box-shadow: 0 0 50px rgba(255, 71, 87, 0.5);
         }
 
         .modal-content h2 {
-            font-size: 2rem;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3rem;
             margin-bottom: 20px;
-            color: var(--accent-main);
+        }
+
+        .modal-content.victory h2 {
+            color: var(--player-color);
         }
 
         .modal-content.defeat h2 {
-            color: var(--text-secondary);
+            color: var(--enemy-color);
         }
 
         .modal-content p {
-            font-size: 1.1rem;
+            font-size: 1.3rem;
             margin-bottom: 30px;
-            color: var(--text-secondary);
         }
 
-        /* ステージ選択画面 */
-        .stage-select-screen {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            padding: 40px 20px;
-        }
-
-        .stage-select-title {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: var(--accent-main);
-            margin-bottom: 60px;
-            letter-spacing: 0.15em;
-        }
-
-        .stage-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 24px;
-            max-width: 1000px;
-            width: 100%;
-        }
-
-        .stage-card {
-            background: var(--bg-paper);
-            border-radius: 8px;
-            padding: 32px 28px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            border: 1px solid rgba(0, 0, 0, 0.08);
-            box-shadow: 0 2px 8px var(--shadow-light);
-        }
-
-        .stage-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 6px 16px var(--shadow-medium);
-        }
-
-        .stage-number {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: var(--accent-main);
-            margin-bottom: 12px;
-            letter-spacing: 0.05em;
-        }
-
-        .stage-title {
-            font-size: 1.2rem;
-            font-weight: 600;
-            margin-bottom: 16px;
-            color: var(--text-primary);
-        }
-
-        .stage-description {
-            font-size: 0.9rem;
-            line-height: 1.6;
-            color: var(--text-secondary);
+        .merge-mode-indicator {
+            text-align: center;
+            padding: 15px;
+            background: linear-gradient(135deg, rgba(245, 175, 25, 0.2), rgba(241, 39, 17, 0.2));
+            border: 2px solid #f5af19;
+            border-radius: 10px;
             margin-bottom: 20px;
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: #f5af19;
+            animation: pulse 1.5s ease-in-out infinite;
         }
 
-        .stage-info {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            font-size: 0.85rem;
-            color: var(--text-secondary);
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
         }
 
-        .game-screen {
-            display: none;
+        .log {
+            background: rgba(21, 27, 61, 0.8);
+            border-radius: 15px;
+            padding: 20px;
+            max-height: 200px;
+            overflow-y: auto;
+            border: 2px solid rgba(0, 212, 255, 0.2);
         }
 
-        .game-screen.active {
-            display: block;
+        .log-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            color: var(--accent-blue);
+        }
+
+        .log-entry {
+            padding: 8px;
+            margin-bottom: 5px;
+            border-left: 3px solid var(--accent-blue);
+            padding-left: 15px;
+            font-size: 0.95rem;
+            animation: logSlide 0.3s ease-out;
+        }
+
+        @keyframes logSlide {
+            from {
+                transform: translateX(-20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .log-entry.player {
+            border-left-color: var(--player-color);
+            color: var(--player-color);
+        }
+
+        .log-entry.enemy {
+            border-left-color: var(--enemy-color);
+            color: var(--enemy-color);
         }
 
         @media (max-width: 768px) {
-            .game-container {
-                padding: 15px 10px;
-            }
-
-            .title { 
-                font-size: 1.3rem;
-                margin-bottom: 10px;
-            }
-
-            .header-actions {
-                margin-bottom: 15px;
-            }
-
-            .btn-back {
-                padding: 8px 16px;
-                font-size: 0.85rem;
-            }
-
-            .battle-area {
-                padding: 20px 15px;
-                margin-bottom: 15px;
-            }
-
-            .function-label {
-                font-size: 0.8rem;
-                margin-bottom: 10px;
-                gap: 5px;
-            }
-
-            .clear-condition {
-                font-size: 0.75rem;
-            }
-
-            .function-formula { 
-                font-size: 1.8rem;
-            }
-
-            .turn-info {
-                padding: 12px 15px;
-                font-size: 0.9rem;
-            }
-
-            .turn-count {
-                font-size: 1.2rem;
-            }
-
-            .hand-label {
-                font-size: 0.9rem;
-                margin-bottom: 12px;
-            }
-
-            .card-container {
-                gap: 8px;
-                padding: 10px 5px;
-                min-height: 150px;
-            }
-
-            .card { 
-                width: 110px;
-                height: 155px;
-                padding: 14px 10px;
-            }
-
-            .card-name {
-                font-size: 0.75rem;
-                margin-bottom: 6px;
-            }
-
-            .card-effect {
-                font-size: 1.4rem;
-                margin: 8px 0;
-            }
-
-            .card-description {
-                font-size: 0.65rem;
-            }
-
-            .card-level {
-                width: 24px;
-                height: 24px;
-                font-size: 0.75rem;
-                top: 8px;
-                right: 8px;
-            }
-
-            .merge-mode-indicator {
-                padding: 10px;
-                margin-bottom: 12px;
-                font-size: 0.85rem;
-            }
-
-            .btn { 
-                padding: 11px 20px;
-                font-size: 0.9rem;
-                touch-action: manipulation;
-            }
-
-            .actions {
-                gap: 8px;
-                margin-bottom: 15px;
-            }
-
-            .log {
-                padding: 12px;
-                max-height: 100px;
-            }
-
-            .log-title {
-                font-size: 0.85rem;
-                margin-bottom: 8px;
-            }
-
-            .log-entry {
-                padding: 4px 0;
-                font-size: 0.75rem;
-            }
-
-            .stage-select-title {
-                font-size: 2rem;
-                margin-bottom: 40px;
-            }
-
-            .stage-grid {
-                gap: 20px;
-            }
-
-            .stage-card {
-                padding: 28px 24px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .game-container {
-                padding: 10px 8px;
-            }
-
-            .title {
-                font-size: 1.2rem;
-                margin-bottom: 8px;
-            }
-
-            .battle-area {
-                padding: 15px 12px;
-                margin-bottom: 12px;
-            }
-
-            .function-formula {
-                font-size: 1.6rem;
-            }
-
-            .card-container {
-                justify-content: center;
-                gap: 6px;
-                padding: 8px 5px;
-                min-height: 140px;
-            }
-
-            .card {
-                width: 105px;
-                height: 145px;
-                padding: 12px 8px;
-            }
-
-            .card-name {
-                font-size: 0.7rem;
-                margin-bottom: 5px;
-            }
-
-            .card-effect {
-                font-size: 1.3rem;
-                margin: 6px 0;
-            }
-
-            .card-description {
-                font-size: 0.6rem;
-            }
-
-            .card-level {
-                width: 22px;
-                height: 22px;
-                font-size: 0.7rem;
-                top: 6px;
-                right: 6px;
-            }
-
-            .btn {
-                padding: 10px 16px;
-                font-size: 0.85rem;
-            }
-
-            .log {
-                max-height: 80px;
-                padding: 10px;
-            }
-
-            .log-title {
-                font-size: 0.8rem;
-                margin-bottom: 6px;
-            }
-
-            .log-entry {
-                font-size: 0.7rem;
-            }
+            .title { font-size: 1.8rem; }
+            .function-formula { font-size: 1.8rem; }
+            .card { width: 140px; height: 200px; }
+            .btn { padding: 12px 24px; font-size: 1rem; }
         }
     </style>
 </head>
 <body>
-    <!-- ステージ選択画面 -->
-    <div class="stage-select-screen" id="stage-select">
-        <h1 class="stage-select-title">ステージ選択</h1>
-        <div class="stage-grid">
-            <div class="stage-card" onclick="startStage(1)">
-                <div class="stage-number">Stage 1</div>
-                <div class="stage-title">基礎演算 I</div>
-                <div class="stage-description">x=2を代入して0にせよ</div>
-                <div class="stage-info">
-                    <div>難易度: ★☆☆☆☆</div>
-                    <div>制限ターン: 3ターン</div>
-                    <div id="stage1-record" style="color: var(--accent-main); font-weight: 600; margin-top: 8px;">最速クリア: 未挑戦</div>
-                </div>
+    <div class="game-container">
+        <h1 class="title">関数カードゲーム</h1>
+
+        <div class="battle-area">
+            <!-- 敵の関数 -->
+            <div class="function-display enemy">
+                <div class="function-label enemy">敵の関数</div>
+                <div class="function-formula" id="enemy-function">g(x) = x² - 6</div>
+                <div class="enemy-next-action" id="enemy-next-action">次の行動: 準備中...</div>
             </div>
 
-            <div class="stage-card" onclick="startStage(2)">
-                <div class="stage-number">Stage 2</div>
-                <div class="stage-title">微分への道</div>
-                <div class="stage-description">3回微分して0にせよ</div>
-                <div class="stage-info">
-                    <div>難易度: ★☆☆☆☆</div>
-                    <div>制限ターン: 3ターン</div>
-                    <div id="stage2-record" style="color: var(--accent-main); font-weight: 600; margin-top: 8px;">最速クリア: 未挑戦</div>
-                </div>
-            </div>
+            <!-- ターン表示 -->
+            <div class="turn-indicator" id="turn-indicator">プレイヤーのターン</div>
 
-            <div class="stage-card" onclick="startStage(3)">
-                <div class="stage-number">Stage 3</div>
-                <div class="stage-title">正確な係数</div>
-                <div class="stage-description">微分と倍化で 4x を作れ</div>
-                <div class="stage-info">
-                    <div>難易度: ★★☆☆☆</div>
-                    <div>制限ターン: 3ターン</div>
-                    <div id="stage3-record" style="color: var(--accent-main); font-weight: 600; margin-top: 8px;">最速クリア: 未挑戦</div>
-                </div>
-            </div>
-
-            <div class="stage-card" onclick="startStage(4)">
-                <div class="stage-number">Stage 4</div>
-                <div class="stage-title">積分の理解</div>
-                <div class="stage-description">積分してからx=0で評価</div>
-                <div class="stage-info">
-                    <div>難易度: ★★☆☆☆</div>
-                    <div>制限ターン: 3ターン</div>
-                    <div id="stage4-record" style="color: var(--accent-main); font-weight: 600; margin-top: 8px;">最速クリア: 未挑戦</div>
-                </div>
-            </div>
-
-            <div class="stage-card" onclick="startStage(5)">
-                <div class="stage-number">Stage 5</div>
-                <div class="stage-title">複雑な変換</div>
-                <div class="stage-description">2回微分し、係数を調整せよ</div>
-                <div class="stage-info">
-                    <div>難易度: ★★★☆☆</div>
-                    <div>制限ターン: 4ターン</div>
-                    <div id="stage5-record" style="color: var(--accent-main); font-weight: 600; margin-top: 8px;">最速クリア: 未挑戦</div>
-                </div>
-            </div>
-
-            <div class="stage-card" onclick="startStage(6)">
-                <div class="stage-number">Stage 6</div>
-                <div class="stage-title">逆転の発想</div>
-                <div class="stage-description">積分と倍化を駆使せよ</div>
-                <div class="stage-info">
-                    <div>難易度: ★★★☆☆</div>
-                    <div>制限ターン: 4ターン</div>
-                    <div id="stage6-record" style="color: var(--accent-main); font-weight: 600; margin-top: 8px;">最速クリア: 未挑戦</div>
-                </div>
-            </div>
-
-            <div class="stage-card" onclick="startStage(7)">
-                <div class="stage-number">Stage 7</div>
-                <div class="stage-title">sin関数の登場</div>
-                <div class="stage-description">sin関数を微分し、x=0で評価</div>
-                <div class="stage-info">
-                    <div>難易度: ★★★☆☆</div>
-                    <div>制限ターン: 3ターン</div>
-                    <div id="stage7-record" style="color: var(--accent-main); font-weight: 600; margin-top: 8px;">最速クリア: 未挑戦</div>
-                </div>
-            </div>
-
-            <div class="stage-card" onclick="startStage(8)">
-                <div class="stage-number">Stage 8</div>
-                <div class="stage-title">指数関数</div>
-                <div class="stage-description">ln変換してx=1で評価</div>
-                <div class="stage-info">
-                    <div>難易度: ★★★★☆</div>
-                    <div>制限ターン: 2ターン</div>
-                    <div id="stage8-record" style="color: var(--accent-main); font-weight: 600; margin-top: 8px;">最速クリア: 未挑戦</div>
-                </div>
-            </div>
-
-            <div class="stage-card" onclick="startStage(9)">
-                <div class="stage-number">Stage 9</div>
-                <div class="stage-title">三角と指数の融合</div>
-                <div class="stage-description">sin変換後に微分を使いこなせ</div>
-                <div class="stage-info">
-                    <div>難易度: ★★★★☆</div>
-                    <div>制限ターン: 4ターン</div>
-                    <div id="stage9-record" style="color: var(--accent-main); font-weight: 600; margin-top: 8px;">最速クリア: 未挑戦</div>
-                </div>
-            </div>
-
-            <div class="stage-card" onclick="startStage(10)">
-                <div class="stage-number">Stage 10</div>
-                <div class="stage-title">究極の試練</div>
-                <div class="stage-description">すべての数学を統合せよ</div>
-                <div class="stage-info">
-                    <div>難易度: ★★★★★</div>
-                    <div>制限ターン: 4ターン</div>
-                    <div id="stage10-record" style="color: var(--accent-main); font-weight: 600; margin-top: 8px;">最速クリア: 未挑戦</div>
-                </div>
+            <!-- プレイヤーの関数 -->
+            <div class="function-display player">
+                <div class="function-label player">あなたの関数</div>
+                <div class="function-formula" id="player-function">f(x) = x - 2</div>
             </div>
         </div>
-    </div>
 
-    <!-- ゲーム画面 -->
-    <div class="game-screen" id="game-screen">
-        <div class="game-container">
-            <h1 class="title">関数カードゲーム</h1>
-
-            <div class="header-actions">
-                <button class="btn-back" onclick="backToStageSelect()">← ステージ選択に戻る</button>
-                <button class="btn-retry" onclick="retryStage()">🔄 リトライ</button>
+        <!-- ターゲット選択 -->
+        <div class="target-select" id="target-select" style="display: none;">
+            <h3>カードを使用する対象を選択</h3>
+            <div class="target-buttons">
+                <button class="btn-target player" onclick="selectTarget('player')">自分の関数</button>
+                <button class="btn-target enemy" onclick="selectTarget('enemy')">敵の関数</button>
             </div>
+        </div>
 
-            <div class="battle-area">
-                <!-- ステージ情報 -->
-                <div style="text-align: center; margin-bottom: 20px; font-size: 0.9rem; color: var(--text-secondary);" id="stage-info">
-                    Stage 1: 基礎演算 I
-                </div>
-                
-                <!-- 目標の関数 -->
-                <div class="function-display">
-                    <div class="function-label">
-                        <span>目標の関数</span>
-                        <span class="clear-condition" id="clear-condition-text">クリア条件: この関数を0にする</span>
-                    </div>
-                    <div class="function-formula" id="enemy-function">g(x) = x² - 6</div>
-                </div>
+        <!-- 合成モード表示 -->
+        <div class="merge-mode-indicator" id="merge-indicator" style="display: none;">
+            🔥 合成モード: 同じカードを2枚選択してください
+        </div>
 
-                <!-- ターン情報 -->
-                <div class="turn-info">
-                    <span>残りターン</span>
-                    <span class="turn-count" id="turn-count">5</span>
-                </div>
-                
-                <!-- 次のカード表示 -->
-                <div style="text-align: center; margin-top: 12px; padding: 10px; background: rgba(0,0,0,0.03); border-radius: 6px; font-size: 0.85rem; color: var(--text-secondary);">
-                    <span style="font-weight: 600;">次のカード:</span> <span id="next-card-display">-</span>
-                </div>
-            </div>
+        <!-- 手札 -->
+        <div class="hand-area">
+            <div class="hand-label">手札</div>
+            <div class="card-container" id="hand"></div>
+        </div>
 
-            <!-- 合成モード表示 -->
-            <div class="merge-mode-indicator" id="merge-indicator" style="display: none;">
-                合成モード: 同じカードを2枚選択してください
-            </div>
+        <!-- アクションボタン -->
+        <div class="actions">
+            <button class="btn btn-use" id="btn-use" onclick="useCard()" disabled>カード使用</button>
+            <button class="btn btn-merge" id="btn-merge" onclick="toggleMergeMode()">カード合成</button>
+            <button class="btn btn-end" onclick="endTurn()">ターン終了</button>
+        </div>
 
-            <!-- 手札 -->
-            <div class="hand-area">
-                <div class="hand-label">手札</div>
-                <div class="card-container" id="hand"></div>
-            </div>
+        <!-- ログ -->
+        <div class="log">
+            <div class="log-title">行動ログ</div>
+            <div id="log"></div>
+        </div>
 
-            <!-- アクションボタン -->
-            <div class="actions">
-                <button class="btn btn-use" id="btn-use" onclick="useCard()" disabled>カード使用</button>
-                <button class="btn btn-merge" id="btn-merge" onclick="toggleMergeMode()">カード合成</button>
-            </div>
-
-            <!-- ログ -->
-            <div class="log">
-                <div class="log-title">行動ログ</div>
-                <div id="log"></div>
-            </div>
-
-            <!-- 勝敗モーダル -->
-            <div class="modal" id="modal">
-                <div class="modal-content" id="modal-content">
-                    <h2 id="modal-title"></h2>
-                    <p id="modal-message"></p>
-                    <button class="btn btn-use" onclick="backToStageSelect()">ステージ選択に戻る</button>
-                </div>
+        <!-- 勝敗モーダル -->
+        <div class="modal" id="modal">
+            <div class="modal-content" id="modal-content">
+                <h2 id="modal-title"></h2>
+                <p id="modal-message"></p>
+                <button class="btn btn-use" onclick="location.reload()">再スタート</button>
             </div>
         </div>
     </div>
 
     <script>
-        // ステージデータ
-        const stageData = {
-            1: {
-                name: '基礎演算 I',
-                difficulty: 1,
-                enemyFunction: { coefficient: 1, exponent: 2, constant: -4 }, // x² - 4
-                initialHand: ['substitute', 'plus', 'inverse'],
-                cardQueue: ['plus', 'substitute'],
-                maxTurns: 4,
-                clearCondition: 'zero',
-                description: '解答: x=2代入で0',
-                solution: 'x=2代入 → (2)²-4 = 0'
-            },
-            2: {
-                name: '微分3回',
-                difficulty: 1,
-                enemyFunction: { coefficient: 1, exponent: 3, constant: 0 }, // x³
-                initialHand: ['derivative', 'derivative', 'derivative', 'plus'],
-                cardQueue: [],
-                maxTurns: 3,
-                clearCondition: 'zero',
-                description: '解答: 3回微分',
-                solution: 'x³ → 3x² → 6x → 6 (定数になるので失敗) 正解: 微分×3で最後に0'
-            },
-            3: {
-                name: '係数を作る',
-                difficulty: 2,
-                enemyFunction: { coefficient: 1, exponent: 2, constant: 0 }, // x²
-                initialHand: ['derivative', 'multiply', 'integral'],
-                cardQueue: ['multiply'],
-                maxTurns: 3,
-                clearCondition: 'target',
-                targetFunction: { coefficient: 4, exponent: 1, constant: 0 }, // 4x
-                description: '解答: 微分→×2→×2',
-                solution: 'x² → 2x (微分) → 4x (×2)'
-            },
-            4: {
-                name: '積分後に消去',
-                difficulty: 2,
-                enemyFunction: { coefficient: 6, exponent: 1, constant: 0 }, // 6x
-                initialHand: ['integral', 'substitute', 'plus'],
-                cardQueue: [],
-                maxTurns: 2,
-                clearCondition: 'zero',
-                description: '解答: 積分→x=0代入',
-                solution: '6x → 3x² (積分) → 0 (x=0代入)'
-            },
-            5: {
-                name: '2段階変換',
-                difficulty: 3,
-                enemyFunction: { coefficient: 1, exponent: 4, constant: 0 }, // x⁴
-                initialHand: ['derivative', 'derivative', 'multiply', 'plus'],
-                cardQueue: ['multiply'],
-                maxTurns: 4,
-                clearCondition: 'target',
-                targetFunction: { coefficient: 24, exponent: 1, constant: 0 }, // 24x
-                description: '解答: 微分×2→×2→×2',
-                solution: 'x⁴ → 4x³ → 12x² → 6x → 12x → 24x'
-            },
-            6: {
-                name: '積分で次数UP',
-                difficulty: 3,
-                enemyFunction: { coefficient: 1, exponent: 1, constant: 0 }, // x
-                initialHand: ['integral', 'multiply', 'integral'],
-                cardQueue: [],
-                maxTurns: 3,
-                clearCondition: 'target',
-                targetFunction: { coefficient: 2, exponent: 2, constant: 0 }, // 2x²
-                description: '解答: 積分→×4',
-                solution: 'x → 0.5x² (積分) → 2x² (×4)'
-            },
-            7: {
-                name: 'sin関数の微分',
-                difficulty: 3,
-                enemyFunction: { coefficient: 1, exponent: 1, constant: 0, funcType: 'sin' }, // sin(x)
-                initialHand: ['derivative', 'substitute', 'plus'],
-                cardQueue: [],
-                maxTurns: 2,
-                clearCondition: 'zero',
-                description: '解答: 微分→x=0代入',
-                solution: 'sin(x) → cos(x) (微分) → cos(0)=1 → x=0で1... 修正必要'
-            },
-            8: {
-                name: '指数と対数',
-                difficulty: 4,
-                enemyFunction: { coefficient: 1, exponent: 1, constant: 0, funcType: 'exp' }, // e^x
-                initialHand: ['logify', 'substitute', 'plus'],
-                cardQueue: [],
-                maxTurns: 2,
-                clearCondition: 'zero',
-                description: '解答: ln変換→x=0代入',
-                solution: 'e^x → x (ln) → 0 (x=0代入)'
-            },
-            9: {
-                name: 'sin変換応用',
-                difficulty: 4,
-                enemyFunction: { coefficient: 1, exponent: 2, constant: 0 }, // x²
-                initialHand: ['derivative', 'substitute', 'sinify', 'plus'],
-                cardQueue: [],
-                maxTurns: 3,
-                clearCondition: 'zero',
-                description: '解答: 微分→x=0代入',
-                solution: 'x² → 2x (微分) → 0 (x=0代入)'
-            },
-            10: {
-                name: '最終試練',
-                difficulty: 5,
-                enemyFunction: { coefficient: 1, exponent: 3, constant: 0 }, // x³
-                initialHand: ['derivative', 'derivative', 'substitute', 'expify'],
-                cardQueue: [],
-                maxTurns: 3,
-                clearCondition: 'zero',
-                description: '解答: 微分×2→x=0代入',
-                solution: 'x³ → 3x² → 6x → 0 (x=0代入)'
-            }
-        };
-
         // ゲーム状態
         let gameState = {
-            currentStage: 1,
-            enemyFunction: { coefficient: 1, exponent: 2, constant: -6 },
+            playerFunction: { coefficient: 1, exponent: 1, constant: -2 }, // x - 2
+            enemyFunction: { coefficient: 1, exponent: 2, constant: -6 },  // x² - 6
             hand: [],
             selectedCardIndex: null,
             mergeMode: false,
             selectedForMerge: [],
-            remainingTurns: 5,
-            maxTurns: 5,
-            newCardIndices: [],
-            cardQueue: [], // 補充カードのキュー
-            cardQueueIndex: 0 // 現在の補充位置
+            turn: 'player',
+            enemyNextAction: null
         };
 
         // カードタイプ定義
         const cardTypes = {
             plus: { name: '+1カード', type: 'plus', description: 'f(x) + 1', color: 'plus' },
             substitute: { name: 'x=1代入', type: 'substitute', description: 'f(1) を計算', color: 'substitute' },
-            inverse: { name: '逆数カード', type: 'inverse', description: '1/f(x)', color: 'inverse' },
-            derivative: { name: '微分カード', type: 'derivative', description: "f'(x)", color: 'derivative' },
-            integral: { name: '積分カード', type: 'integral', description: '∫f(x)dx', color: 'integral' },
-            multiply: { name: '×2カード', type: 'multiply', description: '2×f(x)', color: 'multiply' },
-            sinify: { name: 'sin変換', type: 'sinify', description: 'sin(f(x))', color: 'sinify' },
-            expify: { name: '指数化', type: 'expify', description: 'e^(f(x))', color: 'expify' },
-            logify: { name: '対数化', type: 'logify', description: 'ln(f(x))', color: 'logify' }
+            inverse: { name: '逆数カード', type: 'inverse', description: '1/f(x)', color: 'inverse' }
         };
 
-        // ゲーム初期化関数
-        function init(stageNum = 1) {
-            const stage = stageData[stageNum];
-            
-            // ステージデータから初期化
-            gameState.currentStage = stageNum;
-            gameState.enemyFunction = { ...stage.enemyFunction };
-            gameState.maxTurns = stage.maxTurns;
-            gameState.remainingTurns = stage.maxTurns;
-            gameState.cardQueue = [...stage.cardQueue];
-            gameState.cardQueueIndex = 0;
-            
+        // 初期化
+        function init() {
             // 初期手札を配る
-            gameState.hand = stage.initialHand.map((type, i) => ({
-                ...cardTypes[type],
-                level: 1,
-                id: Date.now() + i
-            }));
-            
-            // ステージ情報を表示
-            document.getElementById('stage-info').textContent = `Stage ${stageNum}: ${stage.name}`;
-            
-            // クリア条件を表示
-            let clearConditionText = '';
-            if (stage.clearCondition === 'zero') {
-                clearConditionText = 'クリア条件: この関数を0にする';
-            } else if (stage.clearCondition === 'constant') {
-                clearConditionText = 'クリア条件: この関数を定数にする';
-            } else if (stage.clearCondition === 'target' && stage.targetFunction) {
-                const targetStr = formatFunction(stage.targetFunction, 'h');
-                clearConditionText = `クリア条件: ${targetStr.replace('h(x) = ', '')} に変換する`;
-            }
-            document.getElementById('clear-condition-text').textContent = clearConditionText;
+            gameState.hand = [
+                { ...cardTypes.plus, level: 1, id: Date.now() + 1 },
+                { ...cardTypes.plus, level: 1, id: Date.now() + 2 },
+                { ...cardTypes.substitute, level: 1, id: Date.now() + 3 },
+                { ...cardTypes.substitute, level: 1, id: Date.now() + 4 },
+                { ...cardTypes.inverse, level: 1, id: Date.now() + 5 }
+            ];
+
+            // 敵の次の行動を決定
+            decideEnemyNextAction();
             
             renderHand();
-            renderFunction();
-            updateTurnCount();
-            updateNextCardDisplay();
-            addLog(`Stage ${stageNum}: ${stage.name} 開始！`);
+            renderFunctions();
+            addLog('ゲーム開始！', 'player');
         }
 
         // 手札を描画
@@ -1160,11 +614,6 @@
                 const cardElement = document.createElement('div');
                 cardElement.className = `card ${card.color}`;
                 
-                // 新しいカードにのみアニメーションを適用
-                if (gameState.newCardIndices.includes(index)) {
-                    cardElement.classList.add('new-card');
-                }
-                
                 if (gameState.selectedCardIndex === index && !gameState.mergeMode) {
                     cardElement.classList.add('selected');
                 }
@@ -1173,62 +622,19 @@
                     cardElement.classList.add('selected');
                 }
 
-                // レベル表示のスタイル
-                let levelClass = '';
-                if (card.level === 2) {
-                    levelClass = 'silver';
-                } else if (card.level >= 3) {
-                    levelClass = 'gold';
+                if (card.level > 1) {
+                    cardElement.classList.add('merged');
                 }
 
-                // カード中央の効果表示
-                const centerEffect = getCardCenterEffect(card);
-
                 cardElement.innerHTML = `
-                    <div class="card-level ${levelClass}">Lv${card.level}</div>
+                    <div class="card-level">Lv${card.level}</div>
                     <div class="card-name">${card.name}</div>
-                    <div class="card-effect">${centerEffect}</div>
                     <div class="card-description">${getCardDescription(card)}</div>
                 `;
 
                 cardElement.onclick = () => selectCard(index);
                 handElement.appendChild(cardElement);
             });
-
-            // アニメーション終了後、newCardIndicesをクリア
-            if (gameState.newCardIndices.length > 0) {
-                setTimeout(() => {
-                    gameState.newCardIndices = [];
-                }, 400);
-            }
-        }
-
-        // カード中央の効果表示を取得
-        function getCardCenterEffect(card) {
-            if (card.type === 'plus') {
-                return `+${card.level}`;
-            } else if (card.type === 'substitute') {
-                return `f(${card.level})`;
-            } else if (card.type === 'inverse') {
-                if (card.level % 2 === 0) {
-                    return 'f(x)/1';
-                } else {
-                    return '1/f(x)';
-                }
-            } else if (card.type === 'derivative') {
-                return card.level === 1 ? "d/dx" : `d${card.level}/dx${card.level}`;
-            } else if (card.type === 'integral') {
-                return card.level === 1 ? "∫dx" : `${'∫'.repeat(card.level)}dx`;
-            } else if (card.type === 'multiply') {
-                return `×${Math.pow(2, card.level)}`;
-            } else if (card.type === 'sinify') {
-                return 'sin( )';
-            } else if (card.type === 'expify') {
-                return 'e^( )';
-            } else if (card.type === 'logify') {
-                return 'ln( )';
-            }
-            return '';
         }
 
         // カードの説明文を取得
@@ -1239,24 +645,8 @@
                 return `f(x) → f(${card.level})`;
             } else if (card.type === 'inverse') {
                 if (card.level === 1) return 'f(x) → 1/f(x)';
-                if (card.level % 2 === 0) return 'f(x) → f(x) (無効化)';
-                return 'f(x) → 1/f(x)';
-            } else if (card.type === 'derivative') {
-                if (card.level === 1) return "f(x) → f'(x)";
-                if (card.level === 2) return "f(x) → f''(x)";
-                return `f(x) → f${"'".repeat(card.level)}(x)`;
-            } else if (card.type === 'integral') {
-                if (card.level === 1) return 'f(x) → ∫f(x)dx';
-                return `f(x) → ${'∫'.repeat(card.level)}f(x)${'dx'.repeat(card.level)}`;
-            } else if (card.type === 'multiply') {
-                const multiplier = Math.pow(2, card.level);
-                return `f(x) → ${multiplier}f(x)`;
-            } else if (card.type === 'sinify') {
-                return 'f(x) → sin(f(x))';
-            } else if (card.type === 'expify') {
-                return 'f(x) → e^(f(x))';
-            } else if (card.type === 'logify') {
-                return 'f(x) → ln(f(x))';
+                if (card.level === 2) return 'f(x) → f(x) (無効化)';
+                return 'f(x) → f(x)';
             }
             return card.description;
         }
@@ -1289,223 +679,72 @@
 
             const card = gameState.hand[gameState.selectedCardIndex];
             
-            // カード効果を適用
-            applyCardEffect(card, gameState.enemyFunction);
-            addLog(`${card.name} を使用`);
+            // 対象選択画面を表示
+            document.getElementById('target-select').style.display = 'block';
+        }
+
+        // ターゲット選択
+        function selectTarget(target) {
+            const card = gameState.hand[gameState.selectedCardIndex];
+            
+            if (target === 'player') {
+                applyCardEffect(card, gameState.playerFunction, 'プレイヤー');
+                addLog(`${card.name} を自分の関数に使用`, 'player');
+            } else {
+                applyCardEffect(card, gameState.enemyFunction, '敵');
+                addLog(`${card.name} を敵の関数に使用`, 'player');
+            }
 
             // カードを手札から削除
             gameState.hand.splice(gameState.selectedCardIndex, 1);
             gameState.selectedCardIndex = null;
             document.getElementById('btn-use').disabled = true;
-
-            // ターン減少
-            gameState.remainingTurns--;
-            updateTurnCount();
-
-            // カードを補充（常に5枚をキープ）
-            if (gameState.hand.length < 5 && gameState.cardQueueIndex < gameState.cardQueue.length) {
-                const nextCardType = gameState.cardQueue[gameState.cardQueueIndex];
-                const newCard = { ...cardTypes[nextCardType], level: 1, id: Date.now() };
-                gameState.hand.unshift(newCard);
-                gameState.newCardIndices = [0];
-                gameState.cardQueueIndex++;
-                addLog(`${newCard.name} を補充`);
-            }
+            document.getElementById('target-select').style.display = 'none';
 
             renderHand();
-            
-            // バトルエリアのグローエフェクト
-            const battleArea = document.querySelector('.battle-area');
-            battleArea.classList.add('active');
-            setTimeout(() => {
-                battleArea.classList.remove('active');
-            }, 600);
-            
-            renderFunction();
-            updateNextCardDisplay();
-            
-            // ゲーム終了チェック
-            if (!checkGameEnd()) {
-                // ターン切れチェック
-                if (gameState.remainingTurns <= 0) {
-                    showModal('defeat', '失敗', 'ターン切れです。もう一度挑戦しよう！');
-                }
-            }
+            renderFunctions();
+            checkGameEnd();
         }
 
         // カード効果を適用
-        function applyCardEffect(card, func) {
+        function applyCardEffect(card, func, targetName) {
             if (card.type === 'plus') {
-                // 特殊関数には効かない（通常関数のみ）
-                if (!func.funcType) {
-                    func.constant += card.level;
-                }
+                func.constant += card.level;
             } else if (card.type === 'substitute') {
-                // x=card.level を代入
+                // f(x) = ax^n + c に x=card.level を代入
                 const x = card.level;
-                
-                if (func.funcType === 'sin') {
-                    // sin(x) にx=n代入 → sin(n)を計算して定数に
-                    const result = Math.sin(x);
-                    delete func.funcType;
-                    func.coefficient = result;
-                    func.exponent = 0;
-                    func.constant = 0;
-                } else if (func.funcType === 'cos') {
-                    // cos(x) にx=n代入 → cos(n)を計算
-                    const result = Math.cos(x);
-                    delete func.funcType;
-                    func.coefficient = result;
-                    func.exponent = 0;
-                    func.constant = 0;
-                } else if (func.funcType === 'exp') {
-                    // e^x にx=n代入 → e^nを計算
-                    const result = Math.exp(x);
-                    delete func.funcType;
-                    func.coefficient = result;
-                    func.exponent = 0;
-                    func.constant = 0;
-                } else if (func.funcType === 'log') {
-                    // ln(x) にx=n代入 → ln(n)を計算
-                    const result = Math.log(x);
-                    delete func.funcType;
-                    func.coefficient = result;
-                    func.exponent = 0;
-                    func.constant = 0;
-                } else {
-                    // 通常の多項式
-                    const result = func.coefficient * Math.pow(x, func.exponent) + func.constant;
-                    func.coefficient = result;
-                    func.exponent = 0;
-                    func.constant = 0;
-                }
+                const result = func.coefficient * Math.pow(x, func.exponent) + func.constant;
+                func.coefficient = result;
+                func.exponent = 0;
+                func.constant = 0;
             } else if (card.type === 'inverse') {
                 if (card.level % 2 === 1) {
-                    // 逆数化（簡易版）
-                    if (func.exponent === 0) {
-                        // 定数の場合
-                        const value = func.coefficient + func.constant;
-                        if (value !== 0) {
-                            func.coefficient = 1 / value;
-                            func.constant = 0;
-                        }
-                    } else {
-                        // 一般の場合（簡易的に係数の逆数）
-                        if (func.coefficient !== 0) {
-                            func.coefficient = 1 / func.coefficient;
-                            func.exponent = -func.exponent;
-                            if (func.constant !== 0) {
-                                func.constant = -func.constant / Math.abs(func.coefficient);
-                            }
-                        }
+                    // 逆数化
+                    // f(x) → 1/f(x) は複雑なので、簡易的に係数の逆数とする
+                    if (func.coefficient !== 0) {
+                        func.coefficient = 1 / func.coefficient;
+                        func.exponent = -func.exponent;
+                        func.constant = -func.constant / func.coefficient;
                     }
                 }
                 // レベル2（偶数）なら何もしない（無効化）
-            } else if (card.type === 'derivative') {
-                // 微分
-                if (func.funcType === 'sin') {
-                    // sin(x) → cos(x)
-                    func.funcType = 'cos';
-                } else if (func.funcType === 'cos') {
-                    // cos(x) → -sin(x) (簡易版: 0にする)
-                    delete func.funcType;
-                    func.coefficient = 0;
-                    func.exponent = 0;
-                    func.constant = 0;
-                } else if (func.funcType === 'exp') {
-                    // e^x → e^x (変化なし)
-                    // 何もしない
-                } else {
-                    // 通常の微分: ax^n + c → n*a*x^(n-1)
-                    for (let i = 0; i < card.level; i++) {
-                        if (func.exponent > 0) {
-                            func.coefficient = func.coefficient * func.exponent;
-                            func.exponent = func.exponent - 1;
-                            func.constant = 0;
-                        } else {
-                            func.coefficient = 0;
-                            func.exponent = 0;
-                            func.constant = 0;
-                        }
-                    }
-                }
-            } else if (card.type === 'integral') {
-                // 積分: ax^n → a/(n+1)*x^(n+1) (定数項は無視)
-                for (let i = 0; i < card.level; i++) {
-                    func.coefficient = func.coefficient / (func.exponent + 1);
-                    func.exponent = func.exponent + 1;
-                    // 積分定数は追加しない（簡易版）
-                }
-            } else if (card.type === 'multiply') {
-                // 係数倍
-                const multiplier = Math.pow(2, card.level);
-                func.coefficient = func.coefficient * multiplier;
-                func.constant = func.constant * multiplier;
-            } else if (card.type === 'sinify') {
-                // sin変換（簡易版: 多項式 → sin関数扱い）
-                func.funcType = 'sin';
-                func.coefficient = 1;
-                func.exponent = 1;
-                func.constant = 0;
-            } else if (card.type === 'expify') {
-                // 指数化（簡易版: 多項式 → 指数関数扱い）
-                func.funcType = 'exp';
-                func.coefficient = 1;
-                func.exponent = 1;
-                func.constant = 0;
-            } else if (card.type === 'logify') {
-                // 対数化（簡易版: e^x → x など逆変換）
-                if (func.funcType === 'exp') {
-                    delete func.funcType;
-                    func.coefficient = 1;
-                    func.exponent = 1;
-                    func.constant = 0;
-                } else {
-                    func.funcType = 'log';
-                    func.coefficient = 1;
-                    func.exponent = 1;
-                    func.constant = 0;
-                }
             }
         }
 
         // 関数を描画
-        function renderFunction() {
-            const element = document.getElementById('enemy-function');
-            
-            // アニメーションクラスを追加
-            element.classList.add('changing');
-            
-            // 新しい関数を表示
-            element.innerHTML = formatFunction(gameState.enemyFunction, 'g');
-            
-            // アニメーション終了後にクラスを削除
-            setTimeout(() => {
-                element.classList.remove('changing');
-            }, 600);
+        function renderFunctions() {
+            document.getElementById('player-function').innerHTML = formatFunction(gameState.playerFunction, 'f');
+            document.getElementById('enemy-function').innerHTML = formatFunction(gameState.enemyFunction, 'g');
         }
 
         // 関数を整形
         function formatFunction(func, fname) {
-            // 特殊関数タイプの処理
-            if (func.funcType === 'sin') {
-                return `${fname}(x) = sin(x)`;
-            } else if (func.funcType === 'cos') {
-                return `${fname}(x) = cos(x)`;
-            } else if (func.funcType === 'exp') {
-                return `${fname}(x) = e<sup>x</sup>`;
-            } else if (func.funcType === 'log') {
-                return `${fname}(x) = ln(x)`;
-            }
-            
             let result = `${fname}(x) = `;
             
             // 定数のみの場合
             if (func.exponent === 0) {
                 const value = func.coefficient + func.constant;
-                if (Math.abs(value) < 0.0001) {
-                    result += '0';
-                } else if (Number.isInteger(value)) {
+                if (Number.isInteger(value)) {
                     result += value;
                 } else {
                     result += formatFraction(value);
@@ -1549,6 +788,7 @@
             let numerator = Math.round(num * precision);
             let denominator = precision;
             
+            // 最大公約数で約分
             const gcd = (a, b) => b === 0 ? a : gcd(b, a % b);
             const divisor = gcd(Math.abs(numerator), denominator);
             numerator /= divisor;
@@ -1580,6 +820,7 @@
             const card1 = gameState.hand[index1];
             const card2 = gameState.hand[index2];
 
+            // 同じタイプ・同じレベルかチェック
             if (card1.type === card2.type && card1.level === card2.level) {
                 // 合成成功
                 const newCard = {
@@ -1588,180 +829,145 @@
                     id: Date.now()
                 };
 
-                // より左側のインデックスに新しいカードを配置
-                const keepIndex = Math.min(index1, index2);
-                const removeIndex = Math.max(index1, index2);
-                
-                // 削除してから挿入
-                gameState.hand.splice(removeIndex, 1);
-                gameState.hand.splice(keepIndex, 1, newCard);
+                // 古いカードを削除（インデックスが大きい方から）
+                const indicesToRemove = [index1, index2].sort((a, b) => b - a);
+                indicesToRemove.forEach(i => gameState.hand.splice(i, 1));
 
-                addLog(`${card1.name} を合成してLv${newCard.level}にアップグレード`);
+                // 新しいカードを手札の先頭に追加
+                gameState.hand.unshift(newCard);
+
+                addLog(`${card1.name} を合成してLv${newCard.level}にアップグレード！`, 'player');
                 
+                // 合成したらターン終了
                 gameState.mergeMode = false;
                 gameState.selectedForMerge = [];
                 document.getElementById('merge-indicator').style.display = 'none';
-
-                // ターン減少
-                gameState.remainingTurns--;
-                updateTurnCount();
-
-                // カードを補充（常に5枚をキープ）
-                while (gameState.hand.length < 5 && gameState.cardQueueIndex < gameState.cardQueue.length) {
-                    const nextCardType = gameState.cardQueue[gameState.cardQueueIndex];
-                    const plusCard = { ...cardTypes[nextCardType], level: 1, id: Date.now() + gameState.hand.length };
-                    gameState.hand.unshift(plusCard);
-                    gameState.cardQueueIndex++;
-                }
-                
-                // 新しく追加された補充カードにアニメーションを適用
-                if (gameState.hand.length === 5) {
-                    gameState.newCardIndices = [0];
-                } else {
-                    gameState.newCardIndices = [];
-                }
                 
                 renderHand();
-                updateNextCardDisplay();
-
-                // ターン切れチェック
-                if (gameState.remainingTurns <= 0) {
-                    showModal('defeat', '失敗', 'ターン切れです。もう一度挑戦しよう！');
-                }
+                setTimeout(() => endTurn(), 500);
             } else {
-                addLog('合成失敗: 同じタイプ・同じレベルのカードを選択してください');
+                addLog('合成失敗: 同じタイプ・同じレベルのカードを選択してください', 'player');
                 gameState.selectedForMerge = [];
                 renderHand();
             }
         }
 
-        // ターンカウント更新
-        function updateTurnCount() {
-            document.getElementById('turn-count').textContent = gameState.remainingTurns;
-        }
-
-        // 次のカード表示を更新
-        function updateNextCardDisplay() {
-            const nextCardElement = document.getElementById('next-card-display');
-            if (gameState.cardQueueIndex < gameState.cardQueue.length) {
-                const nextCardType = gameState.cardQueue[gameState.cardQueueIndex];
-                const nextCard = cardTypes[nextCardType];
-                nextCardElement.textContent = nextCard.name;
-                nextCardElement.style.color = 'var(--accent-main)';
-                nextCardElement.style.fontWeight = '600';
-            } else {
-                nextCardElement.textContent = 'なし';
-                nextCardElement.style.color = 'var(--text-secondary)';
-                nextCardElement.style.fontWeight = '400';
+        // ターン終了
+        function endTurn() {
+            if (gameState.mergeMode) {
+                // 合成モードをキャンセル
+                gameState.mergeMode = false;
+                gameState.selectedForMerge = [];
+                document.getElementById('merge-indicator').style.display = 'none';
+                renderHand();
+                return;
             }
-        }
 
-        // ローカルストレージ関数
-        function saveBestClear(stage, turnsUsed) {
-            const key = `stage${stage}_best`;
-            const current = localStorage.getItem(key);
+            // カードを補充（+1カードを1枚追加）
+            if (gameState.hand.length < 5) {
+                const newCard = { ...cardTypes.plus, level: 1, id: Date.now() };
+                gameState.hand.unshift(newCard); // 左端に追加
+                addLog('+1カードを補充', 'player');
+            }
+
+            renderHand();
+
+            // 敵のターン
+            gameState.turn = 'enemy';
+            document.getElementById('turn-indicator').textContent = '敵のターン';
             
-            if (!current || turnsUsed < parseInt(current)) {
-                localStorage.setItem(key, turnsUsed.toString());
-                return true; // 新記録
-            }
-            return false;
+            setTimeout(() => {
+                executeEnemyTurn();
+            }, 1000);
         }
 
-        function getBestClear(stage) {
-            const key = `stage${stage}_best`;
-            const best = localStorage.getItem(key);
-            return best ? parseInt(best) : null;
+        // 敵の次の行動を決定
+        function decideEnemyNextAction() {
+            // プレイヤーの関数を0にする最適な行動を選択
+            const playerFunc = gameState.playerFunction;
+            
+            // 簡易AI: プレイヤー関数が x-2 なら、x=1代入で-1になるので逆数を使って負にする
+            // または x=2を代入して0にする
+            
+            const actions = ['plus', 'substitute', 'inverse'];
+            
+            // x=2代入カードがあればそれを使う（レベル2の代入カード）
+            if (Math.random() > 0.3) {
+                gameState.enemyNextAction = { type: 'substitute', level: 2 };
+            } else if (Math.random() > 0.5) {
+                gameState.enemyNextAction = { type: 'inverse', level: 1 };
+            } else {
+                gameState.enemyNextAction = { type: 'plus', level: 1 };
+            }
+
+            updateEnemyNextActionDisplay();
         }
 
-        function updateStageRecordDisplay() {
-            for (let i = 1; i <= 10; i++) {
-                const best = getBestClear(i);
-                const recordElement = document.getElementById(`stage${i}-record`);
-                if (recordElement) {
-                    if (best) {
-                        recordElement.textContent = `最速クリア: ${best}ターン消費`;
-                    } else {
-                        recordElement.textContent = '最速クリア: 未挑戦';
-                    }
-                }
+        // 敵の次の行動を表示
+        function updateEnemyNextActionDisplay() {
+            const action = gameState.enemyNextAction;
+            let actionText = '';
+            
+            if (action.type === 'plus') {
+                actionText = `+${action.level}カード使用`;
+            } else if (action.type === 'substitute') {
+                actionText = `x=${action.level}代入カード使用`;
+            } else if (action.type === 'inverse') {
+                actionText = '逆数カード使用';
             }
+
+            document.getElementById('enemy-next-action').textContent = `次の行動: ${actionText}`;
+        }
+
+        // 敵のターンを実行
+        function executeEnemyTurn() {
+            const action = gameState.enemyNextAction;
+            
+            // カード効果をプレイヤー関数に適用
+            const card = {
+                type: action.type,
+                level: action.level,
+                name: action.type === 'plus' ? `+${action.level}カード` : 
+                      action.type === 'substitute' ? `x=${action.level}代入カード` : '逆数カード'
+            };
+            
+            applyCardEffect(card, gameState.playerFunction, 'プレイヤー');
+            addLog(`敵が ${card.name} を使用！`, 'enemy');
+
+            renderFunctions();
+            checkGameEnd();
+
+            // 次の行動を決定
+            decideEnemyNextAction();
+
+            // プレイヤーのターンに戻る
+            gameState.turn = 'player';
+            document.getElementById('turn-indicator').textContent = 'プレイヤーのターン';
         }
 
         // ゲーム終了チェック
         function checkGameEnd() {
-            const func = gameState.enemyFunction;
-            const stage = stageData[gameState.currentStage];
-            const clearCondition = stage.clearCondition;
-            
-            // target条件: 指定の関数に一致
-            if (clearCondition === 'target' && stage.targetFunction) {
-                const target = stage.targetFunction;
-                if (Math.abs(func.coefficient - target.coefficient) < 0.0001 &&
-                    func.exponent === target.exponent &&
-                    Math.abs(func.constant - target.constant) < 0.0001) {
-                    const turnsUsed = gameState.maxTurns - gameState.remainingTurns;
-                    const isNewRecord = saveBestClear(gameState.currentStage, turnsUsed);
-                    
-                    let message = `${turnsUsed}ターンでクリア！\n目標の関数に変換しました！`;
-                    if (isNewRecord) {
-                        message += '\n🎉 新記録達成！';
-                    }
-                    
-                    showModal('victory', 'クリア！', message);
-                    return true;
-                }
+            const playerValue = evaluateFunction(gameState.playerFunction);
+            const enemyValue = evaluateFunction(gameState.enemyFunction);
+
+            if (playerValue === 0 || isNaN(playerValue) || !isFinite(playerValue)) {
+                showModal('defeat', '敗北', 'あなたの関数が無効になりました...');
+                return true;
             }
-            
-            // 定数になった場合
-            if (func.exponent === 0) {
-                const value = func.coefficient + func.constant;
-                
-                if (clearCondition === 'zero') {
-                    // 0にする条件
-                    if (Math.abs(value) < 0.0001 || value === 0) {
-                        const turnsUsed = gameState.maxTurns - gameState.remainingTurns;
-                        const isNewRecord = saveBestClear(gameState.currentStage, turnsUsed);
-                        
-                        let message = `${turnsUsed}ターンでクリア！`;
-                        if (isNewRecord) {
-                            message += '\n🎉 新記録達成！';
-                        }
-                        
-                        showModal('victory', 'クリア！', message);
-                        return true;
-                    }
-                } else if (clearCondition === 'constant') {
-                    // 定数にする条件
-                    const turnsUsed = gameState.maxTurns - gameState.remainingTurns;
-                    const isNewRecord = saveBestClear(gameState.currentStage, turnsUsed);
-                    
-                    let message = `${turnsUsed}ターンでクリア！\n関数を定数 ${value} にしました！`;
-                    if (isNewRecord) {
-                        message += '\n🎉 新記録達成！';
-                    }
-                    
-                    showModal('victory', 'クリア！', message);
-                    return true;
-                }
-            }
-            
-            // 未定義・発散チェック
-            const testValue = evaluateFunction(func);
-            if (isNaN(testValue) || !isFinite(testValue)) {
-                showModal('defeat', '失敗', '関数が未定義になりました...');
+
+            if (enemyValue === 0 || isNaN(enemyValue) || !isFinite(enemyValue)) {
+                showModal('victory', '勝利！', '敵の関数を無効化しました！');
                 return true;
             }
 
             return false;
         }
 
-        // 関数を評価（主にチェック用）
+        // 関数を評価（x=1での値を返す、主にチェック用）
         function evaluateFunction(func) {
             if (func.exponent === 0) {
                 return func.coefficient + func.constant;
             }
-            // x=1での評価（参考値として）
             return func.coefficient * Math.pow(1, func.exponent) + func.constant;
         }
 
@@ -1778,67 +984,21 @@
         }
 
         // ログ追加
-        function addLog(message) {
+        function addLog(message, type) {
             const log = document.getElementById('log');
             const entry = document.createElement('div');
-            entry.className = 'log-entry';
+            entry.className = `log-entry ${type}`;
             entry.textContent = message;
             log.insertBefore(entry, log.firstChild);
 
+            // ログが多すぎたら古いものを削除
             while (log.children.length > 10) {
                 log.removeChild(log.lastChild);
             }
         }
 
-        // ステージ開始
-        function startStage(stageNumber) {
-            console.log('Starting stage:', stageNumber);
-            try {
-                document.getElementById('stage-select').style.display = 'none';
-                document.getElementById('game-screen').classList.add('active');
-                
-                init(stageNumber);
-            } catch (error) {
-                console.error('Error starting stage:', error);
-                alert('ステージ開始エラー: ' + error.message);
-            }
-        }
-
-        // ステージリトライ
-        function retryStage() {
-            const currentStageNum = gameState.currentStage;
-            init(currentStageNum);
-        }
-
-        // ステージ選択に戻る
-        function backToStageSelect() {
-            document.getElementById('modal').classList.remove('active');
-            document.getElementById('game-screen').classList.remove('active');
-            document.getElementById('stage-select').style.display = 'flex';
-            
-            // 記録を更新
-            updateStageRecordDisplay();
-            
-            // ゲーム状態をリセット
-            gameState = {
-                currentStage: 1,
-                enemyFunction: { coefficient: 1, exponent: 2, constant: -6 },
-                hand: [],
-                selectedCardIndex: null,
-                mergeMode: false,
-                selectedForMerge: [],
-                remainingTurns: 5,
-                maxTurns: 5,
-                newCardIndices: [],
-                cardQueue: [],
-                cardQueueIndex: 0
-            };
-        }
-
-        // ページ読み込み時に記録を表示
-        window.addEventListener('DOMContentLoaded', () => {
-            updateStageRecordDisplay();
-        });
+        // ゲーム開始
+        init();
     </script>
 </body>
 </html>
