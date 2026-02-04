@@ -29,6 +29,7 @@
             --card-sinify: #c9d4b8;
             --card-expify: #d4b8c9;
             --card-logify: #b8c9c9;
+            --card-limit: #d4b8b8;
             --shadow-light: rgba(0, 0, 0, 0.08);
             --shadow-medium: rgba(0, 0, 0, 0.12);
         }
@@ -302,6 +303,10 @@
 
         .card.logify {
             background: var(--card-logify);
+        }
+
+        .card.limit {
+            background: var(--card-limit);
         }
 
         .card-level {
@@ -927,12 +932,132 @@
 
             <div class="stage-card" onclick="startStage(10)">
                 <div class="stage-number">Stage 10</div>
-                <div class="stage-title">究極の試練</div>
-                <div class="stage-description">すべての数学を統合せよ</div>
+                <div class="stage-title">三角関数の微分サイクル</div>
+                <div class="stage-description">sin(x)を微分の循環で変換せよ</div>
+                <div class="stage-info">
+                    <div>難易度: ★★★★★</div>
+                    <div>制限ターン: 5ターン</div>
+                    <div id="stage10-record" style="color: var(--accent-main); font-weight: 600; margin-top: 8px;">最速クリア: 未挑戦</div>
+                </div>
+            </div>
+
+            <div class="stage-card" onclick="startStage(11)" style="background: linear-gradient(135deg, rgba(106, 90, 205, 0.12), rgba(147, 112, 219, 0.08)); backdrop-filter: blur(10px); border: 1px solid rgba(106, 90, 205, 0.2); box-shadow: 0 4px 12px rgba(106, 90, 205, 0.15);">
+                <div class="stage-number" style="background: linear-gradient(135deg, rgba(106, 90, 205, 0.9), rgba(147, 112, 219, 0.9)); color: white; padding: 8px 20px; border-radius: 20px; display: inline-block; box-shadow: 0 2px 8px rgba(106, 90, 205, 0.3);">Stage 11</div>
+                <div class="stage-title">2sin(x) + 3 を 0 に</div>
+                <div class="stage-description">2sin(x) + 3 を 0 に変換</div>
                 <div class="stage-info">
                     <div>難易度: ★★★★★</div>
                     <div>制限ターン: 4ターン</div>
-                    <div id="stage10-record" style="color: var(--accent-main); font-weight: 600; margin-top: 8px;">最速クリア: 未挑戦</div>
+                    <div id="stage11-record" style="color: var(--accent-main); font-weight: 600; margin-top: 8px;">最速クリア: 未挑戦</div>
+                </div>
+            </div>
+
+            <div class="stage-card" onclick="startStage(12)" style="background: linear-gradient(135deg, rgba(106, 90, 205, 0.12), rgba(147, 112, 219, 0.08)); backdrop-filter: blur(10px); border: 1px solid rgba(106, 90, 205, 0.2); box-shadow: 0 4px 12px rgba(106, 90, 205, 0.15);">
+                <div class="stage-number" style="background: linear-gradient(135deg, rgba(106, 90, 205, 0.9), rgba(147, 112, 219, 0.9)); color: white; padding: 8px 20px; border-radius: 20px; display: inline-block; box-shadow: 0 2px 8px rgba(106, 90, 205, 0.3);">Stage 12</div>
+                <div class="stage-title">-cos(x) を -1 に</div>
+                <div class="stage-description">-cos(x) を -1 に変換</div>
+                <div class="stage-info">
+                    <div>難易度: ★★★★★</div>
+                    <div>制限ターン: 3ターン</div>
+                    <div id="stage12-record" style="color: var(--accent-main); font-weight: 600; margin-top: 8px;">最速クリア: 未挑戦</div>
+                </div>
+            </div>
+
+            <div class="stage-card" onclick="startStage(13)" style="background: linear-gradient(135deg, rgba(106, 90, 205, 0.12), rgba(147, 112, 219, 0.08)); backdrop-filter: blur(10px); border: 1px solid rgba(106, 90, 205, 0.2); box-shadow: 0 4px 12px rgba(106, 90, 205, 0.15);">
+                <div class="stage-number" style="background: linear-gradient(135deg, rgba(106, 90, 205, 0.9), rgba(147, 112, 219, 0.9)); color: white; padding: 8px 20px; border-radius: 20px; display: inline-block; box-shadow: 0 2px 8px rgba(106, 90, 205, 0.3);">Stage 13</div>
+                <div class="stage-title">e^x を 1 に</div>
+                <div class="stage-description">e^x を 1 に変換</div>
+                <div class="stage-info">
+                    <div>難易度: ★★★★★</div>
+                    <div>制限ターン: 3ターン</div>
+                    <div id="stage13-record" style="color: var(--accent-main); font-weight: 600; margin-top: 8px;">最速クリア: 未挑戦</div>
+                </div>
+            </div>
+
+            <div class="stage-card" onclick="startStage(14)" style="background: linear-gradient(135deg, rgba(106, 90, 205, 0.12), rgba(147, 112, 219, 0.08)); backdrop-filter: blur(10px); border: 1px solid rgba(106, 90, 205, 0.2); box-shadow: 0 4px 12px rgba(106, 90, 205, 0.15);">
+                <div class="stage-number" style="background: linear-gradient(135deg, rgba(106, 90, 205, 0.9), rgba(147, 112, 219, 0.9)); color: white; padding: 8px 20px; border-radius: 20px; display: inline-block; box-shadow: 0 2px 8px rgba(106, 90, 205, 0.3);">Stage 14</div>
+                <div class="stage-title">sin(x) を 1 に</div>
+                <div class="stage-description">sin(x) を 1 に変換</div>
+                <div class="stage-info">
+                    <div>難易度: ★★★★★</div>
+                    <div>制限ターン: 4ターン</div>
+                    <div id="stage14-record" style="color: var(--accent-main); font-weight: 600; margin-top: 8px;">最速クリア: 未挑戦</div>
+                </div>
+            </div>
+
+            <div class="stage-card" onclick="startStage(15)" style="background: linear-gradient(135deg, rgba(106, 90, 205, 0.12), rgba(147, 112, 219, 0.08)); backdrop-filter: blur(10px); border: 1px solid rgba(106, 90, 205, 0.2); box-shadow: 0 4px 12px rgba(106, 90, 205, 0.15);">
+                <div class="stage-number" style="background: linear-gradient(135deg, rgba(106, 90, 205, 0.9), rgba(147, 112, 219, 0.9)); color: white; padding: 8px 20px; border-radius: 20px; display: inline-block; box-shadow: 0 2px 8px rgba(106, 90, 205, 0.3);">Stage 15</div>
+                <div class="stage-title">cos(x) を 0 に</div>
+                <div class="stage-description">cos(x) を 0 に変換</div>
+                <div class="stage-info">
+                    <div>難易度: ★★★★★</div>
+                    <div>制限ターン: 4ターン</div>
+                    <div id="stage15-record" style="color: var(--accent-main); font-weight: 600; margin-top: 8px;">最速クリア: 未挑戦</div>
+                </div>
+            </div>
+
+            <div class="stage-card" onclick="startStage(16)" style="background: linear-gradient(135deg, rgba(106, 90, 205, 0.12), rgba(147, 112, 219, 0.08)); backdrop-filter: blur(10px); border: 1px solid rgba(106, 90, 205, 0.2); box-shadow: 0 4px 12px rgba(106, 90, 205, 0.15);">
+                <div class="stage-number" style="background: linear-gradient(135deg, rgba(106, 90, 205, 0.9), rgba(147, 112, 219, 0.9)); color: white; padding: 8px 20px; border-radius: 20px; display: inline-block; box-shadow: 0 2px 8px rgba(106, 90, 205, 0.3);">Stage 16</div>
+                <div class="stage-title">sin(x) + 3 を 0 に</div>
+                <div class="stage-description">sin(x) + 3 を 0 に変換</div>
+                <div class="stage-info">
+                    <div>難易度: ★★★★★</div>
+                    <div>制限ターン: 4ターン</div>
+                    <div id="stage16-record" style="color: var(--accent-main); font-weight: 600; margin-top: 8px;">最速クリア: 未挑戦</div>
+                </div>
+            </div>
+
+            <div class="stage-card" onclick="startStage(17)" style="background: linear-gradient(135deg, rgba(106, 90, 205, 0.12), rgba(147, 112, 219, 0.08)); backdrop-filter: blur(10px); border: 1px solid rgba(106, 90, 205, 0.2); box-shadow: 0 4px 12px rgba(106, 90, 205, 0.15);">
+                <div class="stage-number" style="background: linear-gradient(135deg, rgba(106, 90, 205, 0.9), rgba(147, 112, 219, 0.9)); color: white; padding: 8px 20px; border-radius: 20px; display: inline-block; box-shadow: 0 2px 8px rgba(106, 90, 205, 0.3);">Stage 17</div>
+                <div class="stage-title">e^x を 1 に (対数経由)</div>
+                <div class="stage-description">e^x を 1 に変換（対数を使用）</div>
+                <div class="stage-info">
+                    <div>難易度: ★★★★★</div>
+                    <div>制限ターン: 4ターン</div>
+                    <div id="stage17-record" style="color: var(--accent-main); font-weight: 600; margin-top: 8px;">最速クリア: 未挑戦</div>
+                </div>
+            </div>
+
+            <div class="stage-card" onclick="startStage(18)" style="background: linear-gradient(135deg, rgba(106, 90, 205, 0.12), rgba(147, 112, 219, 0.08)); backdrop-filter: blur(10px); border: 1px solid rgba(106, 90, 205, 0.2); box-shadow: 0 4px 12px rgba(106, 90, 205, 0.15);">
+                <div class="stage-number" style="background: linear-gradient(135deg, rgba(106, 90, 205, 0.9), rgba(147, 112, 219, 0.9)); color: white; padding: 8px 20px; border-radius: 20px; display: inline-block; box-shadow: 0 2px 8px rgba(106, 90, 205, 0.3);">Stage 18</div>
+                <div class="stage-title">cos(x) を 1 に</div>
+                <div class="stage-description">cos(x) を 1 に変換</div>
+                <div class="stage-info">
+                    <div>難易度: ★★★★★</div>
+                    <div>制限ターン: 4ターン</div>
+                    <div id="stage18-record" style="color: var(--accent-main); font-weight: 600; margin-top: 8px;">最速クリア: 未挑戦</div>
+                </div>
+            </div>
+
+            <div class="stage-card" onclick="startStage(19)" style="background: linear-gradient(135deg, rgba(106, 90, 205, 0.12), rgba(147, 112, 219, 0.08)); backdrop-filter: blur(10px); border: 1px solid rgba(106, 90, 205, 0.2); box-shadow: 0 4px 12px rgba(106, 90, 205, 0.15);">
+                <div class="stage-number" style="background: linear-gradient(135deg, rgba(106, 90, 205, 0.9), rgba(147, 112, 219, 0.9)); color: white; padding: 8px 20px; border-radius: 20px; display: inline-block; box-shadow: 0 2px 8px rgba(106, 90, 205, 0.3);">Stage 19</div>
+                <div class="stage-title">sin(x) を 0 に (連鎖)</div>
+                <div class="stage-description">sin(x) を 0 に変換（積分→微分）</div>
+                <div class="stage-info">
+                    <div>難易度: ★★★★★</div>
+                    <div>制限ターン: 5ターン</div>
+                    <div id="stage19-record" style="color: var(--accent-main); font-weight: 600; margin-top: 8px;">最速クリア: 未挑戦</div>
+                </div>
+            </div>
+
+            <div class="stage-card" onclick="startStage(20)" style="background: linear-gradient(135deg, rgba(106, 90, 205, 0.12), rgba(147, 112, 219, 0.08)); backdrop-filter: blur(10px); border: 1px solid rgba(106, 90, 205, 0.2); box-shadow: 0 4px 12px rgba(106, 90, 205, 0.15);">
+                <div class="stage-number" style="background: linear-gradient(135deg, rgba(106, 90, 205, 0.9), rgba(147, 112, 219, 0.9)); color: white; padding: 8px 20px; border-radius: 20px; display: inline-block; box-shadow: 0 2px 8px rgba(106, 90, 205, 0.3);">Stage 20</div>
+                <div class="stage-title">cos(x) を 0 に (総合)</div>
+                <div class="stage-description">cos(x) を 0 に変換（全技術使用）</div>
+                <div class="stage-info">
+                    <div>難易度: ★★★★★</div>
+                    <div>制限ターン: 6ターン</div>
+                    <div id="stage20-record" style="color: var(--accent-main); font-weight: 600; margin-top: 8px;">最速クリア: 未挑戦</div>
+                </div>
+            </div>
+
+            <div class="stage-card" onclick="window.open('https://t4n-36.github.io/def/', '_blank')" style="background: linear-gradient(135deg, rgba(255, 215, 0, 0.12), rgba(255, 165, 0, 0.08)); backdrop-filter: blur(10px); border: 1px solid rgba(255, 165, 0, 0.3); box-shadow: 0 4px 12px rgba(255, 165, 0, 0.2);">
+                <div class="stage-number" style="background: linear-gradient(135deg, rgba(255, 165, 0, 0.9), rgba(255, 140, 0, 0.9)); color: white; padding: 8px 20px; border-radius: 20px; display: inline-block; box-shadow: 0 2px 8px rgba(255, 165, 0, 0.4);">🌟 Extra</div>
+                <div class="stage-title">複素関数エクスプローラー</div>
+                <div class="stage-description">複素平面上で関数を視覚的に探索しよう</div>
+                <div class="stage-info">
+                    <div style="color: #ff8c00; font-weight: 600;">🔗 外部リンク</div>
+                    <div style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 4px;">クリックで新しいタブで開きます</div>
                 </div>
             </div>
         </div>
@@ -1037,23 +1162,23 @@
                 name: '代入の基本',
                 difficulty: 1,
                 enemyFunction: { coefficient: 1, exponent: 2, constant: -9 }, // x² - 9
-                initialHand: ['substitute', 'substitute', 'substitute', 'plus'],
-                cardQueue: ['substitute', 'plus', 'substitute'],
+                initialHand: ['substitute', 'substitute', 'plus', 'substitute'],
+                cardQueue: ['substitute', 'plus', 'substitute', 'plus'],
                 maxTurns: 4,
                 clearCondition: 'target',
                 targetFunction: { coefficient: 0, exponent: 0, constant: 0 }, // 0
-                description: 'x=3を代入して0にしよう'
+                description: '代入カードを合成して0にしよう'
             },
             2: {
-                name: '四則演算',
+                name: '合成の練習',
                 difficulty: 1,
-                enemyFunction: { coefficient: 2, exponent: 1, constant: -6 }, // 2x - 6
-                initialHand: ['substitute', 'substitute', 'substitute', 'plus'],
-                cardQueue: ['plus', 'substitute', 'plus'],
-                maxTurns: 4,
+                enemyFunction: { coefficient: 0.5, exponent: 2, constant: -5 }, // (1/2)x² - 5
+                initialHand: ['multiply', 'plus', 'substitute', 'substitute'],
+                cardQueue: ['substitute', 'derivative', 'substitute', 'substitute', 'plus'],
+                maxTurns: 6,
                 clearCondition: 'target',
                 targetFunction: { coefficient: 0, exponent: 0, constant: 0 }, // 0
-                description: 'x=3を代入して0にしよう'
+                description: '×2と+1を使って、代入で0にしよう'
             },
             3: {
                 name: '係数を揃える',
@@ -1070,34 +1195,34 @@
                 name: '微分の導入',
                 difficulty: 2,
                 enemyFunction: { coefficient: 1, exponent: 3, constant: 0 }, // x³
-                initialHand: ['derivative', 'derivative', 'derivative', 'substitute'],
-                cardQueue: ['plus', 'substitute', 'plus'],
+                initialHand: ['derivative', 'derivative', 'derivative', 'plus'],
+                cardQueue: ['plus', 'plus', 'plus'],
                 maxTurns: 4,
                 clearCondition: 'target',
-                targetFunction: { coefficient: 0, exponent: 0, constant: 0 }, // 0
-                description: '微分3回→x=0で0'
+                targetFunction: { coefficient: 0, exponent: 0, constant: 6 }, // 6
+                description: '微分を使って関数を変換しよう'
             },
             5: {
                 name: '積分の理解',
                 difficulty: 2,
                 enemyFunction: { coefficient: 6, exponent: 1, constant: 0 }, // 6x
-                initialHand: ['integral', 'substitute', 'plus', 'derivative'],
-                cardQueue: ['plus', 'substitute', 'plus'],
+                initialHand: ['integral', 'plus', 'derivative', 'multiply'],
+                cardQueue: ['plus', 'plus', 'plus'],
                 maxTurns: 4,
                 clearCondition: 'target',
-                targetFunction: { coefficient: 0, exponent: 0, constant: 0 }, // 0
-                description: '積分→x=0で0'
+                targetFunction: { coefficient: 3, exponent: 2, constant: 0 }, // 3x²
+                description: '積分を使って関数を変換しよう'
             },
             6: {
-                name: '係数の調整',
+                name: '微分の応用',
                 difficulty: 3,
-                enemyFunction: { coefficient: 1, exponent: 3, constant: 0 }, // x³
-                initialHand: ['derivative', 'multiply', 'multiply', 'derivative'],
+                enemyFunction: { coefficient: 1, exponent: 4, constant: 0 }, // x⁴
+                initialHand: ['derivative', 'derivative', 'derivative', 'multiply'],
                 cardQueue: ['plus', 'substitute', 'plus'],
                 maxTurns: 5,
                 clearCondition: 'target',
-                targetFunction: { coefficient: 12, exponent: 1, constant: 0 }, // 12x
-                description: '微分2回→×2で12x'
+                targetFunction: { coefficient: 24, exponent: 1, constant: 0 }, // 24x
+                description: '微分を3回使って変換しよう'
             },
             7: {
                 name: '積分で構築',
@@ -1108,40 +1233,150 @@
                 maxTurns: 4,
                 clearCondition: 'target',
                 targetFunction: { coefficient: 4, exponent: 2, constant: 0 }, // 4x²
-                description: '積分→×4で4x²'
+                description: '積分と×2を組み合わせよう'
             },
             8: {
                 name: '指数関数とlog',
                 difficulty: 4,
                 enemyFunction: { coefficient: 1, exponent: 1, constant: 0, funcType: 'exp' }, // e^x
                 initialHand: ['logify', 'substitute', 'plus', 'derivative'],
-                cardQueue: ['plus', 'substitute', 'plus'],
+                cardQueue: ['plus', 'plus', 'plus'],
                 maxTurns: 4,
                 clearCondition: 'target',
-                targetFunction: { coefficient: 0, exponent: 0, constant: 0 }, // 0
-                description: 'log_e変換→x=0で0'
+                targetFunction: { coefficient: 0, exponent: 0, constant: 1 }, // 1
+                description: 'log_eを活用して変換しよう'
             },
             9: {
                 name: 'sin関数の制御',
                 difficulty: 4,
                 enemyFunction: { coefficient: 1, exponent: 1, constant: 0, funcType: 'sin' }, // sin(x)
                 initialHand: ['substitute_pi', 'plus', 'derivative', 'substitute'],
-                cardQueue: ['plus', 'substitute', 'plus'],
+                cardQueue: ['plus', 'plus', 'plus'],
                 maxTurns: 3,
                 clearCondition: 'target',
                 targetFunction: { coefficient: 0, exponent: 0, constant: 0 }, // 0
-                description: 'x=πで0にする'
+                description: 'sin関数を0にしよう'
             },
             10: {
-                name: '究極の変換',
+                name: '三角微分の周期性',
                 difficulty: 5,
-                enemyFunction: { coefficient: 1, exponent: 3, constant: 0 }, // x³
-                initialHand: ['derivative', 'derivative', 'derivative', 'substitute'],
-                cardQueue: ['plus', 'expify', 'logify'],
+                enemyFunction: { coefficient: 1, exponent: 1, constant: 0, funcType: 'sin' }, // sin(x)
+                initialHand: ['derivative', 'derivative', 'multiply', 'substitute_pi'],
+                cardQueue: ['plus', 'derivative', 'integral'],
+                maxTurns: 4,
+                clearCondition: 'target',
+                targetFunction: { coefficient: 0, exponent: 0, constant: 0 }, // 0
+                description: '微分を2回使い、係数調整してπ代入で0に'
+            },
+            11: {
+                name: '2sin(x) + 3 を 0 に',
+                difficulty: 7,
+                enemyFunction: { coefficient: 2, exponent: 1, constant: 3, funcType: 'sin' }, // 2sin(x) + 3
+                initialHand: ['derivative', 'derivative', 'limit_zero', 'plus'],
+                cardQueue: ['plus', 'plus', 'plus'],
+                maxTurns: 4,
+                clearCondition: 'target',
+                targetFunction: { coefficient: 0, exponent: 0, constant: 0 }, // 0
+                description: '2sin(x) + 3 を 0 に変換'
+            },
+            12: {
+                name: '-cos(x) を -1 に',
+                difficulty: 7,
+                enemyFunction: { coefficient: -1, exponent: 1, constant: 0, funcType: 'cos' }, // -cos(x)
+                initialHand: ['derivative', 'derivative', 'limit_zero', 'plus'],
+                cardQueue: ['plus'],
+                maxTurns: 3,
+                clearCondition: 'target',
+                targetFunction: { coefficient: 0, exponent: 0, constant: -1 }, // -1
+                description: '-cos(x) を -1 に変換'
+            },
+            13: {
+                name: 'e^x を 1 に',
+                difficulty: 8,
+                enemyFunction: { coefficient: 1, exponent: 1, constant: 0, funcType: 'exp' }, // e^x
+                initialHand: ['derivative', 'derivative', 'limit_zero', 'plus'],
+                cardQueue: ['plus'],
+                maxTurns: 3,
+                clearCondition: 'target',
+                targetFunction: { coefficient: 0, exponent: 0, constant: 1 }, // 1
+                description: 'e^x を 1 に変換'
+            },
+            14: {
+                name: 'sin(x) を 1 に',
+                difficulty: 8,
+                enemyFunction: { coefficient: 1, exponent: 1, constant: 0, funcType: 'sin' }, // sin(x)
+                initialHand: ['integral', 'integral', 'derivative', 'derivative'],
+                cardQueue: ['limit_zero', 'plus'],
+                maxTurns: 4,
+                clearCondition: 'target',
+                targetFunction: { coefficient: 0, exponent: 0, constant: 1 }, // 1
+                description: 'sin(x) を 1 に変換'
+            },
+            15: {
+                name: 'cos(x) を 0 に',
+                difficulty: 9,
+                enemyFunction: { coefficient: 1, exponent: 1, constant: 0, funcType: 'cos' }, // cos(x)
+                initialHand: ['derivative', 'derivative', 'limit_zero', 'substitute_pi'],
+                cardQueue: ['plus', 'plus'],
+                maxTurns: 4,
+                clearCondition: 'target',
+                targetFunction: { coefficient: 0, exponent: 0, constant: 0 }, // 0
+                description: 'cos(x) を 0 に変換'
+            },
+            16: {
+                name: 'sin(x) + 3 を 0 に',
+                difficulty: 9,
+                enemyFunction: { coefficient: 1, exponent: 1, constant: 3, funcType: 'sin' }, // sin(x) + 3
+                initialHand: ['derivative', 'derivative', 'limit_zero', 'plus'],
+                cardQueue: ['plus', 'plus'],
+                maxTurns: 4,
+                clearCondition: 'target',
+                targetFunction: { coefficient: 0, exponent: 0, constant: 0 }, // 0
+                description: 'sin(x) + 3 を 0 に変換'
+            },
+            17: {
+                name: 'e^x を 1 に (対数経由)',
+                difficulty: 10,
+                enemyFunction: { coefficient: 1, exponent: 1, constant: 0, funcType: 'exp' }, // e^x
+                initialHand: ['logify', 'derivative', 'derivative', 'limit_zero'],
+                cardQueue: ['plus', 'plus'],
+                maxTurns: 4,
+                clearCondition: 'target',
+                targetFunction: { coefficient: 0, exponent: 0, constant: 1 }, // 1
+                description: 'e^x を 1 に変換（対数を使用）'
+            },
+            18: {
+                name: 'cos(x) を 1 に',
+                difficulty: 10,
+                enemyFunction: { coefficient: 1, exponent: 1, constant: 0, funcType: 'cos' }, // cos(x)
+                initialHand: ['derivative', 'derivative', 'derivative', 'derivative'],
+                cardQueue: ['limit_zero', 'plus'],
+                maxTurns: 4,
+                clearCondition: 'target',
+                targetFunction: { coefficient: 0, exponent: 0, constant: 1 }, // 1
+                description: 'cos(x) を 1 に変換'
+            },
+            19: {
+                name: 'sin(x) を 0 に (連鎖)',
+                difficulty: 11,
+                enemyFunction: { coefficient: 1, exponent: 1, constant: 0, funcType: 'sin' }, // sin(x)
+                initialHand: ['integral', 'integral', 'derivative', 'derivative'],
+                cardQueue: ['derivative', 'derivative', 'limit_zero', 'plus'],
                 maxTurns: 5,
                 clearCondition: 'target',
                 targetFunction: { coefficient: 0, exponent: 0, constant: 0 }, // 0
-                description: '微分3回→x=0で0'
+                description: 'sin(x) を 0 に変換（積分→微分）'
+            },
+            20: {
+                name: 'cos(x) を 0 に (総合)',
+                difficulty: 12,
+                enemyFunction: { coefficient: 1, exponent: 1, constant: 0, funcType: 'cos' }, // cos(x)
+                initialHand: ['integral', 'integral', 'derivative', 'derivative'],
+                cardQueue: ['derivative', 'derivative', 'limit_zero', 'substitute_pi', 'plus'],
+                maxTurns: 6,
+                clearCondition: 'target',
+                targetFunction: { coefficient: 0, exponent: 0, constant: 0 }, // 0
+                description: 'cos(x) を 0 に変換（全技術使用）'
             }
         };
 
@@ -1173,7 +1408,8 @@
             multiply: { name: '×2カード', type: 'multiply', description: '2×f(x)', color: 'multiply' },
             sinify: { name: 'sin変換', type: 'sinify', description: 'sin(f(x))', color: 'sinify' },
             expify: { name: '指数化', type: 'expify', description: 'e^(f(x))', color: 'expify' },
-            logify: { name: '対数化', type: 'logify', description: 'log_e(f(x))', color: 'logify' }
+            logify: { name: '対数化', type: 'logify', description: 'log_e(f(x))', color: 'logify' },
+            limit_zero: { name: '極限(x→0)', type: 'limit_zero', description: 'lim[x→0] f(x)', color: 'limit' }
         };
 
         // ゲーム初期化関数
@@ -1250,10 +1486,11 @@
 
                 // カード中央の効果表示
                 const centerEffect = getCardCenterEffect(card);
+                const displayName = getCardDisplayName(card);
 
                 cardElement.innerHTML = `
                     <div class="card-level ${levelClass}">Lv${card.level}</div>
-                    <div class="card-name">${card.name}</div>
+                    <div class="card-name">${displayName}</div>
                     <div class="card-effect">${centerEffect}</div>
                     <div class="card-description">${getCardDescription(card)}</div>
                 `;
@@ -1285,9 +1522,21 @@
                     return '1/f(x)';
                 }
             } else if (card.type === 'derivative') {
-                return card.level === 1 ? "d/dx" : `d${card.level}/dx${card.level}`;
+                if (card.level === 1) {
+                    return "d/dx";
+                } else if (card.level === 2) {
+                    return "Σa<sub>n</sub>x<sup>n</sup>/n!";  // マクローリン展開の公式
+                } else {
+                    return `d${card.level}/dx${card.level}`;
+                }
             } else if (card.type === 'integral') {
-                return card.level === 1 ? "∫dx" : `${'∫'.repeat(card.level)}dx`;
+                if (card.level === 1) {
+                    return "∫dx";
+                } else if (card.level === 2) {
+                    return "∫<sub>特殊</sub>";  // 特殊積分
+                } else {
+                    return `${'∫'.repeat(card.level)}dx`;
+                }
             } else if (card.type === 'multiply') {
                 return `×${Math.pow(2, card.level)}`;
             } else if (card.type === 'sinify') {
@@ -1296,8 +1545,20 @@
                 return 'e^( )';
             } else if (card.type === 'logify') {
                 return 'log<sub>e</sub>( )';
+            } else if (card.type === 'limit_zero') {
+                return 'lim<br><span style="font-size:0.7em;">x→0</span>';
             }
             return '';
+        }
+
+        // カードの表示名を取得（レベルに応じて変化）
+        function getCardDisplayName(card) {
+            if (card.type === 'derivative' && card.level === 2) {
+                return 'マクローリン展開';
+            } else if (card.type === 'integral' && card.level === 2) {
+                return '特殊積分';
+            }
+            return card.name;
         }
 
         // カードの説明文を取得
@@ -1314,10 +1575,11 @@
                 return 'f(x) → 1/f(x)';
             } else if (card.type === 'derivative') {
                 if (card.level === 1) return "f(x) → f'(x)";
-                if (card.level === 2) return "f(x) → f''(x)";
+                if (card.level === 2) return "マクローリン展開";
                 return `f(x) → f${"'".repeat(card.level)}(x)`;
             } else if (card.type === 'integral') {
                 if (card.level === 1) return 'f(x) → ∫f(x)dx';
+                if (card.level === 2) return '特殊積分';
                 return `f(x) → ${'∫'.repeat(card.level)}f(x)${'dx'.repeat(card.level)}`;
             } else if (card.type === 'multiply') {
                 const multiplier = Math.pow(2, card.level);
@@ -1328,6 +1590,8 @@
                 return 'f(x) → e^(f(x))';
             } else if (card.type === 'logify') {
                 return 'f(x) → log_e(f(x))';
+            } else if (card.type === 'limit_zero') {
+                return 'lim[x→0] f(x)';
             }
             return card.description;
         }
@@ -1376,15 +1640,18 @@
             // 操作後の関数を記録
             const afterFunc = formatFunction({...gameState.enemyFunction}, 'g');
             
+            // 表示名を取得
+            const displayName = getCardDisplayName(card);
+            
             // 操作履歴に追加
             gameState.operationHistory.push({
-                cardName: card.name,
+                cardName: displayName,
                 before: beforeFunc,
                 after: afterFunc,
                 turn: gameState.maxTurns - gameState.remainingTurns + 1
             });
             
-            addLog(`${card.name} を使用`);
+            addLog(`${displayName} を使用`);
 
             // カードを手札から削除
             gameState.hand.splice(gameState.selectedCardIndex, 1);
@@ -1426,78 +1693,39 @@
             }
         }
 
+        // 特殊関数にxを代入して定数に変換するヘルパー
+        function evaluateSpecialFunc(funcType, x) {
+            switch(funcType) {
+                case 'sin':     return Math.sin(x);
+                case 'cos':     return Math.cos(x);
+                case 'neg_sin': return -Math.sin(x);
+                case 'neg_cos': return -Math.cos(x);
+                case 'exp':     return Math.exp(x);
+                case 'log':     return Math.log(x);
+                default:        return null;
+            }
+        }
+
         // カード効果を適用
         function applyCardEffect(card, func) {
             if (card.type === 'plus') {
-                // 特殊関数には効かない（通常関数のみ）
-                if (!func.funcType) {
-                    func.constant += card.level;
-                }
-            } else if (card.type === 'substitute') {
-                // x=card.level を代入
-                const x = card.level;
+                // 全ての関数に定数を足せる
+                func.constant += card.level;
+            } else if (card.type === 'substitute' || card.type === 'substitute_pi') {
+                // 代入: x = n または x = π
+                const x = (card.type === 'substitute_pi') ? Math.PI : card.level;
                 
-                if (func.funcType === 'sin') {
-                    const result = Math.sin(x);
-                    delete func.funcType;
-                    func.coefficient = result;
-                    func.exponent = 0;
-                    func.constant = 0;
-                } else if (func.funcType === 'cos') {
-                    const result = Math.cos(x);
-                    delete func.funcType;
-                    func.coefficient = result;
-                    func.exponent = 0;
-                    func.constant = 0;
-                } else if (func.funcType === 'exp') {
-                    const result = Math.exp(x);
-                    delete func.funcType;
-                    func.coefficient = result;
-                    func.exponent = 0;
-                    func.constant = 0;
-                } else if (func.funcType === 'log') {
-                    const result = Math.log(x);
+                if (func.funcType) {
+                    // 特殊関数の代入: coef*f(x) + const
+                    const coef = func.coefficient;
+                    const cnst = func.constant;
+                    const result = coef * evaluateSpecialFunc(func.funcType, x) + cnst;
                     delete func.funcType;
                     func.coefficient = result;
                     func.exponent = 0;
                     func.constant = 0;
                 } else {
-                    // 通常の多項式
-                    const result = func.coefficient * Math.pow(x, func.exponent) + func.constant;
-                    func.coefficient = result;
-                    func.exponent = 0;
-                    func.constant = 0;
-                }
-            } else if (card.type === 'substitute_pi') {
-                // x=π を代入
-                const x = Math.PI;
-                
-                if (func.funcType === 'sin') {
-                    const result = Math.sin(x);
-                    delete func.funcType;
-                    func.coefficient = result;
-                    func.exponent = 0;
-                    func.constant = 0;
-                } else if (func.funcType === 'cos') {
-                    const result = Math.cos(x);
-                    delete func.funcType;
-                    func.coefficient = result;
-                    func.exponent = 0;
-                    func.constant = 0;
-                } else if (func.funcType === 'exp') {
-                    const result = Math.exp(x);
-                    delete func.funcType;
-                    func.coefficient = result;
-                    func.exponent = 0;
-                    func.constant = 0;
-                } else if (func.funcType === 'log') {
-                    const result = Math.log(x);
-                    delete func.funcType;
-                    func.coefficient = result;
-                    func.exponent = 0;
-                    func.constant = 0;
-                } else {
-                    // 通常の多項式
+                    // 通常の多項式の代入
                     const result = func.coefficient * Math.pow(x, func.exponent) + func.constant;
                     func.coefficient = result;
                     func.exponent = 0;
@@ -1505,16 +1733,13 @@
                 }
             } else if (card.type === 'inverse') {
                 if (card.level % 2 === 1) {
-                    // 逆数化（簡易版）
                     if (func.exponent === 0) {
-                        // 定数の場合
                         const value = func.coefficient + func.constant;
                         if (value !== 0) {
                             func.coefficient = 1 / value;
                             func.constant = 0;
                         }
                     } else {
-                        // 一般の場合（簡易的に係数の逆数）
                         if (func.coefficient !== 0) {
                             func.coefficient = 1 / func.coefficient;
                             func.exponent = -func.exponent;
@@ -1524,24 +1749,67 @@
                         }
                     }
                 }
-                // レベル2（偶数）なら何もしない（無効化）
             } else if (card.type === 'derivative') {
-                // 微分
-                if (func.funcType === 'sin') {
-                    // sin(x) → cos(x)
-                    func.funcType = 'cos';
-                } else if (func.funcType === 'cos') {
-                    // cos(x) → -sin(x) (簡易版: 0にする)
-                    delete func.funcType;
-                    func.coefficient = 0;
-                    func.exponent = 0;
-                    func.constant = 0;
-                } else if (func.funcType === 'exp') {
-                    // e^x → e^x (変化なし)
-                    // 何もしない
+                if (card.level >= 2) {
+                    // ===== 微分Lv2: マクローリン展開 =====
+                    if (func.funcType === 'sin') {
+                        // coef*sin(x) + const → coef*x + const
+                        const coef = func.coefficient;
+                        const cnst = func.constant;
+                        delete func.funcType;
+                        func.coefficient = coef;
+                        func.exponent = 1;
+                        func.constant = cnst;
+                    } else if (func.funcType === 'cos') {
+                        // coef*cos(x) + const → coef*(1 - x²/2) + const = coef - coef*x²/2 + const
+                        const coef = func.coefficient;
+                        const cnst = func.constant;
+                        delete func.funcType;
+                        func.coefficient = -coef * 0.5;
+                        func.exponent = 2;
+                        func.constant = coef + cnst;
+                    } else if (func.funcType === 'neg_sin') {
+                        // coef*(-sin(x)) + const → coef*(-x) + const = -coef*x + const
+                        const coef = func.coefficient;
+                        const cnst = func.constant;
+                        delete func.funcType;
+                        func.coefficient = -coef;
+                        func.exponent = 1;
+                        func.constant = cnst;
+                    } else if (func.funcType === 'neg_cos') {
+                        // coef*(-cos(x)) + const → coef*(-(1 - x²/2)) + const = -coef + coef*x²/2 + const
+                        const coef = func.coefficient;
+                        const cnst = func.constant;
+                        delete func.funcType;
+                        func.coefficient = coef * 0.5;
+                        func.exponent = 2;
+                        func.constant = -coef + cnst;
+                    } else if (func.funcType === 'exp') {
+                        // coef*e^x + const → coef*(1 + x) + const = coef*x + (coef + const)
+                        const coef = func.coefficient;
+                        const cnst = func.constant;
+                        delete func.funcType;
+                        func.coefficient = coef;
+                        func.exponent = 1;
+                        func.constant = coef + cnst;
+                    } else {
+                        // 多項式はそのまま（変化なし）
+                    }
                 } else {
-                    // 通常の微分: ax^n + c → n*a*x^(n-1)
-                    for (let i = 0; i < card.level; i++) {
+                    // ===== 微分Lv1: 通常微分 =====
+                    // 三角関数の微分サイクル: sin→cos→-sin→-cos→sin
+                    if (func.funcType === 'sin') {
+                        func.funcType = 'cos';
+                    } else if (func.funcType === 'cos') {
+                        func.funcType = 'neg_sin';
+                    } else if (func.funcType === 'neg_sin') {
+                        func.funcType = 'neg_cos';
+                    } else if (func.funcType === 'neg_cos') {
+                        func.funcType = 'sin';
+                    } else if (func.funcType === 'exp') {
+                        // e^x → e^x (変化なし)
+                    } else {
+                        // 通常の微分: ax^n + c → n*a*x^(n-1)
                         if (func.exponent > 0) {
                             func.coefficient = func.coefficient * func.exponent;
                             func.exponent = func.exponent - 1;
@@ -1554,40 +1822,94 @@
                     }
                 }
             } else if (card.type === 'integral') {
-                // 積分: ax^n → a/(n+1)*x^(n+1) (定数項は無視)
-                for (let i = 0; i < card.level; i++) {
-                    func.coefficient = func.coefficient / (func.exponent + 1);
-                    func.exponent = func.exponent + 1;
-                    // 積分定数は追加しない（簡易版）
+                if (card.level >= 2) {
+                    // ===== 積分Lv2: 特殊積分（三角関数の反導関数） =====
+                    // 積分サイクル: sin→-cos→-sin→cos→sin
+                    if (func.funcType === 'sin') {
+                        func.funcType = 'neg_cos';
+                    } else if (func.funcType === 'cos') {
+                        func.funcType = 'sin';
+                    } else if (func.funcType === 'neg_sin') {
+                        func.funcType = 'cos';
+                    } else if (func.funcType === 'neg_cos') {
+                        func.funcType = 'neg_sin';
+                    } else if (func.funcType === 'exp') {
+                        // e^x の積分も e^x
+                    } else {
+                        // 多項式は通常の積分と同じ
+                        func.coefficient = func.coefficient / (func.exponent + 1);
+                        func.exponent = func.exponent + 1;
+                    }
+                } else {
+                    // ===== 積分Lv1: 通常積分 =====
+                    // 特殊関数には効かない（Lv2が必要）
+                    if (!func.funcType) {
+                        func.coefficient = func.coefficient / (func.exponent + 1);
+                        func.exponent = func.exponent + 1;
+                    }
                 }
             } else if (card.type === 'multiply') {
-                // 係数倍
                 const multiplier = Math.pow(2, card.level);
+                // 全ての関数に係数をかけられる
                 func.coefficient = func.coefficient * multiplier;
                 func.constant = func.constant * multiplier;
             } else if (card.type === 'sinify') {
-                // sin変換（簡易版: 多項式 → sin関数扱い）
                 func.funcType = 'sin';
-                func.coefficient = 1;
-                func.exponent = 1;
-                func.constant = 0;
+                func.coefficient = 1; func.exponent = 1; func.constant = 0;
             } else if (card.type === 'expify') {
-                // 指数化（簡易版: 多項式 → 指数関数扱い）
                 func.funcType = 'exp';
-                func.coefficient = 1;
-                func.exponent = 1;
-                func.constant = 0;
+                func.coefficient = 1; func.exponent = 1; func.constant = 0;
             } else if (card.type === 'logify') {
-                // 対数化（簡易版: e^x → x など逆変換）
                 if (func.funcType === 'exp') {
                     delete func.funcType;
-                    func.coefficient = 1;
-                    func.exponent = 1;
-                    func.constant = 0;
+                    func.coefficient = 1; func.exponent = 1; func.constant = 0;
                 } else {
                     func.funcType = 'log';
-                    func.coefficient = 1;
-                    func.exponent = 1;
+                    func.coefficient = 1; func.exponent = 1; func.constant = 0;
+                }
+            } else if (card.type === 'limit_zero') {
+                // 極限 x→0 の計算
+                // sin(x) → 0, cos(x) → 1, e^x → 1, x^n → 0, const → const
+                if (func.funcType) {
+                    // 特殊関数の極限
+                    const cnst = func.constant;  // 定数項は保持
+                    if (func.funcType === 'sin' || func.funcType === 'neg_sin') {
+                        // sin(x) → 0, -sin(x) → 0
+                        delete func.funcType;
+                        func.coefficient = 0;
+                        func.exponent = 0;
+                        func.constant = cnst;
+                    } else if (func.funcType === 'cos') {
+                        // cos(x) → 1
+                        const coef = func.coefficient;
+                        delete func.funcType;
+                        func.coefficient = coef;  // 係数×1 = 係数
+                        func.exponent = 0;
+                        func.constant = cnst;
+                    } else if (func.funcType === 'neg_cos') {
+                        // -cos(x) → -1
+                        const coef = func.coefficient;
+                        delete func.funcType;
+                        func.coefficient = -coef;  // 係数×(-1) = -係数
+                        func.exponent = 0;
+                        func.constant = cnst;
+                    } else if (func.funcType === 'exp') {
+                        // e^x → 1
+                        const coef = func.coefficient;
+                        delete func.funcType;
+                        func.coefficient = coef;  // 係数×1 = 係数
+                        func.exponent = 0;
+                        func.constant = cnst;
+                    } else {
+                        delete func.funcType;
+                        func.coefficient = 0;
+                        func.exponent = 0;
+                        func.constant = cnst;
+                    }
+                } else {
+                    // 多項式の極限: x→0 で定数項のみ残る
+                    func.coefficient = func.constant;
+                    func.exponent = 0;
                     func.constant = 0;
                 }
             }
@@ -1611,15 +1933,67 @@
 
         // 関数を整形
         function formatFunction(func, fname) {
-            // 特殊関数タイプの処理
-            if (func.funcType === 'sin') {
-                return `${fname}(x) = sin(x)`;
-            } else if (func.funcType === 'cos') {
-                return `${fname}(x) = cos(x)`;
-            } else if (func.funcType === 'exp') {
-                return `${fname}(x) = e<sup>x</sup>`;
-            } else if (func.funcType === 'log') {
-                return `${fname}(x) = log<sub>e</sub>(x)`;
+            // 特殊関数タイプの処理（係数と定数項も考慮）
+            if (func.funcType === 'sin' || func.funcType === 'cos' || 
+                func.funcType === 'neg_sin' || func.funcType === 'neg_cos' || 
+                func.funcType === 'exp' || func.funcType === 'log') {
+                
+                let result = `${fname}(x) = `;
+                
+                // 係数部分
+                let coeffPart = '';
+                if (func.coefficient === 1) {
+                    coeffPart = '';
+                } else if (func.coefficient === -1) {
+                    coeffPart = '−';
+                } else if (func.coefficient === 0) {
+                    // 係数0の場合は定数項のみ
+                    const constValue = func.constant;
+                    if (Number.isInteger(constValue)) {
+                        return result + constValue;
+                    } else {
+                        return result + formatFraction(constValue);
+                    }
+                } else {
+                    if (Number.isInteger(func.coefficient)) {
+                        coeffPart = func.coefficient.toString();
+                    } else {
+                        if (func.coefficient < 0) {
+                            coeffPart = '−' + formatFraction(-func.coefficient);
+                        } else {
+                            coeffPart = formatFraction(func.coefficient);
+                        }
+                    }
+                }
+                
+                // 関数本体
+                let funcPart = '';
+                if (func.funcType === 'sin') {
+                    funcPart = 'sin(x)';
+                } else if (func.funcType === 'cos') {
+                    funcPart = 'cos(x)';
+                } else if (func.funcType === 'neg_sin') {
+                    funcPart = '−sin(x)';
+                } else if (func.funcType === 'neg_cos') {
+                    funcPart = '−cos(x)';
+                } else if (func.funcType === 'exp') {
+                    funcPart = 'e<sup>x</sup>';
+                } else if (func.funcType === 'log') {
+                    funcPart = 'log<sub>e</sub>(x)';
+                }
+                
+                result += coeffPart + funcPart;
+                
+                // 定数項
+                if (func.constant !== 0) {
+                    if (func.constant > 0) {
+                        result += ' + ' + (Number.isInteger(func.constant) ? func.constant : formatFraction(func.constant));
+                    } else {
+                        result += ' − ' + (Number.isInteger(-func.constant) ? -func.constant : formatFraction(-func.constant));
+                    }
+                }
+                
+                return result;
             }
             
             let result = `${fname}(x) = `;
@@ -1638,11 +2012,21 @@
             }
 
             // 係数
-            if (func.coefficient !== 1 || func.exponent === 0) {
+            if (func.coefficient === 1) {
+                // 係数1は省略（何も書かない）
+            } else if (func.coefficient === -1) {
+                // 係数-1は「−」だけ
+                result += '−';
+            } else {
                 if (Number.isInteger(func.coefficient)) {
                     result += func.coefficient;
                 } else {
-                    result += formatFraction(func.coefficient);
+                    // 負の分数の場合は −分数 にする
+                    if (func.coefficient < 0) {
+                        result += '−' + formatFraction(-func.coefficient);
+                    } else {
+                        result += formatFraction(func.coefficient);
+                    }
                 }
             }
 
@@ -1821,9 +2205,21 @@
             // target条件: 指定の関数に一致
             if (clearCondition === 'target' && stage.targetFunction) {
                 const target = stage.targetFunction;
-                if (Math.abs(func.coefficient - target.coefficient) < 0.0001 &&
-                    func.exponent === target.exponent &&
-                    Math.abs(func.constant - target.constant) < 0.0001) {
+                let matched = false;
+
+                if (func.exponent === 0 && target.exponent === 0) {
+                    // 両方が定数の場合: coefficient+constant の合計で比較
+                    const funcVal = func.coefficient + func.constant;
+                    const targetVal = target.coefficient + target.constant;
+                    matched = Math.abs(funcVal - targetVal) < 0.0001;
+                } else {
+                    // 多項式の場合: 各フィールドを個別に比較
+                    matched = Math.abs(func.coefficient - target.coefficient) < 0.0001 &&
+                              func.exponent === target.exponent &&
+                              Math.abs(func.constant - target.constant) < 0.0001;
+                }
+
+                if (matched) {
                     const turnsUsed = gameState.maxTurns - gameState.remainingTurns;
                     const isNewRecord = saveBestClear(gameState.currentStage, turnsUsed);
                     
@@ -2058,61 +2454,125 @@
                     ` : ''}
                 `;
             } else if (card.type === 'derivative') {
+                const isLv2 = card.level >= 2;
                 html = `
                     <div style="margin-bottom: 20px;">
                         <h3 style="color: var(--accent-main); margin-bottom: 10px;">📝 基本説明</h3>
-                        <p>微分は「変化率」を求める操作です。関数の次数（xの肩の数字）を1つ下げます。</p>
+                        <p>微分は「変化率」を求める操作です。関数の次数を1つ下げます。</p>
+                        ${isLv2 ? `<p style="margin-top: 12px; padding: 12px; background: rgba(106,90,205,0.12); border-left: 4px solid #6a5acd; border-radius: 4px;">
+                            <strong style="color: #6a5acd;">⭐ レベル2になると「マクローリン展開」になります！</strong><br>
+                            特殊関数を多項式に変換する強力な操作です。
+                        </p>` : ''}
+                    </div>
+                    ${isLv2 ? `
+                    <div style="margin-bottom: 20px;">
+                        <h3 style="color: #6a5acd; margin-bottom: 10px;">🌟 マクローリン展開とは？</h3>
+                        <p style="margin-bottom: 10px;">任意の関数を「x=0の近くでの多項式」に近似する技法です。</p>
+                        <p style="margin-bottom: 12px;">イメージとして：まるっと複雑な関数を、シンプルなxの式に「解読」するようなものです。</p>
+                        <div style="background: rgba(106,90,205,0.08); padding: 15px; border-radius: 6px; margin-bottom: 12px;">
+                            <p style="font-weight: 600; margin-bottom: 8px; color: #6a5acd;">📐 マクローリン展開の公式:</p>
+                            <p style="text-align: center; font-size: 1.05rem; padding: 10px; background: white; border-radius: 4px;">
+                                f(x) = f(0) + f'(0)x + f''(0)x²/2! + f'''(0)x³/3! + ...
+                            </p>
+                            <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 8px;">
+                                x=0での関数の値と微分係数から、多項式を構成します
+                            </p>
+                        </div>
+                        <div style="background: var(--bg-primary); padding: 15px; border-radius: 6px; margin-top: 10px;">
+                            <p style="font-weight: 600; margin-bottom: 8px; color: #6a5acd;">このゲームでの展開結果:</p>
+                            <p>sin(x) → <strong>x − x³/6 + ...</strong></p>
+                            <p style="color: var(--text-secondary); font-size: 0.85rem; margin-left: 16px;">≈ x (1次近似)</p>
+                            <p style="margin-top: 8px;">cos(x) → <strong>1 − x²/2 + x⁴/24 − ...</strong></p>
+                            <p style="color: var(--text-secondary); font-size: 0.85rem; margin-left: 16px;">≈ 1 − (1/2)x² (2次近似)</p>
+                            <p style="margin-top: 8px;">−sin(x) → <strong>−x + x³/6 − ...</strong></p>
+                            <p style="color: var(--text-secondary); font-size: 0.85rem; margin-left: 16px;">≈ −x (1次近似)</p>
+                            <p style="margin-top: 8px;">−cos(x) → <strong>−1 + x²/2 − x⁴/24 + ...</strong></p>
+                            <p style="color: var(--text-secondary); font-size: 0.85rem; margin-left: 16px;">≈ −1 + (1/2)x² (2次近似)</p>
+                            <p style="margin-top: 8px;">e<sup>x</sup> → <strong>1 + x + x²/2 + x³/6 + ...</strong></p>
+                            <p style="color: var(--text-secondary); font-size: 0.85rem; margin-left: 16px;">≈ 1 + x (1次近似)</p>
+                        </div>
                     </div>
                     <div style="margin-bottom: 20px;">
+                        <h3 style="color: var(--accent-main); margin-bottom: 10px;">🔄 合成方法</h3>
+                        <p>微分Lv1 を <strong>2枚合成</strong> すると、微分Lv2（マクローリン展開）になります。</p>
+                    </div>
+                    ` : `
+                    <div style="margin-bottom: 20px;">
                         <h3 style="color: var(--accent-main); margin-bottom: 10px;">🎯 効果</h3>
-                        <p><strong>f(x) → f'(x)</strong></p>
-                        <p>ax<sup>n</sup> → n × a × x<sup>n-1</sup></p>
+                        <p><strong>多項式:</strong> ax<sup>n</sup> → n × a × x<sup>n−1</sup></p>
+                        <p style="margin-top: 8px;"><strong>三角関数の微分サイクル:</strong></p>
+                        <div style="background: var(--bg-primary); padding: 12px; border-radius: 6px; margin-top: 8px; text-align: center; line-height: 2;">
+                            <p>sin(x) →<strong> cos(x)</strong></p>
+                            <p>cos(x) →<strong> −sin(x)</strong></p>
+                            <p>−sin(x) →<strong> −cos(x)</strong></p>
+                            <p>−cos(x) →<strong> sin(x)</strong>（元に戻る！）</p>
+                        </div>
+                        <p style="margin-top: 8px;"><strong>e<sup>x</sup>:</strong> 微分しても e<sup>x</sup>（変化なし）</p>
                     </div>
                     <div style="margin-bottom: 20px;">
                         <h3 style="color: var(--accent-main); margin-bottom: 10px;">💡 使用例</h3>
                         <div style="background: var(--bg-primary); padding: 15px; border-radius: 6px;">
-                            <p><strong>例1:</strong> x² を微分</p>
-                            <p>→ 2x (次数が2→1に下がる)</p>
-                            <p style="margin-top: 10px;"><strong>例2:</strong> 3x³ を微分</p>
-                            <p>→ 9x² (3 × 3 = 9、次数3→2)</p>
-                            <p style="margin-top: 10px;"><strong>例3:</strong> 5x を微分</p>
-                            <p>→ 5 (定数になる)</p>
+                            <p><strong>例1:</strong> x² を微分 → 2x</p>
+                            <p style="margin-top: 8px;"><strong>例2:</strong> 3x³ を微分 → 9x²</p>
+                            <p style="margin-top: 8px;"><strong>例3:</strong> sin(x) を微分 → cos(x)</p>
                         </div>
                     </div>
-                    <div>
-                        <h3 style="color: var(--accent-main); margin-bottom: 10px;">📊 グラフで理解</h3>
-                        <p>x²のグラフは放物線ですが、微分すると2xになり、これは直線です。</p>
-                        <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 8px;">
-                        💡ヒント: 微分は「グラフの傾き」を表します
-                        </p>
+                    <div style="margin-bottom: 15px;">
+                        <h3 style="color: var(--accent-main); margin-bottom: 10px;">🔄 合成</h3>
+                        <p>2枚合成すると<strong>マクローリン展開</strong>になります。詳細はレベル2で確認できます。</p>
                     </div>
+                    `}
                 `;
             } else if (card.type === 'integral') {
+                const isLv2 = card.level >= 2;
                 html = `
                     <div style="margin-bottom: 20px;">
                         <h3 style="color: var(--accent-main); margin-bottom: 10px;">📝 基本説明</h3>
-                        <p>積分は微分の逆操作です。関数の次数を1つ上げます。</p>
+                        <p>積分は微分の逆操作です。通常は関数の次数を1つ上げます。</p>
+                        ${isLv2 ? `<p style="margin-top: 12px; padding: 12px; background: rgba(106,90,205,0.12); border-left: 4px solid #6a5acd; border-radius: 4px;">
+                            <strong style="color: #6a5acd;">⭐ レベル2になると「特殊積分」になります！</strong><br>
+                            三角関数や指数関数にも対応できるようになります。
+                        </p>` : ''}
                     </div>
+                    ${isLv2 ? `
+                    <div style="margin-bottom: 20px;">
+                        <h3 style="color: #6a5acd; margin-bottom: 10px;">🌟 特殊積分とは？</h3>
+                        <p style="margin-bottom: 10px;">三角関数や指数関数の反導関数（逆操作）を求めます。微分の逆なので、サイクルが逆になります。</p>
+                        <div style="background: var(--bg-primary); padding: 15px; border-radius: 6px; margin-top: 10px;">
+                            <p style="font-weight: 600; margin-bottom: 8px; color: #6a5acd;">三角関数の積分サイクル:</p>
+                            <div style="text-align: center; line-height: 2;">
+                                <p>sin(x) →<strong> −cos(x)</strong></p>
+                                <p>cos(x) →<strong> sin(x)</strong></p>
+                                <p>−sin(x) →<strong> cos(x)</strong></p>
+                                <p>−cos(x) →<strong> −sin(x)</strong></p>
+                            </div>
+                            <p style="margin-top: 10px;"><strong>e<sup>x</sup></strong> の積分も <strong>e<sup>x</sup></strong>（変化なし）</p>
+                        </div>
+                    </div>
+                    <div style="margin-bottom: 20px;">
+                        <h3 style="color: var(--accent-main); margin-bottom: 10px;">🔄 合成方法</h3>
+                        <p>積分Lv1 を <strong>2枚合成</strong> すると、特殊積分になります。</p>
+                    </div>
+                    ` : `
                     <div style="margin-bottom: 20px;">
                         <h3 style="color: var(--accent-main); margin-bottom: 10px;">🎯 効果</h3>
                         <p><strong>f(x) → ∫f(x)dx</strong></p>
                         <p>ax<sup>n</sup> → (a/(n+1)) × x<sup>n+1</sup></p>
+                        <p style="margin-top: 8px; color: var(--text-secondary); font-size: 0.9rem;">※ Lv1では通常の多項式のみ対応。三角関数には効きません。</p>
                     </div>
                     <div style="margin-bottom: 20px;">
                         <h3 style="color: var(--accent-main); margin-bottom: 10px;">💡 使用例</h3>
                         <div style="background: var(--bg-primary); padding: 15px; border-radius: 6px;">
-                            <p><strong>例1:</strong> 2x を積分</p>
-                            <p>→ x² (2÷2=1、次数1→2)</p>
-                            <p style="margin-top: 10px;"><strong>例2:</strong> 6x を積分</p>
-                            <p>→ 3x² (6÷2=3)</p>
-                            <p style="margin-top: 10px;"><strong>例3:</strong> x² を積分</p>
-                            <p>→ (1/3)x³ (1÷3=1/3、次数2→3)</p>
+                            <p><strong>例1:</strong> 2x を積分 → x²</p>
+                            <p style="margin-top: 8px;"><strong>例2:</strong> 6x を積分 → 3x²</p>
+                            <p style="margin-top: 8px;"><strong>例3:</strong> x² を積分 → (1/3)x³</p>
                         </div>
                     </div>
-                    <div>
-                        <h3 style="color: var(--accent-main); margin-bottom: 10px;">📊 グラフで理解</h3>
-                        <p>2xを積分するとx²になります。直線が放物線になるイメージです。</p>
+                    <div style="margin-bottom: 15px;">
+                        <h3 style="color: var(--accent-main); margin-bottom: 10px;">🔄 合成</h3>
+                        <p>2枚合成すると<strong>特殊積分</strong>になります。詳細はレベル2で確認できます。</p>
                     </div>
+                    `}
                 `;
             } else if (card.type === 'multiply') {
                 const multiplier = Math.pow(2, card.level);
@@ -2209,6 +2669,49 @@
                             <p style="margin-top: 12px; color: var(--text-secondary);">
                                 例: e<sup>x</sup> → log<sub>e</sub>化 → x（xに戻る！）
                             </p>
+                        </div>
+                    </div>
+                `;
+            } else if (card.type === 'limit_zero') {
+                html = `
+                    <div style="margin-bottom: 20px;">
+                        <h3 style="color: var(--accent-main); margin-bottom: 10px; font-size: 1.1rem;">📝 基本説明</h3>
+                        <p style="font-size: 1rem; line-height: 1.8;">極限カードは関数がx→0に近づくときの値を求めます。</p>
+                        <p style="margin-top: 12px; padding: 12px; background: rgba(212, 184, 184, 0.15); border-left: 4px solid var(--card-limit); border-radius: 4px; font-size: 1rem;">
+                            <strong style="color: #b86868;">💡 極限とは：</strong><br>
+                            xが0に限りなく近づいたときの関数の振る舞いを見る強力な数学ツールです
+                        </p>
+                    </div>
+                    <div style="margin-bottom: 20px;">
+                        <h3 style="color: var(--accent-main); margin-bottom: 10px; font-size: 1.1rem;">🎯 効果</h3>
+                        <p><strong>lim<sub>x→0</sub> f(x)</strong></p>
+                        <div style="background: var(--bg-primary); padding: 15px; border-radius: 6px; margin-top: 10px; font-size: 1rem; line-height: 2;">
+                            <p><strong>多項式の場合：</strong></p>
+                            <p style="margin-left: 20px;">ax<sup>n</sup> + c → c（定数項のみ残る）</p>
+                            <p style="margin-top: 12px;"><strong>特殊関数の場合：</strong></p>
+                            <p style="margin-left: 20px;">sin(x), cos(x), e<sup>x</sup> など → 0</p>
+                        </div>
+                    </div>
+                    <div style="margin-bottom: 20px;">
+                        <h3 style="color: #b86868; margin-bottom: 10px; font-size: 1.1rem;">🌟 有名な極限</h3>
+                        <div style="background: rgba(212, 184, 184, 0.1); padding: 15px; border-radius: 6px; font-size: 1rem;">
+                            <p style="font-weight: 600; margin-bottom: 10px;">マクローリン展開と組み合わせると強力：</p>
+                            <div style="margin-left: 15px; line-height: 2.2;">
+                                <p>sin(x) →<span style="color: #6a5acd;"> [マクローリン]</span> → x →<span style="color: #b86868;"> [極限]</span> → 0</p>
+                                <p>cos(x) →<span style="color: #6a5acd;"> [マクローリン]</span> → 1 − (1/2)x² →<span style="color: #b86868;"> [極限]</span> → 1</p>
+                                <p>e<sup>x</sup> →<span style="color: #6a5acd;"> [マクローリン]</span> → 1 + x →<span style="color: #b86868;"> [極限]</span> → 1</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="margin-bottom: 20px;">
+                        <h3 style="color: var(--accent-main); margin-bottom: 10px; font-size: 1.1rem;">💡 使用例</h3>
+                        <div style="background: var(--bg-primary); padding: 15px; border-radius: 6px; font-size: 1rem;">
+                            <p><strong>例1:</strong> f(x) = 3x² + 5 に使用</p>
+                            <p style="margin-left: 20px;">→ lim<sub>x→0</sub> (3x² + 5) = 5</p>
+                            <p style="margin-top: 10px;"><strong>例2:</strong> f(x) = 2x − 3 に使用</p>
+                            <p style="margin-left: 20px;">→ lim<sub>x→0</sub> (2x − 3) = −3</p>
+                            <p style="margin-top: 10px;"><strong>例3:</strong> f(x) = x に使用</p>
+                            <p style="margin-left: 20px;">→ lim<sub>x→0</sub> x = 0</p>
                         </div>
                     </div>
                 `;
