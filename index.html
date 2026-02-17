@@ -554,7 +554,7 @@
             font-size: 2.5rem;
             font-weight: 700;
             color: var(--accent-main);
-            margin-bottom: 60px;
+            margin-bottom: 20px;
             letter-spacing: 0.15em;
         }
 
@@ -823,6 +823,21 @@
             .log-entry {
                 font-size: 0.7rem;
             }
+            
+            #tutorial-message {
+                max-width: 90% !important;
+                width: calc(100% - 40px) !important;
+                padding: 15px 20px !important;
+                font-size: 0.9rem !important;
+            }
+            
+            #tutorial-message-title {
+                font-size: 1rem !important;
+            }
+            
+            #tutorial-message-text {
+                font-size: 0.85rem !important;
+            }
         }
     </style>
 </head>
@@ -830,6 +845,28 @@
     <!-- ステージ選択画面 -->
     <div class="stage-select-screen" id="stage-select">
         <h1 class="stage-select-title">ステージ選択</h1>
+        
+        <!-- チュートリアルボタン -->
+        <div style="text-align: center; margin-top: 8px; margin-bottom: 30px;">
+            <button onclick="startStage(0)" style="
+                background: linear-gradient(135deg, #4CAF50, #45a049);
+                color: white;
+                border: none;
+                padding: 12px 35px;
+                font-size: 1rem;
+                font-weight: 600;
+                border-radius: 8px;
+                cursor: pointer;
+                box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+                transition: all 0.3s ease;
+            " onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 16px rgba(76, 175, 80, 0.4)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(76, 175, 80, 0.3)'">
+                🎓 チュートリアルを始める
+            </button>
+            <p style="margin-top: 8px; color: var(--text-secondary); font-size: 0.85rem;">
+                初めての方はこちらからスタート！
+            </p>
+        </div>
+        
         <div class="stage-grid">
             <div class="stage-card" onclick="startStage(1)">
                 <div class="stage-number">Stage 1</div>
@@ -888,7 +925,7 @@
 
             <div class="stage-card" onclick="startStage(6)">
                 <div class="stage-number">Stage 6</div>
-                <div class="stage-title">逆転の発想</div>
+                <div class="stage-title">積分の基本②</div>
                 <div class="stage-description">積分と倍化を駆使せよ</div>
                 <div class="stage-info">
                     <div>難易度: ★★★☆☆</div>
@@ -1059,7 +1096,7 @@
             <h1 class="title">関数カードゲーム</h1>
 
             <div class="header-actions">
-                <button class="btn-back" onclick="backToStageSelect()">← ステージ選択に戻る</button>
+                <button class="btn-back" id="btn-back" onclick="backToStageSelect()">← ステージ選択に戻る</button>
                 <button class="btn-retry" onclick="retryStage()">🔄 リトライ</button>
                 <button class="btn-help" onclick="openHelpModal()">❓ カード説明</button>
             </div>
@@ -1119,7 +1156,7 @@
                 <div class="modal-content" id="modal-content">
                     <h2 id="modal-title"></h2>
                     <p id="modal-message"></p>
-                    <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
+                    <div id="modal-buttons" style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
                         <button class="btn btn-use" onclick="retryStage()">🔄 リトライ</button>
                         <button class="btn btn-use" onclick="backToStageSelect()">ステージ選択に戻る</button>
                     </div>
@@ -1143,6 +1180,15 @@
                 <button onclick="exitExplanationMode()" style="margin-left: 20px; padding: 8px 16px; background: white; color: var(--accent-sub); border: none; border-radius: 4px; cursor: pointer; font-weight: 600;">終了</button>
             </div>
 
+            <!-- チュートリアルスポットライトオーバーレイ -->
+            <div id="tutorial-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7); z-index: 1999; pointer-events: auto;"></div>
+            
+            <!-- チュートリアルメッセージボックス -->
+            <div id="tutorial-message" style="display: none; position: absolute; z-index: 2003; background: white; padding: 20px 25px; border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.3); max-width: 400px; pointer-events: auto; box-sizing: border-box;">
+                <h3 id="tutorial-message-title" style="margin: 0 0 12px 0; color: var(--accent-main); font-size: 1.2rem;"></h3>
+                <p id="tutorial-message-text" style="margin: 0; line-height: 1.7; color: var(--text-primary); font-size: 0.95rem;"></p>
+            </div>
+
             <!-- マクローリン展開次数選択モーダル -->
             <div class="modal" id="maclaurin-order-modal">
                 <div class="modal-content" style="max-width: 400px;">
@@ -1163,6 +1209,18 @@
     <script>
         // ステージデータ
         const stageData = {
+            0: {
+                name: 'チュートリアル',
+                difficulty: 0,
+                enemyFunction: { coefficient: 1, exponent: 1, constant: -3 }, // x - 3
+                initialHand: ['plus', 'substitute', 'substitute', 'plus'],
+                cardQueue: [],
+                maxTurns: 3,
+                clearCondition: 'target',
+                targetFunction: { coefficient: 0, exponent: 0, constant: 0 }, // 0
+                description: 'カードの使い方を学ぼう',
+                tutorial: true
+            },
             1: {
                 name: '代入の基本',
                 difficulty: 1,
@@ -1230,7 +1288,7 @@
                 description: '微分を3回使って変換しよう'
             },
             7: {
-                name: '積分で構築',
+                name: '積分の基本②',
                 difficulty: 3,
                 enemyFunction: { coefficient: 2, exponent: 1, constant: 0 }, // 2x
                 initialHand: ['integral', 'multiply', 'multiply', 'derivative'],
@@ -1421,6 +1479,10 @@
         function init(stageNum = 1) {
             const stage = stageData[stageNum];
             
+            // チュートリアル状態をリセット
+            tutorialStep = 0;
+            hideSpotlight();
+            
             // ステージデータから初期化
             gameState.currentStage = stageNum;
             gameState.enemyFunction = { ...stage.enemyFunction };
@@ -1457,6 +1519,13 @@
             updateTurnCount();
             updateNextCardDisplay();
             addLog(`Stage ${stageNum}: ${stage.name} 開始！`);
+            
+            // チュートリアルの場合、メッセージを表示
+            if (stage.tutorial && stageNum === 0) {
+                setTimeout(() => {
+                    showTutorialStep(0);
+                }, 500);
+            }
         }
 
         // 手札を描画
@@ -1626,8 +1695,23 @@
                 // 通常モード
                 gameState.selectedCardIndex = index;
                 document.getElementById('btn-use').disabled = false;
+                
+                // チュートリアル: +1カード選択(step0→1)、代入Lv2選択(step3→4)
+                if (gameState.currentStage === 0) {
+                    const card = gameState.hand[index];
+                    if (tutorialStep === 0 && card.type === 'plus') {
+                        tutorialStep = 1;
+                        setTimeout(() => showTutorialStep(1), 200);
+                    } else if (tutorialStep === 3 && card.type === 'substitute' && card.level === 2) {
+                        tutorialStep = 4;
+                        setTimeout(() => showTutorialStep(4), 200);
+                    }
+                }
             }
             renderHand();
+            
+            // チュートリアル中はrenderHand後にスポットライトを再適用
+            restoreTutorialSpotlight();
         }
 
         // カード使用
@@ -1717,6 +1801,9 @@
 
             renderHand();
             
+            // チュートリアル中はrenderHand後にスポットライトを再適用
+            restoreTutorialSpotlight();
+            
             // バトルエリアのグローエフェクト
             const battleArea = document.querySelector('.battle-area');
             battleArea.classList.add('active');
@@ -1726,6 +1813,9 @@
             
             renderFunction();
             updateNextCardDisplay();
+            
+            // チュートリアル進行
+            advanceTutorial();
             
             // ゲーム終了チェック
             if (!checkGameEnd()) {
@@ -1758,7 +1848,23 @@
                 // 代入: x = n または x = π
                 const x = (card.type === 'substitute_pi') ? Math.PI : card.level;
                 
-                if (func.funcType) {
+                if (func.funcType === 'maclaurin_exp') {
+                    // maclaurin_expは多項式として代入計算
+                    const c = func.maclaurinCoef !== undefined ? func.maclaurinCoef : 1;
+                    const ord = func.maclaurinOrder || 1;
+                    const cnst = func.constant || 0;
+                    let result = c + cnst; // 定数項（1+cnst）
+                    if (ord >= 1) result += c * x;
+                    if (ord >= 2) result += c * x * x / 2;
+                    if (ord >= 3) result += c * x * x * x / 6;
+                    if (ord >= 4) result += c * Math.pow(x, 4) / 24;
+                    delete func.funcType;
+                    delete func.maclaurinCoef;
+                    delete func.maclaurinOrder;
+                    func.coefficient = result;
+                    func.exponent = 0;
+                    func.constant = 0;
+                } else if (func.funcType) {
                     // 特殊関数の代入: coef*f(x) + const
                     const coef = func.coefficient;
                     const cnst = func.constant;
@@ -1886,32 +1992,16 @@
                             func.constant = -coef + cnst;
                         }
                     } else if (func.funcType === 'exp') {
-                        // eˣのマクローリン展開: 1 + x + x²/2 + x³/6 + x⁴/24 + ...
+                        // eˣのマクローリン展開: 1 + x + x²/2! + x³/3! + ...
                         const coef = func.coefficient;
                         const cnst = func.constant;
-                        delete func.funcType;
-                        
-                        if (order === 1) {
-                            // 1次: 1 + x
-                            func.coefficient = coef;
-                            func.exponent = 1;
-                            func.constant = coef + cnst;
-                        } else if (order === 2) {
-                            // 2次: 1 + x + x²/2
-                            func.coefficient = coef * 0.5;
-                            func.exponent = 2;
-                            func.constant = coef + cnst;
-                        } else if (order === 3) {
-                            // 3次: 1 + x + x²/2 + x³/6
-                            func.coefficient = coef / 6;
-                            func.exponent = 3;
-                            func.constant = coef + cnst;
-                        } else {
-                            // 4次以上: 1 + x + x²/2 + x³/6 + x⁴/24
-                            func.coefficient = coef / 24;
-                            func.exponent = 4;
-                            func.constant = coef + cnst;
-                        }
+                        func.funcType = 'maclaurin_exp';
+                        func.maclaurinCoef = coef;
+                        func.maclaurinOrder = order;
+                        func.constant = cnst;
+                        // coefficient/exponentはダミー値（計算用）
+                        func.coefficient = coef / (order === 1 ? 1 : order === 2 ? 2 : order === 3 ? 6 : 24);
+                        func.exponent = order;
                     } else {
                         // 多項式はそのまま（変化なし）
                     }
@@ -2003,7 +2093,17 @@
             } else if (card.type === 'limit_zero') {
                 // 極限 x→0 の計算
                 // sin(x) → 0, cos(x) → 1, e^x → 1, x^n → 0, const → const
-                if (func.funcType) {
+                if (func.funcType === 'maclaurin_exp') {
+                    // maclaurin_exp の x→0 極限: 定数項のみ残る（1 + cnst）
+                    const c = func.maclaurinCoef !== undefined ? func.maclaurinCoef : 1;
+                    const cnst = func.constant || 0;
+                    delete func.funcType;
+                    delete func.maclaurinCoef;
+                    delete func.maclaurinOrder;
+                    func.coefficient = c + cnst;  // 定数項 c（=1）+ cnst
+                    func.exponent = 0;
+                    func.constant = 0;
+                } else if (func.funcType) {
                     // 特殊関数の極限
                     const cnst = func.constant;  // 定数項は保持
                     if (func.funcType === 'sin' || func.funcType === 'neg_sin') {
@@ -2040,8 +2140,10 @@
                         func.constant = cnst;
                     }
                 } else {
-                    // 多項式の極限: x→0 で定数項のみ残る
-                    func.coefficient = func.constant;
+                    // 多項式の極限: x→0 で x の項はすべて消え定数項のみ残る
+                    // 例: 3x² + 5 → 5
+                    const cnst = func.constant;
+                    func.coefficient = cnst;
                     func.exponent = 0;
                     func.constant = 0;
                 }
@@ -2066,6 +2168,65 @@
 
         // 関数を整形
         function formatFunction(func, fname) {
+            // maclaurin_exp: 全項を展開表示
+            if (func.funcType === 'maclaurin_exp') {
+                const c = func.maclaurinCoef !== undefined ? func.maclaurinCoef : 1;
+                const ord = func.maclaurinOrder || 1;
+                const cnst = func.constant || 0;
+                
+                // 係数プレフィックス（係数1以外の場合）
+                const cStr = (c === 1) ? '' : (c === -1) ? '−' : (Number.isInteger(c) ? c : formatFraction(c));
+                const sign = (c < 0) ? '−' : '';
+                const absC = Math.abs(c);
+                
+                // 各項を構築
+                let terms = [];
+                
+                // 定数項（cnst + c）
+                const constTotal = (Number.isInteger(c) ? c : c) + cnst;
+                if (Math.abs(constTotal) > 0.0001) {
+                    terms.push(Number.isInteger(constTotal) ? String(constTotal) : formatFraction(constTotal));
+                } else if (ord === 0) {
+                    terms.push('0');
+                }
+                
+                // x項（係数c）
+                if (ord >= 1) {
+                    if (absC === 1) terms.push('x');
+                    else terms.push((Number.isInteger(absC) ? absC : formatFraction(absC)) + 'x');
+                }
+                
+                // x²/2!項
+                if (ord >= 2) {
+                    const n = absC;
+                    terms.push((n === 1 ? '' : (Number.isInteger(n) ? n : formatFraction(n))) + 'x²/2!');
+                }
+                
+                // x³/3!項
+                if (ord >= 3) {
+                    const n = absC;
+                    terms.push((n === 1 ? '' : (Number.isInteger(n) ? n : formatFraction(n))) + 'x³/3!');
+                }
+                
+                // x⁴/4!項
+                if (ord >= 4) {
+                    const n = absC;
+                    terms.push((n === 1 ? '' : (Number.isInteger(n) ? n : formatFraction(n))) + 'x⁴/4!');
+                }
+                
+                let expr = terms[0] || '0';
+                for (let i = 1; i < terms.length; i++) {
+                    expr += ' + ' + terms[i];
+                }
+                
+                // 追加の定数項（cnst）
+                if (cnst !== 0 && Math.abs(constTotal - cnst - c) < 0.0001) {
+                    // constTotalに既に含まれているので何もしない
+                }
+                
+                return `${fname}(x) = ${expr}`;
+            }
+            
             // 特殊関数タイプの処理（係数と定数項も考慮）
             if (func.funcType === 'sin' || func.funcType === 'cos' || 
                 func.funcType === 'neg_sin' || func.funcType === 'neg_cos' || 
@@ -2225,6 +2386,12 @@
             }
             
             renderHand();
+            
+            // チュートリアル: 合成モードON(step2→2.5)
+            if (gameState.mergeMode && gameState.currentStage === 0 && tutorialStep === 2) {
+                tutorialStep = 2.5;
+                setTimeout(() => showTutorialStep(2.5), 200);
+            }
         }
 
         // カード合成を試みる
@@ -2255,6 +2422,12 @@
                 gameState.selectedForMerge = [];
                 document.getElementById('merge-indicator').style.display = 'none';
 
+                // チュートリアル進行: 合成成功時（ステップ2.5）
+                const isTutorialMerge = gameState.currentStage === 0 && tutorialStep === 2.5 && card1.type === 'substitute';
+                if (isTutorialMerge) {
+                    tutorialStep = 3;
+                }
+
                 // ターン減少
                 gameState.remainingTurns--;
                 updateTurnCount();
@@ -2276,6 +2449,11 @@
                 
                 renderHand();
                 updateNextCardDisplay();
+                
+                // チュートリアル: 合成成功後、代入Lv2カードを強調
+                if (isTutorialMerge) {
+                    setTimeout(() => showTutorialStep(3), 400);
+                }
 
                 // ターン切れチェック
                 if (gameState.remainingTurns <= 0) {
@@ -2338,6 +2516,236 @@
                         recordElement.textContent = '最速クリア: 未挑戦';
                     }
                 }
+            }
+        }
+
+        // ===== チュートリアルシステム =====
+        let tutorialStep = 0;
+
+        // スポットライト対象要素を取得
+        function getTutorialTarget(step) {
+            if (step === 0) {
+                // +1カード
+                for (let i = 0; i < gameState.hand.length; i++) {
+                    if (gameState.hand[i].type === 'plus') {
+                        return document.querySelectorAll('.card')[i];
+                    }
+                }
+            } else if (step === 1) {
+                return document.getElementById('btn-use');
+            } else if (step === 2) {
+                return document.getElementById('btn-merge');
+            } else if (step === 2.5) {
+                // 代入Lv1カードを全て返す（複数）
+                return null; // 複数対応は別処理
+            } else if (step === 3) {
+                // 代入Lv2カード
+                for (let i = 0; i < gameState.hand.length; i++) {
+                    if (gameState.hand[i].type === 'substitute' && gameState.hand[i].level === 2) {
+                        return document.querySelectorAll('.card')[i];
+                    }
+                }
+            } else if (step === 4) {
+                return document.getElementById('btn-use');
+            }
+            return null;
+        }
+
+        // スポットライトを当てる（単一要素）
+        function applySpotlight(el) {
+            if (!el) return;
+            el.style.position = 'relative';
+            el.style.zIndex = '2000';
+            el.style.pointerEvents = 'auto';
+            el.classList.add('tutorial-highlight');
+        }
+
+        // スポットライトを表示
+        function showTutorialStep(step) {
+            tutorialStep = step;
+            const overlay = document.getElementById('tutorial-overlay');
+            const messageBox = document.getElementById('tutorial-message');
+            const titleEl = document.getElementById('tutorial-message-title');
+            const textEl = document.getElementById('tutorial-message-text');
+
+            // 前の強調をクリア
+            document.querySelectorAll('.tutorial-highlight').forEach(el => {
+                el.style.zIndex = '';
+                el.style.position = '';
+                el.style.pointerEvents = '';
+                el.classList.remove('tutorial-highlight');
+            });
+
+            const messages = {
+                0: { title: 'ようこそ！', text: '現在の関数は <strong>x − 3</strong> です。これを <strong>0</strong> にしましょう！<br><br>まず <strong>+1カード</strong> を選択してください。' },
+                1: { title: 'カードを使おう', text: '<strong>カード使用ボタン</strong> をクリックしてください。<br><br>関数に +1 されて <strong>x − 2</strong> になります。' },
+                2: { title: 'カードを合成しよう', text: '<strong>合成モードボタン</strong> をクリックしてください。<br><br>次に代入カードを2枚選んで合成します。' },
+                2.5: { title: '代入カードを2枚選ぼう', text: '代入カードを <strong>2枚タップ</strong> してください。<br><br>自動的に <strong>代入Lv2（x＝2）</strong> に合成されます。' },
+                3: { title: '合成したカードを選ぼう', text: '合成された <strong>代入Lv2（x＝2）</strong> を選択してください。' },
+                4: { title: 'カードを使おう', text: '<strong>カード使用ボタン</strong> をクリックしてください。<br><br>x − 2 に x＝2 を代入すると <strong>2 − 2 ＝ 0</strong> でクリアです！' }
+            };
+
+            const msg = messages[step];
+            if (!msg) return;
+
+            overlay.style.display = 'block';
+            overlay.style.pointerEvents = 'auto';
+            titleEl.textContent = msg.title;
+            textEl.innerHTML = msg.text;
+            
+            // 戻るボタンだけオーバーレイより前面に出す
+            const btnBack = document.getElementById('btn-back');
+            if (btnBack) {
+                btnBack.style.position = 'relative';
+                btnBack.style.zIndex = '2002';
+            }
+
+            // ステップ2.5は複数カードを強調
+            if (step === 2.5) {
+                document.querySelectorAll('.card').forEach((cardEl, i) => {
+                    const c = gameState.hand[i];
+                    if (c && c.type === 'substitute' && c.level === 1) {
+                        applySpotlight(cardEl);
+                    }
+                });
+            } else {
+                setTimeout(() => {
+                    const target = getTutorialTarget(step);
+                    if (target) applySpotlight(target);
+                    positionTutorialMessage(target);
+                }, 50);
+                return;
+            }
+
+            // 2.5の場合は最初のカードを基準にメッセージ配置
+            setTimeout(() => {
+                const firstSubstitute = document.querySelector('.tutorial-highlight');
+                positionTutorialMessage(firstSubstitute);
+            }, 50);
+        }
+
+        // メッセージボックスを対象要素の近くに配置
+        function positionTutorialMessage(target) {
+            const messageBox = document.getElementById('tutorial-message');
+            messageBox.style.display = 'block';
+            messageBox.style.visibility = 'hidden';
+            messageBox.style.position = 'absolute';
+
+            requestAnimationFrame(() => {
+                const windowWidth = window.innerWidth;
+                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
+
+                let top, left;
+                if (!target) {
+                    top = 100 + scrollTop;
+                    left = windowWidth / 2 + scrollLeft;
+                } else {
+                    const rect = target.getBoundingClientRect();
+                    top = rect.bottom + scrollTop + 16;
+                    left = rect.left + scrollLeft + rect.width / 2;
+
+                    // 画面外に出ないよう上に逃がす
+                    const msgH = messageBox.offsetHeight || 120;
+                    if (rect.bottom + msgH + 16 > window.innerHeight) {
+                        top = rect.top + scrollTop - msgH - 16;
+                    }
+                }
+
+                // 左右クランプ
+                const msgW = messageBox.offsetWidth || 300;
+                const minLeft = msgW / 2 + 16 + scrollLeft;
+                const maxLeft = windowWidth - msgW / 2 - 16 + scrollLeft;
+                left = Math.max(minLeft, Math.min(maxLeft, left));
+
+                messageBox.style.top = top + 'px';
+                messageBox.style.left = left + 'px';
+                messageBox.style.transform = 'translateX(-50%)';
+                messageBox.style.maxWidth = windowWidth < 768 ? 'calc(100% - 32px)' : '380px';
+                messageBox.style.visibility = 'visible';
+            });
+        }
+
+        // renderHand後に現在のスポットライトを再適用
+        function restoreTutorialSpotlight() {
+            if (gameState.currentStage !== 0) return;
+            const overlay = document.getElementById('tutorial-overlay');
+            if (!overlay || overlay.style.display === 'none') return;
+
+            setTimeout(() => {
+                // 前の強調をクリア
+                document.querySelectorAll('.tutorial-highlight').forEach(el => {
+                    el.style.zIndex = '';
+                    el.style.position = '';
+                    el.style.pointerEvents = '';
+                    el.classList.remove('tutorial-highlight');
+                });
+
+                if (tutorialStep === 2.5) {
+                    document.querySelectorAll('.card').forEach((cardEl, i) => {
+                        const c = gameState.hand[i];
+                        if (c && c.type === 'substitute' && c.level === 1) {
+                            applySpotlight(cardEl);
+                        }
+                    });
+                } else if (tutorialStep === 3) {
+                    document.querySelectorAll('.card').forEach((cardEl, i) => {
+                        const c = gameState.hand[i];
+                        if (c && c.type === 'substitute' && c.level === 2) {
+                            applySpotlight(cardEl);
+                        }
+                    });
+                } else if (tutorialStep === 4) {
+                    const btnUse = document.getElementById('btn-use');
+                    if (btnUse && !btnUse.disabled) applySpotlight(btnUse);
+                } else {
+                    const target = getTutorialTarget(tutorialStep);
+                    if (target) applySpotlight(target);
+                }
+            }, 50);
+        }
+
+        // スポットライトを消す
+        function hideSpotlight() {
+            const overlay = document.getElementById('tutorial-overlay');
+            const messageBox = document.getElementById('tutorial-message');
+            if (overlay) overlay.style.display = 'none';
+            if (messageBox) messageBox.style.display = 'none';
+            
+            // 戻るボタンのz-indexをリセット
+            const btnBack = document.getElementById('btn-back');
+            if (btnBack) {
+                btnBack.style.position = '';
+                btnBack.style.zIndex = '';
+            }
+            
+            document.querySelectorAll('.tutorial-highlight').forEach(el => {
+                el.style.zIndex = '';
+                el.style.position = '';
+                el.style.pointerEvents = '';
+                el.classList.remove('tutorial-highlight');
+            });
+            document.querySelectorAll('.card').forEach(el => {
+                if (el.style.zIndex === '2000') {
+                    el.style.zIndex = '';
+                    el.style.position = '';
+                    el.style.pointerEvents = '';
+                }
+            });
+        }
+
+        // チュートリアル進行（カード使用後に呼ばれる）
+        function advanceTutorial() {
+            if (gameState.currentStage !== 0) return;
+            const turnsUsed = gameState.maxTurns - gameState.remainingTurns;
+
+            if (tutorialStep === 1 && turnsUsed === 1) {
+                // +1使用後 → 合成モードへ
+                tutorialStep = 2;
+                setTimeout(() => showTutorialStep(2), 600);
+            } else if (tutorialStep === 4) {
+                // 代入Lv2使用後 → クリア（checkGameEndが処理）
+                hideSpotlight();
             }
         }
 
@@ -2463,11 +2871,32 @@
                 
                 historyHTML += '</div>';
                 messageElement.innerHTML = historyHTML;
+            } else if (type === 'info') {
+                // チュートリアルメッセージはHTMLとして表示
+                messageElement.innerHTML = message;
             } else {
                 messageElement.textContent = message;
             }
             
+            // ボタンの表示を制御
+            const buttonsElement = document.getElementById('modal-buttons');
+            if (type === 'info') {
+                // チュートリアルモードでは「OK」ボタンのみ
+                buttonsElement.innerHTML = '<button class="btn btn-use" onclick="closeModal()">OK</button>';
+            } else {
+                // 通常モードではリトライとステージ選択
+                buttonsElement.innerHTML = `
+                    <button class="btn btn-use" onclick="retryStage()">🔄 リトライ</button>
+                    <button class="btn btn-use" onclick="backToStageSelect()">ステージ選択に戻る</button>
+                `;
+            }
+            
             modal.classList.add('active');
+        }
+
+        // モーダルを閉じる
+        function closeModal() {
+            document.getElementById('modal').classList.remove('active');
         }
 
         // ログ追加
@@ -2885,6 +3314,10 @@
 
         // ステージ選択に戻る
         function backToStageSelect() {
+            // チュートリアル状態をリセット
+            tutorialStep = 0;
+            hideSpotlight();
+            
             document.getElementById('modal').classList.remove('active');
             document.getElementById('game-screen').classList.remove('active');
             document.getElementById('stage-select').style.display = 'flex';
