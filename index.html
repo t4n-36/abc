@@ -703,6 +703,61 @@
             color: var(--text-secondary);
         }
 
+
+        /* 統計ボタン */
+        .stage-stats-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 6px;
+            gap: 8px;
+        }
+
+        .stage-global-record {
+            color: #3a7ca5;
+            font-weight: 600;
+            font-size: 0.82rem;
+            flex: 1;
+        }
+
+        .btn-stage-stats {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 10px;
+            background: var(--bg-paper);
+            color: #3a7ca5;
+            border: 1px solid rgba(58,124,165,0.35);
+            border-radius: 20px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.03em;
+            cursor: pointer;
+            white-space: nowrap;
+            box-shadow: 0 1px 3px rgba(58,124,165,0.12), inset 0 1px 0 rgba(255,255,255,0.8);
+            transition: all 0.2s ease;
+            -webkit-tap-highlight-color: transparent;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+
+        .btn-stage-stats:hover {
+            background: #eef4f8;
+            border-color: rgba(58,124,165,0.6);
+            transform: translateY(-1px);
+            box-shadow: 0 3px 8px rgba(58,124,165,0.2);
+        }
+
+        .btn-stage-stats:active {
+            transform: translateY(0);
+            box-shadow: 0 1px 3px rgba(58,124,165,0.12);
+        }
+
+        .btn-stage-stats .stats-icon {
+            font-size: 0.8rem;
+            line-height: 1;
+        }
+
         .game-screen {
             display: none;
         }
@@ -963,35 +1018,6 @@
         </div>
         
 
-        <!-- ランキングボタン -->
-        <div style="text-align: center; margin-bottom: 20px;">
-            <button onclick="showRankingModal()" style="
-                background: linear-gradient(135deg, #3a7ca5, #5a9fd4);
-                color: white;
-                border: none;
-                padding: 10px 28px;
-                font-size: 0.95rem;
-                font-weight: 600;
-                border-radius: 8px;
-                cursor: pointer;
-                box-shadow: 0 4px 12px rgba(58, 124, 165, 0.3);
-                transition: all 0.3s ease;
-                -webkit-tap-highlight-color: transparent;
-            " onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
-                🌐 世界ランキングを見る
-            </button>
-            <div id="all-clear-submit" style="display:none; margin-top:10px;">
-                <button onclick="showSubmitModal()" style="
-                    background: linear-gradient(135deg, var(--accent-main), #e89577);
-                    color: white; border: none; padding: 10px 28px;
-                    font-size: 0.95rem; font-weight: 600; border-radius: 8px;
-                    cursor: pointer; box-shadow: 0 4px 12px rgba(217,119,87,0.3);
-                    transition: all 0.3s ease; -webkit-tap-highlight-color: transparent;
-                " onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
-                    🏆 全ステージクリア記録を登録する
-                </button>
-            </div>
-        </div>
         <div class="stage-grid">
             <div class="stage-card" onclick="startStage(1)">
                 <div class="stage-number">Stage 1</div>
@@ -1001,7 +1027,7 @@
                     <div>難易度: ★☆☆☆☆</div>
                     <div>制限ターン: 3ターン</div>
                     <div id="stage1-record" style="color: var(--accent-main); font-weight: 600; margin-top: 8px;">最速クリア: 未挑戦</div>
-                    <div style="display:flex; align-items:center; justify-content:space-between; margin-top:4px;"><span id="stage1-global-record" style="color:#3a7ca5; font-weight:600; font-size:0.82rem;">全体最速: 読込中...</span><button onclick="event.stopPropagation(); showStageStats(1)" style="background:linear-gradient(135deg,#3a7ca5,#5a9fd4); color:white; border:none; padding:3px 9px; border-radius:5px; font-size:0.75rem; cursor:pointer; font-weight:600; -webkit-tap-highlight-color:transparent;">📊</button></div>
+                    <div class="stage-stats-row"><span id="stage1-global-record" class="stage-global-record">全体最速: 読込中...</span><button onclick="event.stopPropagation(); showStageStats(1)" class="btn-stage-stats"><span class="stats-icon">📊</span>集計を見る</button></div>
                 </div>
             </div>
 
@@ -1013,7 +1039,7 @@
                     <div>難易度: ★☆☆☆☆</div>
                     <div>制限ターン: 3ターン</div>
                     <div id="stage2-record" style="color: var(--accent-main); font-weight: 600; margin-top: 8px;">最速クリア: 未挑戦</div>
-                    <div style="display:flex; align-items:center; justify-content:space-between; margin-top:4px;"><span id="stage2-global-record" style="color:#3a7ca5; font-weight:600; font-size:0.82rem;">全体最速: 読込中...</span><button onclick="event.stopPropagation(); showStageStats(2)" style="background:linear-gradient(135deg,#3a7ca5,#5a9fd4); color:white; border:none; padding:3px 9px; border-radius:5px; font-size:0.75rem; cursor:pointer; font-weight:600; -webkit-tap-highlight-color:transparent;">📊</button></div>
+                    <div class="stage-stats-row"><span id="stage2-global-record" class="stage-global-record">全体最速: 読込中...</span><button onclick="event.stopPropagation(); showStageStats(2)" class="btn-stage-stats"><span class="stats-icon">📊</span>集計を見る</button></div>
                 </div>
             </div>
 
@@ -1025,7 +1051,7 @@
                     <div>難易度: ★★☆☆☆</div>
                     <div>制限ターン: 3ターン</div>
                     <div id="stage3-record" style="color: var(--accent-main); font-weight: 600; margin-top: 8px;">最速クリア: 未挑戦</div>
-                    <div style="display:flex; align-items:center; justify-content:space-between; margin-top:4px;"><span id="stage3-global-record" style="color:#3a7ca5; font-weight:600; font-size:0.82rem;">全体最速: 読込中...</span><button onclick="event.stopPropagation(); showStageStats(3)" style="background:linear-gradient(135deg,#3a7ca5,#5a9fd4); color:white; border:none; padding:3px 9px; border-radius:5px; font-size:0.75rem; cursor:pointer; font-weight:600; -webkit-tap-highlight-color:transparent;">📊</button></div>
+                    <div class="stage-stats-row"><span id="stage3-global-record" class="stage-global-record">全体最速: 読込中...</span><button onclick="event.stopPropagation(); showStageStats(3)" class="btn-stage-stats"><span class="stats-icon">📊</span>集計を見る</button></div>
                 </div>
             </div>
 
@@ -1037,7 +1063,7 @@
                     <div>難易度: ★★☆☆☆</div>
                     <div>制限ターン: 3ターン</div>
                     <div id="stage4-record" style="color: var(--accent-main); font-weight: 600; margin-top: 8px;">最速クリア: 未挑戦</div>
-                    <div style="display:flex; align-items:center; justify-content:space-between; margin-top:4px;"><span id="stage4-global-record" style="color:#3a7ca5; font-weight:600; font-size:0.82rem;">全体最速: 読込中...</span><button onclick="event.stopPropagation(); showStageStats(4)" style="background:linear-gradient(135deg,#3a7ca5,#5a9fd4); color:white; border:none; padding:3px 9px; border-radius:5px; font-size:0.75rem; cursor:pointer; font-weight:600; -webkit-tap-highlight-color:transparent;">📊</button></div>
+                    <div class="stage-stats-row"><span id="stage4-global-record" class="stage-global-record">全体最速: 読込中...</span><button onclick="event.stopPropagation(); showStageStats(4)" class="btn-stage-stats"><span class="stats-icon">📊</span>集計を見る</button></div>
                 </div>
             </div>
 
@@ -1049,7 +1075,7 @@
                     <div>難易度: ★★★☆☆</div>
                     <div>制限ターン: 4ターン</div>
                     <div id="stage5-record" style="color: var(--accent-main); font-weight: 600; margin-top: 8px;">最速クリア: 未挑戦</div>
-                    <div style="display:flex; align-items:center; justify-content:space-between; margin-top:4px;"><span id="stage5-global-record" style="color:#3a7ca5; font-weight:600; font-size:0.82rem;">全体最速: 読込中...</span><button onclick="event.stopPropagation(); showStageStats(5)" style="background:linear-gradient(135deg,#3a7ca5,#5a9fd4); color:white; border:none; padding:3px 9px; border-radius:5px; font-size:0.75rem; cursor:pointer; font-weight:600; -webkit-tap-highlight-color:transparent;">📊</button></div>
+                    <div class="stage-stats-row"><span id="stage5-global-record" class="stage-global-record">全体最速: 読込中...</span><button onclick="event.stopPropagation(); showStageStats(5)" class="btn-stage-stats"><span class="stats-icon">📊</span>集計を見る</button></div>
                 </div>
             </div>
 
@@ -1061,7 +1087,7 @@
                     <div>難易度: ★★★☆☆</div>
                     <div>制限ターン: 4ターン</div>
                     <div id="stage6-record" style="color: var(--accent-main); font-weight: 600; margin-top: 8px;">最速クリア: 未挑戦</div>
-                    <div style="display:flex; align-items:center; justify-content:space-between; margin-top:4px;"><span id="stage6-global-record" style="color:#3a7ca5; font-weight:600; font-size:0.82rem;">全体最速: 読込中...</span><button onclick="event.stopPropagation(); showStageStats(6)" style="background:linear-gradient(135deg,#3a7ca5,#5a9fd4); color:white; border:none; padding:3px 9px; border-radius:5px; font-size:0.75rem; cursor:pointer; font-weight:600; -webkit-tap-highlight-color:transparent;">📊</button></div>
+                    <div class="stage-stats-row"><span id="stage6-global-record" class="stage-global-record">全体最速: 読込中...</span><button onclick="event.stopPropagation(); showStageStats(6)" class="btn-stage-stats"><span class="stats-icon">📊</span>集計を見る</button></div>
                 </div>
             </div>
 
@@ -1073,7 +1099,7 @@
                     <div>難易度: ★★★☆☆</div>
                     <div>制限ターン: 4ターン</div>
                     <div id="stage7-record" style="color: var(--accent-main); font-weight: 600; margin-top: 8px;">最速クリア: 未挑戦</div>
-                    <div style="display:flex; align-items:center; justify-content:space-between; margin-top:4px;"><span id="stage7-global-record" style="color:#3a7ca5; font-weight:600; font-size:0.82rem;">全体最速: 読込中...</span><button onclick="event.stopPropagation(); showStageStats(7)" style="background:linear-gradient(135deg,#3a7ca5,#5a9fd4); color:white; border:none; padding:3px 9px; border-radius:5px; font-size:0.75rem; cursor:pointer; font-weight:600; -webkit-tap-highlight-color:transparent;">📊</button></div>
+                    <div class="stage-stats-row"><span id="stage7-global-record" class="stage-global-record">全体最速: 読込中...</span><button onclick="event.stopPropagation(); showStageStats(7)" class="btn-stage-stats"><span class="stats-icon">📊</span>集計を見る</button></div>
                 </div>
             </div>
 
@@ -1085,7 +1111,7 @@
                     <div>難易度: ★★★★☆</div>
                     <div>制限ターン: 2ターン</div>
                     <div id="stage8-record" style="color: var(--accent-main); font-weight: 600; margin-top: 8px;">最速クリア: 未挑戦</div>
-                    <div style="display:flex; align-items:center; justify-content:space-between; margin-top:4px;"><span id="stage8-global-record" style="color:#3a7ca5; font-weight:600; font-size:0.82rem;">全体最速: 読込中...</span><button onclick="event.stopPropagation(); showStageStats(8)" style="background:linear-gradient(135deg,#3a7ca5,#5a9fd4); color:white; border:none; padding:3px 9px; border-radius:5px; font-size:0.75rem; cursor:pointer; font-weight:600; -webkit-tap-highlight-color:transparent;">📊</button></div>
+                    <div class="stage-stats-row"><span id="stage8-global-record" class="stage-global-record">全体最速: 読込中...</span><button onclick="event.stopPropagation(); showStageStats(8)" class="btn-stage-stats"><span class="stats-icon">📊</span>集計を見る</button></div>
                 </div>
             </div>
 
@@ -1097,7 +1123,7 @@
                     <div>難易度: ★★★★☆</div>
                     <div>制限ターン: 4ターン</div>
                     <div id="stage9-record" style="color: var(--accent-main); font-weight: 600; margin-top: 8px;">最速クリア: 未挑戦</div>
-                    <div style="display:flex; align-items:center; justify-content:space-between; margin-top:4px;"><span id="stage9-global-record" style="color:#3a7ca5; font-weight:600; font-size:0.82rem;">全体最速: 読込中...</span><button onclick="event.stopPropagation(); showStageStats(9)" style="background:linear-gradient(135deg,#3a7ca5,#5a9fd4); color:white; border:none; padding:3px 9px; border-radius:5px; font-size:0.75rem; cursor:pointer; font-weight:600; -webkit-tap-highlight-color:transparent;">📊</button></div>
+                    <div class="stage-stats-row"><span id="stage9-global-record" class="stage-global-record">全体最速: 読込中...</span><button onclick="event.stopPropagation(); showStageStats(9)" class="btn-stage-stats"><span class="stats-icon">📊</span>集計を見る</button></div>
                 </div>
             </div>
 
@@ -1109,7 +1135,7 @@
                     <div>難易度: ★★★★★</div>
                     <div>制限ターン: 5ターン</div>
                     <div id="stage10-record" style="color: var(--accent-main); font-weight: 600; margin-top: 8px;">最速クリア: 未挑戦</div>
-                    <div style="display:flex; align-items:center; justify-content:space-between; margin-top:4px;"><span id="stage10-global-record" style="color:#3a7ca5; font-weight:600; font-size:0.82rem;">全体最速: 読込中...</span><button onclick="event.stopPropagation(); showStageStats(10)" style="background:linear-gradient(135deg,#3a7ca5,#5a9fd4); color:white; border:none; padding:3px 9px; border-radius:5px; font-size:0.75rem; cursor:pointer; font-weight:600; -webkit-tap-highlight-color:transparent;">📊</button></div>
+                    <div class="stage-stats-row"><span id="stage10-global-record" class="stage-global-record">全体最速: 読込中...</span><button onclick="event.stopPropagation(); showStageStats(10)" class="btn-stage-stats"><span class="stats-icon">📊</span>集計を見る</button></div>
                 </div>
             </div>
 
@@ -1121,7 +1147,7 @@
                     <div>難易度: ★★★★★</div>
                     <div>制限ターン: 4ターン</div>
                     <div id="stage11-record" style="color: var(--accent-main); font-weight: 600; margin-top: 8px;">最速クリア: 未挑戦</div>
-                    <div style="display:flex; align-items:center; justify-content:space-between; margin-top:4px;"><span id="stage11-global-record" style="color:#3a7ca5; font-weight:600; font-size:0.82rem;">全体最速: 読込中...</span><button onclick="event.stopPropagation(); showStageStats(11)" style="background:linear-gradient(135deg,#3a7ca5,#5a9fd4); color:white; border:none; padding:3px 9px; border-radius:5px; font-size:0.75rem; cursor:pointer; font-weight:600; -webkit-tap-highlight-color:transparent;">📊</button></div>
+                    <div class="stage-stats-row"><span id="stage11-global-record" class="stage-global-record">全体最速: 読込中...</span><button onclick="event.stopPropagation(); showStageStats(11)" class="btn-stage-stats"><span class="stats-icon">📊</span>集計を見る</button></div>
                 </div>
             </div>
 
@@ -1133,7 +1159,7 @@
                     <div>難易度: ★★★★★</div>
                     <div>制限ターン: 3ターン</div>
                     <div id="stage12-record" style="color: var(--accent-main); font-weight: 600; margin-top: 8px;">最速クリア: 未挑戦</div>
-                    <div style="display:flex; align-items:center; justify-content:space-between; margin-top:4px;"><span id="stage12-global-record" style="color:#3a7ca5; font-weight:600; font-size:0.82rem;">全体最速: 読込中...</span><button onclick="event.stopPropagation(); showStageStats(12)" style="background:linear-gradient(135deg,#3a7ca5,#5a9fd4); color:white; border:none; padding:3px 9px; border-radius:5px; font-size:0.75rem; cursor:pointer; font-weight:600; -webkit-tap-highlight-color:transparent;">📊</button></div>
+                    <div class="stage-stats-row"><span id="stage12-global-record" class="stage-global-record">全体最速: 読込中...</span><button onclick="event.stopPropagation(); showStageStats(12)" class="btn-stage-stats"><span class="stats-icon">📊</span>集計を見る</button></div>
                 </div>
             </div>
 
@@ -1145,7 +1171,7 @@
                     <div>難易度: ★★★★★</div>
                     <div>制限ターン: 3ターン</div>
                     <div id="stage13-record" style="color: var(--accent-main); font-weight: 600; margin-top: 8px;">最速クリア: 未挑戦</div>
-                    <div style="display:flex; align-items:center; justify-content:space-between; margin-top:4px;"><span id="stage13-global-record" style="color:#3a7ca5; font-weight:600; font-size:0.82rem;">全体最速: 読込中...</span><button onclick="event.stopPropagation(); showStageStats(13)" style="background:linear-gradient(135deg,#3a7ca5,#5a9fd4); color:white; border:none; padding:3px 9px; border-radius:5px; font-size:0.75rem; cursor:pointer; font-weight:600; -webkit-tap-highlight-color:transparent;">📊</button></div>
+                    <div class="stage-stats-row"><span id="stage13-global-record" class="stage-global-record">全体最速: 読込中...</span><button onclick="event.stopPropagation(); showStageStats(13)" class="btn-stage-stats"><span class="stats-icon">📊</span>集計を見る</button></div>
                 </div>
             </div>
 
@@ -1157,7 +1183,7 @@
                     <div>難易度: ★★★★★</div>
                     <div>制限ターン: 4ターン</div>
                     <div id="stage14-record" style="color: var(--accent-main); font-weight: 600; margin-top: 8px;">最速クリア: 未挑戦</div>
-                    <div style="display:flex; align-items:center; justify-content:space-between; margin-top:4px;"><span id="stage14-global-record" style="color:#3a7ca5; font-weight:600; font-size:0.82rem;">全体最速: 読込中...</span><button onclick="event.stopPropagation(); showStageStats(14)" style="background:linear-gradient(135deg,#3a7ca5,#5a9fd4); color:white; border:none; padding:3px 9px; border-radius:5px; font-size:0.75rem; cursor:pointer; font-weight:600; -webkit-tap-highlight-color:transparent;">📊</button></div>
+                    <div class="stage-stats-row"><span id="stage14-global-record" class="stage-global-record">全体最速: 読込中...</span><button onclick="event.stopPropagation(); showStageStats(14)" class="btn-stage-stats"><span class="stats-icon">📊</span>集計を見る</button></div>
                 </div>
             </div>
 
@@ -1169,7 +1195,7 @@
                     <div>難易度: ★★★★★</div>
                     <div>制限ターン: 4ターン</div>
                     <div id="stage15-record" style="color: var(--accent-main); font-weight: 600; margin-top: 8px;">最速クリア: 未挑戦</div>
-                    <div style="display:flex; align-items:center; justify-content:space-between; margin-top:4px;"><span id="stage15-global-record" style="color:#3a7ca5; font-weight:600; font-size:0.82rem;">全体最速: 読込中...</span><button onclick="event.stopPropagation(); showStageStats(15)" style="background:linear-gradient(135deg,#3a7ca5,#5a9fd4); color:white; border:none; padding:3px 9px; border-radius:5px; font-size:0.75rem; cursor:pointer; font-weight:600; -webkit-tap-highlight-color:transparent;">📊</button></div>
+                    <div class="stage-stats-row"><span id="stage15-global-record" class="stage-global-record">全体最速: 読込中...</span><button onclick="event.stopPropagation(); showStageStats(15)" class="btn-stage-stats"><span class="stats-icon">📊</span>集計を見る</button></div>
                 </div>
             </div>
 
@@ -1181,7 +1207,7 @@
                     <div>難易度: ★★★★★</div>
                     <div>制限ターン: 4ターン</div>
                     <div id="stage16-record" style="color: var(--accent-main); font-weight: 600; margin-top: 8px;">最速クリア: 未挑戦</div>
-                    <div style="display:flex; align-items:center; justify-content:space-between; margin-top:4px;"><span id="stage16-global-record" style="color:#3a7ca5; font-weight:600; font-size:0.82rem;">全体最速: 読込中...</span><button onclick="event.stopPropagation(); showStageStats(16)" style="background:linear-gradient(135deg,#3a7ca5,#5a9fd4); color:white; border:none; padding:3px 9px; border-radius:5px; font-size:0.75rem; cursor:pointer; font-weight:600; -webkit-tap-highlight-color:transparent;">📊</button></div>
+                    <div class="stage-stats-row"><span id="stage16-global-record" class="stage-global-record">全体最速: 読込中...</span><button onclick="event.stopPropagation(); showStageStats(16)" class="btn-stage-stats"><span class="stats-icon">📊</span>集計を見る</button></div>
                 </div>
             </div>
 
@@ -1193,7 +1219,7 @@
                     <div>難易度: ★★★★★</div>
                     <div>制限ターン: 4ターン</div>
                     <div id="stage17-record" style="color: var(--accent-main); font-weight: 600; margin-top: 8px;">最速クリア: 未挑戦</div>
-                    <div style="display:flex; align-items:center; justify-content:space-between; margin-top:4px;"><span id="stage17-global-record" style="color:#3a7ca5; font-weight:600; font-size:0.82rem;">全体最速: 読込中...</span><button onclick="event.stopPropagation(); showStageStats(17)" style="background:linear-gradient(135deg,#3a7ca5,#5a9fd4); color:white; border:none; padding:3px 9px; border-radius:5px; font-size:0.75rem; cursor:pointer; font-weight:600; -webkit-tap-highlight-color:transparent;">📊</button></div>
+                    <div class="stage-stats-row"><span id="stage17-global-record" class="stage-global-record">全体最速: 読込中...</span><button onclick="event.stopPropagation(); showStageStats(17)" class="btn-stage-stats"><span class="stats-icon">📊</span>集計を見る</button></div>
                 </div>
             </div>
 
@@ -1205,7 +1231,7 @@
                     <div>難易度: ★★★★★</div>
                     <div>制限ターン: 4ターン</div>
                     <div id="stage18-record" style="color: var(--accent-main); font-weight: 600; margin-top: 8px;">最速クリア: 未挑戦</div>
-                    <div style="display:flex; align-items:center; justify-content:space-between; margin-top:4px;"><span id="stage18-global-record" style="color:#3a7ca5; font-weight:600; font-size:0.82rem;">全体最速: 読込中...</span><button onclick="event.stopPropagation(); showStageStats(18)" style="background:linear-gradient(135deg,#3a7ca5,#5a9fd4); color:white; border:none; padding:3px 9px; border-radius:5px; font-size:0.75rem; cursor:pointer; font-weight:600; -webkit-tap-highlight-color:transparent;">📊</button></div>
+                    <div class="stage-stats-row"><span id="stage18-global-record" class="stage-global-record">全体最速: 読込中...</span><button onclick="event.stopPropagation(); showStageStats(18)" class="btn-stage-stats"><span class="stats-icon">📊</span>集計を見る</button></div>
                 </div>
             </div>
 
@@ -1217,7 +1243,7 @@
                     <div>難易度: ★★★★★</div>
                     <div>制限ターン: 5ターン</div>
                     <div id="stage19-record" style="color: var(--accent-main); font-weight: 600; margin-top: 8px;">最速クリア: 未挑戦</div>
-                    <div style="display:flex; align-items:center; justify-content:space-between; margin-top:4px;"><span id="stage19-global-record" style="color:#3a7ca5; font-weight:600; font-size:0.82rem;">全体最速: 読込中...</span><button onclick="event.stopPropagation(); showStageStats(19)" style="background:linear-gradient(135deg,#3a7ca5,#5a9fd4); color:white; border:none; padding:3px 9px; border-radius:5px; font-size:0.75rem; cursor:pointer; font-weight:600; -webkit-tap-highlight-color:transparent;">📊</button></div>
+                    <div class="stage-stats-row"><span id="stage19-global-record" class="stage-global-record">全体最速: 読込中...</span><button onclick="event.stopPropagation(); showStageStats(19)" class="btn-stage-stats"><span class="stats-icon">📊</span>集計を見る</button></div>
                 </div>
             </div>
 
@@ -1229,7 +1255,7 @@
                     <div>難易度: ★★★★★</div>
                     <div>制限ターン: 6ターン</div>
                     <div id="stage20-record" style="color: var(--accent-main); font-weight: 600; margin-top: 8px;">最速クリア: 未挑戦</div>
-                    <div style="display:flex; align-items:center; justify-content:space-between; margin-top:4px;"><span id="stage20-global-record" style="color:#3a7ca5; font-weight:600; font-size:0.82rem;">全体最速: 読込中...</span><button onclick="event.stopPropagation(); showStageStats(20)" style="background:linear-gradient(135deg,#3a7ca5,#5a9fd4); color:white; border:none; padding:3px 9px; border-radius:5px; font-size:0.75rem; cursor:pointer; font-weight:600; -webkit-tap-highlight-color:transparent;">📊</button></div>
+                    <div class="stage-stats-row"><span id="stage20-global-record" class="stage-global-record">全体最速: 読込中...</span><button onclick="event.stopPropagation(); showStageStats(20)" class="btn-stage-stats"><span class="stats-icon">📊</span>集計を見る</button></div>
                 </div>
             </div>
         </div>
@@ -2730,122 +2756,6 @@
             return best ? parseInt(best) : null;
         }
 
-        // ===== Supabase ランキング =====
-        const SUPABASE_URL = 'https://vtwdwcyxgsbylgpscdxb.supabase.co';
-        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ0d2R3Y3l4Z3NieWxncHNjZHhiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE0MDc4NzIsImV4cCI6MjA4Njk4Mzg3Mn0.vyT787pF1vsGCndGFNhjWubn2FVn69DvqOWI99P1mPo';
-
-        // 全ステージのベストターン合計を計算（未クリアがあればnull）
-        function getTotalBestTurns() {
-            let total = 0;
-            for (let i = 1; i <= 20; i++) {
-                const best = getBestClear(i);
-                if (!best) return null;
-                total += best;
-            }
-            return total;
-        }
-
-        // ランキングをSupabaseから取得
-        async function fetchRanking() {
-            try {
-                const res = await fetch(
-                    `${SUPABASE_URL}/rest/v1/records?select=player_name,total_turns,created_at&order=total_turns.asc&limit=20`,
-                    { headers: { apikey: SUPABASE_KEY, Authorization: `Bearer ${SUPABASE_KEY}` } }
-                );
-                if (!res.ok) throw new Error('fetch failed');
-                return await res.json();
-            } catch(e) {
-                return null;
-            }
-        }
-
-        // スコアをSupabaseに投稿
-        async function submitScore(playerName, totalTurns) {
-            try {
-                const res = await fetch(
-                    `${SUPABASE_URL}/rest/v1/records`,
-                    {
-                        method: 'POST',
-                        headers: {
-                            apikey: SUPABASE_KEY,
-                            Authorization: `Bearer ${SUPABASE_KEY}`,
-                            'Content-Type': 'application/json',
-                            Prefer: 'return=minimal'
-                        },
-                        body: JSON.stringify({ player_name: playerName, total_turns: totalTurns })
-                    }
-                );
-                return res.ok;
-            } catch(e) {
-                return false;
-            }
-        }
-
-        // ランキングモーダルを表示
-        async function showRankingModal() {
-            const modal = document.getElementById('ranking-modal');
-            const body  = document.getElementById('ranking-body');
-            modal.classList.add('active');
-            body.innerHTML = '<div style="text-align:center; padding:30px; color:var(--text-secondary);">読み込み中...</div>';
-
-            const data = await fetchRanking();
-            const totalTurns = getTotalBestTurns();
-
-            if (!data) {
-                body.innerHTML = '<div style="text-align:center; padding:20px; color:#c00;">通信エラーが発生しました</div>';
-                return;
-            }
-            if (data.length === 0) {
-                body.innerHTML = '<div style="text-align:center; padding:20px; color:var(--text-secondary);">まだ記録がありません</div>';
-                return;
-            }
-
-            let html = '';
-            data.forEach((row, i) => {
-                const rank = i + 1;
-                const medal = rank === 1 ? '🥇' : rank === 2 ? '🥈' : rank === 3 ? '🥉' : `${rank}.`;
-                const isMe = totalTurns && row.total_turns === totalTurns;
-                html += `
-                    <div style="display:flex; align-items:center; padding:10px 14px; margin-bottom:6px;
-                        background:${isMe ? 'linear-gradient(135deg,#fff4e6,#ffe8d4)' : 'var(--bg-primary)'};
-                        border-radius:8px; border:1px solid ${isMe ? 'var(--accent-main)' : 'transparent'};
-                        font-size:0.92rem;">
-                        <span style="width:36px; font-size:1.1rem; flex-shrink:0;">${medal}</span>
-                        <span style="flex:1; font-weight:600; color:var(--text-primary);">${row.player_name}</span>
-                        <span style="font-weight:700; color:var(--accent-main);">${row.total_turns} ターン</span>
-                    </div>`;
-            });
-            body.innerHTML = html;
-        }
-
-        // スコア投稿モーダルを表示
-        function showSubmitModal() {
-            const totalTurns = getTotalBestTurns();
-            if (!totalTurns) return;
-            document.getElementById('submit-total-turns').textContent = totalTurns;
-            document.getElementById('submit-name-input').value = '';
-            document.getElementById('submit-status').textContent = '';
-            document.getElementById('submit-modal').classList.add('active');
-        }
-
-        async function doSubmitScore() {
-            const name = document.getElementById('submit-name-input').value.trim();
-            const status = document.getElementById('submit-status');
-            const totalTurns = getTotalBestTurns();
-            if (!name) { status.textContent = '名前を入力してください'; status.style.color='#c00'; return; }
-            if (name.length > 12) { status.textContent = '12文字以内で入力してください'; status.style.color='#c00'; return; }
-            status.textContent = '送信中...'; status.style.color='var(--text-secondary)';
-            const ok = await submitScore(name, totalTurns);
-            if (ok) {
-                document.getElementById('submit-modal').classList.remove('active');
-                showRankingModal();
-            } else {
-                status.textContent = '送信に失敗しました。もう一度お試しください。';
-                status.style.color = '#c00';
-            }
-        }
-
-
         // ===== ステージ別グローバル記録 =====
 
         // 全ステージの全体最速をSupabaseから取得して表示
@@ -2921,7 +2831,7 @@
                                     background:${isMe ? 'linear-gradient(90deg,var(--accent-main),#e89577)' : 'linear-gradient(90deg,#3a7ca5,#5a9fd4)'};
                                     border-radius:4px; transition:width 0.4s ease;"></div>
                             </div>
-                            <span style="width:30px; font-size:0.82rem; color:var(--text-secondary); font-weight:600;">${count}人</span>
+                            <span style="width:30px; font-size:0.82rem; color:var(--text-secondary); font-weight:600;">${count}回</span>
                         </div>`;
                 });
                 body.innerHTML = html;
@@ -2941,11 +2851,6 @@
                         recordElement.textContent = '最速クリア: 未挑戦';
                     }
                 }
-            }
-            // 全ステージクリア済みなら登録ボタンを表示
-            const submitBtn = document.getElementById('all-clear-submit');
-            if (submitBtn) {
-                submitBtn.style.display = getTotalBestTurns() ? 'block' : 'none';
             }
         }
 
@@ -3779,40 +3684,6 @@
         });
     </script>
 
-    <!-- ランキングモーダル -->
-    <div class="modal" id="ranking-modal" onclick="if(event.target===this)this.classList.remove('active')">
-        <div class="modal-content" style="max-width:440px; width:92%;">
-            <h2 style="text-align:center; color:var(--accent-main); margin-bottom:6px; font-size:1.3rem;">🌐 世界ランキング</h2>
-            <p style="text-align:center; color:var(--text-secondary); font-size:0.82rem; margin-bottom:16px;">全20ステージの合計最速ターン数</p>
-            <div id="ranking-body" style="max-height:360px; overflow-y:auto; padding: 0 2px;"></div>
-            <div style="text-align:center; margin-top:18px;">
-                <button onclick="document.getElementById('ranking-modal').classList.remove('active')"
-                    class="btn btn-use" style="padding:10px 32px;">閉じる</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- スコア投稿モーダル -->
-    <div class="modal" id="submit-modal" onclick="if(event.target===this)this.classList.remove('active')">
-        <div class="modal-content" style="max-width:380px; width:92%;">
-            <h2 style="text-align:center; color:var(--accent-main); margin-bottom:8px; font-size:1.2rem;">🏆 記録を登録</h2>
-            <p style="text-align:center; margin-bottom:6px; font-size:0.95rem; color:var(--text-primary);">
-                合計 <strong id="submit-total-turns" style="color:var(--accent-main); font-size:1.2rem;"></strong> ターン
-            </p>
-            <p style="text-align:center; font-size:0.82rem; color:var(--text-secondary); margin-bottom:18px;">ランキングに表示される名前を入力してください（12文字以内）</p>
-            <input id="submit-name-input" type="text" maxlength="12" placeholder="プレイヤー名"
-                style="width:100%; box-sizing:border-box; padding:10px 14px; border:1px solid rgba(0,0,0,0.2);
-                border-radius:8px; font-size:1rem; margin-bottom:10px; font-family:inherit;
-                background:var(--bg-primary); color:var(--text-primary);"
-                onkeydown="if(event.key==='Enter')doSubmitScore()">
-            <p id="submit-status" style="text-align:center; font-size:0.85rem; min-height:1.2em; margin-bottom:10px;"></p>
-            <div style="display:flex; gap:10px; justify-content:center;">
-                <button onclick="document.getElementById('submit-modal').classList.remove('active')"
-                    class="btn" style="padding:10px 24px; background:var(--bg-primary); border:1px solid rgba(0,0,0,0.15);">キャンセル</button>
-                <button onclick="doSubmitScore()" class="btn btn-use" style="padding:10px 28px;">登録する</button>
-            </div>
-        </div>
-    </div>
 
 
     <!-- ステージ別集計モーダル -->
