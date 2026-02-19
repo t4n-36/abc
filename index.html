@@ -2866,18 +2866,32 @@
         }
 
         function closeAdminPanel() {
+            _adminAwaitingPassword = false;
+            document.getElementById('admin-pw-area').style.display = 'none';
+            document.getElementById('admin-reset-btn').textContent = '🗑️ リセット実行';
             document.getElementById('admin-panel-modal').classList.remove('active');
         }
 
+        // パスワード確認待ち状態フラグ
+        let _adminAwaitingPassword = false;
+
         function adminResetStage() {
             // パスワード入力欄を表示してフォーカス
-            const pwArea = document.getElementById('admin-pw-area');
-            pwArea.style.display = 'block';
+            _adminAwaitingPassword = true;
+            document.getElementById('admin-pw-area').style.display = 'block';
             document.getElementById('admin-password-input').value = '';
             document.getElementById('admin-auth-error').textContent = '';
+            document.getElementById('admin-status').textContent = '';
             document.getElementById('admin-reset-btn').textContent = '✅ パスワードを確認して実行';
-            document.getElementById('admin-reset-btn').onclick = confirmAdminReset;
             setTimeout(() => document.getElementById('admin-password-input').focus(), 50);
+        }
+
+        async function handleAdminResetBtn() {
+            if (_adminAwaitingPassword) {
+                await confirmAdminReset();
+            } else {
+                adminResetStage();
+            }
         }
 
         async function confirmAdminReset() {
@@ -2894,9 +2908,9 @@
             const label = val === 'all' ? '全ステージ' : `Stage ${val}`;
 
             // パスワード欄を隠してリセット処理
+            _adminAwaitingPassword = false;
             document.getElementById('admin-pw-area').style.display = 'none';
             document.getElementById('admin-reset-btn').textContent = '🗑️ リセット実行';
-            document.getElementById('admin-reset-btn').onclick = adminResetStage;
             status.textContent = '処理中...';
             status.style.color = 'var(--text-secondary)';
 
@@ -2918,6 +2932,8 @@
                     status.style.color = 'green';
                     loadGlobalStageRecords();
                 } else {
+                    const errText = await res.text();
+                    console.error('DELETE failed:', res.status, errText);
                     throw new Error();
                 }
             } catch(e) {
@@ -3827,7 +3843,7 @@
                     style="width:100%; box-sizing:border-box; padding:9px 14px; border:1px solid rgba(0,0,0,0.2);
                     border-radius:8px; font-size:0.95rem; font-family:inherit;
                     background:var(--bg-primary); color:var(--text-primary);"
-                    onkeydown="if(event.key==='Enter')confirmAdminReset()">
+                    onkeydown="if(event.key==='Enter')handleAdminResetBtn()">
                 <p id="admin-auth-error" style="text-align:center; color:#c00; font-size:0.83rem; min-height:1.2em; margin-top:6px;"></p>
             </div>
 
@@ -3836,7 +3852,7 @@
             <div style="display:flex; gap:10px; justify-content:center;">
                 <button onclick="closeAdminPanel()"
                     class="btn" style="padding:10px 24px; background:var(--bg-primary); border:1px solid rgba(0,0,0,0.15);">閉じる</button>
-                <button id="admin-reset-btn" onclick="adminResetStage()" class="btn" style="padding:10px 24px;
+                <button id="admin-reset-btn" onclick="handleAdminResetBtn()" class="btn" style="padding:10px 24px;
                     background:linear-gradient(135deg,#c0392b,#e74c3c); color:white; border:none;">
                     🗑️ リセット実行
                 </button>
