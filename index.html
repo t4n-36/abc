@@ -994,7 +994,17 @@
 <body>
     <!-- ステージ選択画面 -->
     <div class="stage-select-screen" id="stage-select">
+        <div style="position:relative;">
         <h1 class="stage-select-title">ステージ選択</h1>
+        <button onclick="openAdminPanel()" style="position:absolute; right:0; bottom:2px;
+            background:none; border:1px solid rgba(0,0,0,0.18); border-radius:6px;
+            color:rgba(0,0,0,0.4); font-size:0.8rem; line-height:1;
+            cursor:pointer; padding:4px 8px; -webkit-tap-highlight-color:transparent;
+            transition:all 0.2s ease;"
+            onmouseover="this.style.color='rgba(0,0,0,0.7)'; this.style.borderColor='rgba(0,0,0,0.35)'"
+            onmouseout="this.style.color='rgba(0,0,0,0.4)'; this.style.borderColor='rgba(0,0,0,0.18)'"
+            title="管理者">⚙ 管理</button>
+        </div>
         
         <!-- チュートリアルボタン -->
         <div style="text-align: center; margin-top: 8px; margin-bottom: 30px;">
@@ -2844,6 +2854,78 @@
             }
         }
 
+        // ===== 管理者機能 =====
+        const ADMIN_PASSWORD = '1999';
+
+        function openAdminPanel() {
+            document.getElementById('admin-pw-area').style.display = 'none';
+            document.getElementById('admin-auth-error').textContent = '';
+            document.getElementById('admin-status').textContent = '';
+            document.getElementById('admin-reset-btn').textContent = '🗑️ リセット実行';
+            document.getElementById('admin-panel-modal').classList.add('active');
+        }
+
+        function closeAdminPanel() {
+            document.getElementById('admin-panel-modal').classList.remove('active');
+        }
+
+        function adminResetStage() {
+            // パスワード入力欄を表示してフォーカス
+            const pwArea = document.getElementById('admin-pw-area');
+            pwArea.style.display = 'block';
+            document.getElementById('admin-password-input').value = '';
+            document.getElementById('admin-auth-error').textContent = '';
+            document.getElementById('admin-reset-btn').textContent = '✅ パスワードを確認して実行';
+            document.getElementById('admin-reset-btn').onclick = confirmAdminReset;
+            setTimeout(() => document.getElementById('admin-password-input').focus(), 50);
+        }
+
+        async function confirmAdminReset() {
+            const input = document.getElementById('admin-password-input').value;
+            const error = document.getElementById('admin-auth-error');
+            if (input !== ADMIN_PASSWORD) {
+                error.textContent = 'パスワードが違います';
+                document.getElementById('admin-password-input').value = '';
+                return;
+            }
+
+            const val = document.getElementById('admin-stage-select').value;
+            const status = document.getElementById('admin-status');
+            const label = val === 'all' ? '全ステージ' : `Stage ${val}`;
+
+            // パスワード欄を隠してリセット処理
+            document.getElementById('admin-pw-area').style.display = 'none';
+            document.getElementById('admin-reset-btn').textContent = '🗑️ リセット実行';
+            document.getElementById('admin-reset-btn').onclick = adminResetStage;
+            status.textContent = '処理中...';
+            status.style.color = 'var(--text-secondary)';
+
+            try {
+                const url = val === 'all'
+                    ? `${SUPABASE_URL}/rest/v1/stage_records?id=gte.0`
+                    : `${SUPABASE_URL}/rest/v1/stage_records?stage=eq.${val}`;
+
+                const res = await fetch(url, {
+                    method: 'DELETE',
+                    headers: {
+                        apikey: SUPABASE_KEY,
+                        Authorization: `Bearer ${SUPABASE_KEY}`
+                    }
+                });
+
+                if (res.ok) {
+                    status.textContent = `✅ ${label} の集計をリセットしました`;
+                    status.style.color = 'green';
+                    loadGlobalStageRecords();
+                } else {
+                    throw new Error();
+                }
+            } catch(e) {
+                status.textContent = '❌ リセットに失敗しました';
+                status.style.color = '#c00';
+            }
+        }
+
         function updateStageRecordDisplay() {
             for (let i = 1; i <= 20; i++) {
                 const best = getBestClear(i);
@@ -3699,6 +3781,65 @@
             <div style="text-align:center; margin-top:16px;">
                 <button onclick="document.getElementById('stage-stats-modal').classList.remove('active')"
                     class="btn btn-use" style="padding:10px 32px;">閉じる</button>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- 管理者パネルモーダル -->
+    <div class="modal" id="admin-panel-modal" onclick="if(event.target===this)this.classList.remove('active')">
+        <div class="modal-content" style="max-width:400px; width:92%;">
+            <h2 style="text-align:center; color:var(--accent-sub); margin-bottom:4px; font-size:1.1rem;">⚙️ 管理パネル</h2>
+            <p style="text-align:center; color:var(--text-secondary); font-size:0.82rem; margin-bottom:20px;">対象ステージを選んでリセットを実行できます<br><span style="font-size:0.78rem; display:block; margin-top:4px;">※ 実行時にパスワードが必要です</span><span style="font-size:0.78rem; display:block; margin-top:2px; color:var(--text-secondary);">（ ステージ内容を変更したときに使うやつ）</span></p>
+
+            <div style="display:flex; align-items:center; gap:10px; margin-bottom:16px;">
+                <label style="font-size:0.9rem; font-weight:600; color:var(--text-primary); white-space:nowrap;">対象ステージ:</label>
+                <select id="admin-stage-select" style="flex:1; padding:8px 12px; border:1px solid rgba(0,0,0,0.2);
+                    border-radius:8px; font-size:0.9rem; font-family:inherit;
+                    background:var(--bg-primary); color:var(--text-primary);">
+                    <option value="all">全ステージ</option>
+                    <option value="1">Stage 1</option>
+                    <option value="2">Stage 2</option>
+                    <option value="3">Stage 3</option>
+                    <option value="4">Stage 4</option>
+                    <option value="5">Stage 5</option>
+                    <option value="6">Stage 6</option>
+                    <option value="7">Stage 7</option>
+                    <option value="8">Stage 8</option>
+                    <option value="9">Stage 9</option>
+                    <option value="10">Stage 10</option>
+                    <option value="11">Stage 11</option>
+                    <option value="12">Stage 12</option>
+                    <option value="13">Stage 13</option>
+                    <option value="14">Stage 14</option>
+                    <option value="15">Stage 15</option>
+                    <option value="16">Stage 16</option>
+                    <option value="17">Stage 17</option>
+                    <option value="18">Stage 18</option>
+                    <option value="19">Stage 19</option>
+                    <option value="20">Stage 20</option>
+                </select>
+            </div>
+
+            <!-- パスワード入力欄（リセット実行時のみ表示） -->
+            <div id="admin-pw-area" style="display:none; margin-bottom:12px;">
+                <input id="admin-password-input" type="password" placeholder="パスワードを入力"
+                    style="width:100%; box-sizing:border-box; padding:9px 14px; border:1px solid rgba(0,0,0,0.2);
+                    border-radius:8px; font-size:0.95rem; font-family:inherit;
+                    background:var(--bg-primary); color:var(--text-primary);"
+                    onkeydown="if(event.key==='Enter')confirmAdminReset()">
+                <p id="admin-auth-error" style="text-align:center; color:#c00; font-size:0.83rem; min-height:1.2em; margin-top:6px;"></p>
+            </div>
+
+            <p id="admin-status" style="text-align:center; font-size:0.85rem; min-height:1.4em; margin-bottom:12px;"></p>
+
+            <div style="display:flex; gap:10px; justify-content:center;">
+                <button onclick="closeAdminPanel()"
+                    class="btn" style="padding:10px 24px; background:var(--bg-primary); border:1px solid rgba(0,0,0,0.15);">閉じる</button>
+                <button id="admin-reset-btn" onclick="adminResetStage()" class="btn" style="padding:10px 24px;
+                    background:linear-gradient(135deg,#c0392b,#e74c3c); color:white; border:none;">
+                    🗑️ リセット実行
+                </button>
             </div>
         </div>
     </div>
