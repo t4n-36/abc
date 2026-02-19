@@ -2887,6 +2887,7 @@
         }
 
         async function handleAdminResetBtn() {
+            console.log('handleAdminResetBtn called, _adminAwaitingPassword =', _adminAwaitingPassword);
             if (_adminAwaitingPassword) {
                 await confirmAdminReset();
             } else {
@@ -2897,11 +2898,13 @@
         async function confirmAdminReset() {
             const input = document.getElementById('admin-password-input').value;
             const error = document.getElementById('admin-auth-error');
+            console.log('confirmAdminReset called, input =', input, 'expected =', ADMIN_PASSWORD);
             if (input !== ADMIN_PASSWORD) {
                 error.textContent = 'パスワードが違います';
                 document.getElementById('admin-password-input').value = '';
                 return;
             }
+            console.log('Password OK, proceeding to DELETE...');
 
             const val = document.getElementById('admin-stage-select').value;
             const status = document.getElementById('admin-status');
@@ -3804,7 +3807,7 @@
 
     <!-- 管理者パネルモーダル -->
     <div class="modal" id="admin-panel-modal" onclick="if(event.target===this)this.classList.remove('active')">
-        <div class="modal-content" style="max-width:400px; width:92%;">
+        <div class="modal-content" style="max-width:400px; width:92%; padding:28px 24px; text-align:left;">
             <h2 style="text-align:center; color:var(--accent-sub); margin-bottom:4px; font-size:1.1rem;">⚙️ 管理パネル</h2>
             <p style="text-align:center; color:var(--text-secondary); font-size:0.82rem; margin-bottom:20px;">対象ステージを選んでリセットを実行できます<br><span style="font-size:0.78rem; display:block; margin-top:4px;">※ 実行時にパスワードが必要です</span><span style="font-size:0.78rem; display:block; margin-top:2px; color:var(--text-secondary);">（ ステージ内容を変更したときに使うやつ）</span></p>
 
@@ -3850,9 +3853,9 @@
             <p id="admin-status" style="text-align:center; font-size:0.85rem; min-height:1.4em; margin-bottom:12px;"></p>
 
             <div style="display:flex; gap:10px; justify-content:center;">
-                <button onclick="closeAdminPanel()"
+                <button onclick="event.stopPropagation(); closeAdminPanel()"
                     class="btn" style="padding:10px 24px; background:var(--bg-primary); border:1px solid rgba(0,0,0,0.15);">閉じる</button>
-                <button id="admin-reset-btn" onclick="handleAdminResetBtn()" class="btn" style="padding:10px 24px;
+                <button id="admin-reset-btn" onclick="event.stopPropagation(); handleAdminResetBtn()" class="btn" style="padding:10px 24px;
                     background:linear-gradient(135deg,#c0392b,#e74c3c); color:white; border:none;">
                     🗑️ リセット実行
                 </button>
