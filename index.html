@@ -4511,7 +4511,7 @@
             if (tok.t === 'op')    return `<span class="mkb-op"> ${tok.v} </span>`;
             if (tok.t === 'lp')    return `<span class="mkb-op">(</span>`;
             if (tok.t === 'rp')    return `<span class="mkb-op">)</span>`;
-            if (tok.t === 'fn')    return `<span class="mkb-fn">${tok.v}</span><span class="mkb-op">(</span>`;
+            if (tok.t === 'fn')    return `<span class="mkb-fn">${tok.v}</span><span class="mkb-op">(x)</span>`;
             if (tok.t === 'pow') {
                 const baseHtml = tok.base.map(b => tokToHtml(b, false)).join('');
                 const expHtml  = tok.exp.map(e => tokToHtml(e, false)).join('');
@@ -4530,7 +4530,7 @@
                 if (tok.t === 'op')    return { s: tok.v === '×' ? '*' : tok.v === '÷' ? '/' : tok.v, isVal: false };
                 if (tok.t === 'lp')    return { s: '(',  isVal: false };
                 if (tok.t === 'rp')    return { s: ')',  isVal: true  };
-                if (tok.t === 'fn')    return { s: `Math.${tok.v}(`, isVal: false };
+                if (tok.t === 'fn')    return { s: `Math.${tok.v}(x)`, isVal: true };
                 if (tok.t === 'pow') {
                     const base = tokensToExpr(tok.base);
                     const exp  = tokensToExpr(tok.exp) || '1';
@@ -4599,8 +4599,26 @@
                         return { coefficient:r(a), exponent:n, constant:r(c), expr:exprStr };
                     }
                 }
-                // sin/cos/複雑な式 → exprだけ保存してゲームエンジン側でeval
-                return { coefficient:0, exponent:0, constant:0, expr:exprStr };
+                // sin/cos専用判定 → ゲームエンジンのfuncType形式で返す
+                const exprTrim = exprStr.replace(/\s/g,'');
+                if (exprTrim === 'Math.sin(x)') {
+                    return { coefficient:1, exponent:1, constant:0, funcType:'sin' };
+                }
+                if (exprTrim === 'Math.cos(x)') {
+                    return { coefficient:1, exponent:1, constant:0, funcType:'cos' };
+                }
+                // a*sin(x)+c
+                const sinMatch = exprTrim.match(/^([-\d.]+)\*Math\.sin\(x\)([+\-][\d.]+)?$/);
+                if (sinMatch) {
+                    return { coefficient:parseFloat(sinMatch[1]), exponent:1, constant: sinMatch[2] ? parseFloat(sinMatch[2]) : 0, funcType:'sin' };
+                }
+                // a*cos(x)+c
+                const cosMatch = exprTrim.match(/^([-\d.]+)\*Math\.cos\(x\)([+\-][\d.]+)?$/);
+                if (cosMatch) {
+                    return { coefficient:parseFloat(cosMatch[1]), exponent:1, constant: cosMatch[2] ? parseFloat(cosMatch[2]) : 0, funcType:'cos' };
+                }
+                // その他 → exprのみ（係数はサンプリング失敗扱い）
+                return { coefficient:1, exponent:1, constant:0, expr:exprStr };
             } catch(e) {
                 console.error('parseExprToFunc error:', e, 'expr:', exprStr);
                 return null;
