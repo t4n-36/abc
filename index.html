@@ -778,11 +778,22 @@
 
             .header-actions {
                 margin-bottom: 15px;
+                flex-wrap: wrap;
+                gap: 8px;
             }
 
             .btn-back {
-                padding: 8px 16px;
+                width: 100%;
                 font-size: 0.85rem;
+                padding: 9px 16px;
+                text-align: center;
+            }
+
+            .btn-retry, .btn-help {
+                flex: 1;
+                font-size: 0.85rem;
+                padding: 9px 12px;
+                text-align: center;
             }
 
             .battle-area {
@@ -994,17 +1005,24 @@
 <body>
     <!-- ステージ選択画面 -->
     <div class="stage-select-screen" id="stage-select">
-        <div style="position:relative;">
         <h1 class="stage-select-title">ステージ選択</h1>
-        <button onclick="openAdminPanel()" style="position:absolute; right:0; bottom:2px;
-            background:none; border:1px solid rgba(0,0,0,0.18); border-radius:6px;
-            color:rgba(0,0,0,0.4); font-size:0.8rem; line-height:1;
-            cursor:pointer; padding:4px 8px; -webkit-tap-highlight-color:transparent;
-            transition:all 0.2s ease;"
-            onmouseover="this.style.color='rgba(0,0,0,0.7)'; this.style.borderColor='rgba(0,0,0,0.35)'"
-            onmouseout="this.style.color='rgba(0,0,0,0.4)'; this.style.borderColor='rgba(0,0,0,0.18)'"
-            title="管理者">⚙ 管理</button>
-        </div>
+        <button onclick="openAdminPanel()" style="
+            position:fixed; top:14px; right:16px; z-index:100;
+            background: linear-gradient(135deg, rgba(139,115,85,0.12), rgba(139,115,85,0.06));
+            border: 1px solid rgba(139,115,85,0.3);
+            border-radius: 20px;
+            color: rgba(139,115,85,0.7);
+            font-size: 0.72rem;
+            font-weight: 600;
+            letter-spacing: 0.06em;
+            cursor: pointer;
+            padding: 4px 10px;
+            -webkit-tap-highlight-color: transparent;
+            transition: all 0.25s ease;
+            box-shadow: 0 1px 3px rgba(139,115,85,0.1);"
+            onmouseover="this.style.background='linear-gradient(135deg,rgba(139,115,85,0.22),rgba(139,115,85,0.12))'; this.style.color='rgba(139,115,85,1)'; this.style.borderColor='rgba(139,115,85,0.55)'; this.style.boxShadow='0 2px 8px rgba(139,115,85,0.2)'"
+            onmouseout="this.style.background='linear-gradient(135deg,rgba(139,115,85,0.12),rgba(139,115,85,0.06))'; this.style.color='rgba(139,115,85,0.7)'; this.style.borderColor='rgba(139,115,85,0.3)'; this.style.boxShadow='0 1px 3px rgba(139,115,85,0.1)'"
+            title="管理者"> 管理</button>
         
         <!-- チュートリアルボタン -->
         <div style="text-align: center; margin-top: 8px; margin-bottom: 30px;">
@@ -1020,11 +1038,8 @@
                 box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
                 transition: all 0.3s ease;
             " onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 16px rgba(76, 175, 80, 0.4)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(76, 175, 80, 0.3)'">
-                🎓 チュートリアルを始める
+                チュートリアルを始める
             </button>
-            <p style="margin-top: 8px; color: var(--text-secondary); font-size: 0.85rem;">
-                初めての方はこちらからスタート！
-            </p>
         </div>
         
 
@@ -1037,7 +1052,7 @@
                     <div>難易度: ★☆☆☆☆</div>
                     <div>制限ターン: 3ターン</div>
                     <div id="stage1-record" style="color: var(--accent-main); font-weight: 600; margin-top: 8px;">最速クリア: 未挑戦</div>
-                    <div class="stage-stats-row"><span id="stage1-global-record" class="stage-global-record">全体最速: 読込中...</span><button onclick="event.stopPropagation(); showStageStats(1)" class="btn-stage-stats"><span class="stats-icon">📊</span>集計を見る</button></div>
+                    <div class="stage-stats-row"><span id="stage1-global-record" class="stage-global-record">全体最速: 読込中...</span><button onclick="event.stopPropagation(); showStageStats(1)" class="btn-stage-stats">集計を見る</button></div>
                 </div>
             </div>
 
@@ -1049,7 +1064,7 @@
                     <div>難易度: ★☆☆☆☆</div>
                     <div>制限ターン: 3ターン</div>
                     <div id="stage2-record" style="color: var(--accent-main); font-weight: 600; margin-top: 8px;">最速クリア: 未挑戦</div>
-                    <div class="stage-stats-row"><span id="stage2-global-record" class="stage-global-record">全体最速: 読込中...</span><button onclick="event.stopPropagation(); showStageStats(2)" class="btn-stage-stats"><span class="stats-icon">📊</span>集計を見る</button></div>
+                    <div class="stage-stats-row"><span id="stage2-global-record" class="stage-global-record">全体最速: 読込中...</span><button onclick="event.stopPropagation(); showStageStats(2)" class="btn-stage-stats">集計を見る</button></div>
                 </div>
             </div>
 
@@ -1061,7 +1076,7 @@
                     <div>難易度: ★★☆☆☆</div>
                     <div>制限ターン: 3ターン</div>
                     <div id="stage3-record" style="color: var(--accent-main); font-weight: 600; margin-top: 8px;">最速クリア: 未挑戦</div>
-                    <div class="stage-stats-row"><span id="stage3-global-record" class="stage-global-record">全体最速: 読込中...</span><button onclick="event.stopPropagation(); showStageStats(3)" class="btn-stage-stats"><span class="stats-icon">📊</span>集計を見る</button></div>
+                    <div class="stage-stats-row"><span id="stage3-global-record" class="stage-global-record">全体最速: 読込中...</span><button onclick="event.stopPropagation(); showStageStats(3)" class="btn-stage-stats">集計を見る</button></div>
                 </div>
             </div>
 
@@ -1073,7 +1088,7 @@
                     <div>難易度: ★★☆☆☆</div>
                     <div>制限ターン: 3ターン</div>
                     <div id="stage4-record" style="color: var(--accent-main); font-weight: 600; margin-top: 8px;">最速クリア: 未挑戦</div>
-                    <div class="stage-stats-row"><span id="stage4-global-record" class="stage-global-record">全体最速: 読込中...</span><button onclick="event.stopPropagation(); showStageStats(4)" class="btn-stage-stats"><span class="stats-icon">📊</span>集計を見る</button></div>
+                    <div class="stage-stats-row"><span id="stage4-global-record" class="stage-global-record">全体最速: 読込中...</span><button onclick="event.stopPropagation(); showStageStats(4)" class="btn-stage-stats">集計を見る</button></div>
                 </div>
             </div>
 
@@ -1085,7 +1100,7 @@
                     <div>難易度: ★★★☆☆</div>
                     <div>制限ターン: 4ターン</div>
                     <div id="stage5-record" style="color: var(--accent-main); font-weight: 600; margin-top: 8px;">最速クリア: 未挑戦</div>
-                    <div class="stage-stats-row"><span id="stage5-global-record" class="stage-global-record">全体最速: 読込中...</span><button onclick="event.stopPropagation(); showStageStats(5)" class="btn-stage-stats"><span class="stats-icon">📊</span>集計を見る</button></div>
+                    <div class="stage-stats-row"><span id="stage5-global-record" class="stage-global-record">全体最速: 読込中...</span><button onclick="event.stopPropagation(); showStageStats(5)" class="btn-stage-stats">集計を見る</button></div>
                 </div>
             </div>
 
@@ -1097,7 +1112,7 @@
                     <div>難易度: ★★★☆☆</div>
                     <div>制限ターン: 4ターン</div>
                     <div id="stage6-record" style="color: var(--accent-main); font-weight: 600; margin-top: 8px;">最速クリア: 未挑戦</div>
-                    <div class="stage-stats-row"><span id="stage6-global-record" class="stage-global-record">全体最速: 読込中...</span><button onclick="event.stopPropagation(); showStageStats(6)" class="btn-stage-stats"><span class="stats-icon">📊</span>集計を見る</button></div>
+                    <div class="stage-stats-row"><span id="stage6-global-record" class="stage-global-record">全体最速: 読込中...</span><button onclick="event.stopPropagation(); showStageStats(6)" class="btn-stage-stats">集計を見る</button></div>
                 </div>
             </div>
 
@@ -1109,7 +1124,7 @@
                     <div>難易度: ★★★☆☆</div>
                     <div>制限ターン: 4ターン</div>
                     <div id="stage7-record" style="color: var(--accent-main); font-weight: 600; margin-top: 8px;">最速クリア: 未挑戦</div>
-                    <div class="stage-stats-row"><span id="stage7-global-record" class="stage-global-record">全体最速: 読込中...</span><button onclick="event.stopPropagation(); showStageStats(7)" class="btn-stage-stats"><span class="stats-icon">📊</span>集計を見る</button></div>
+                    <div class="stage-stats-row"><span id="stage7-global-record" class="stage-global-record">全体最速: 読込中...</span><button onclick="event.stopPropagation(); showStageStats(7)" class="btn-stage-stats">集計を見る</button></div>
                 </div>
             </div>
 
@@ -1121,7 +1136,7 @@
                     <div>難易度: ★★★★☆</div>
                     <div>制限ターン: 2ターン</div>
                     <div id="stage8-record" style="color: var(--accent-main); font-weight: 600; margin-top: 8px;">最速クリア: 未挑戦</div>
-                    <div class="stage-stats-row"><span id="stage8-global-record" class="stage-global-record">全体最速: 読込中...</span><button onclick="event.stopPropagation(); showStageStats(8)" class="btn-stage-stats"><span class="stats-icon">📊</span>集計を見る</button></div>
+                    <div class="stage-stats-row"><span id="stage8-global-record" class="stage-global-record">全体最速: 読込中...</span><button onclick="event.stopPropagation(); showStageStats(8)" class="btn-stage-stats">集計を見る</button></div>
                 </div>
             </div>
 
@@ -1133,7 +1148,7 @@
                     <div>難易度: ★★★★☆</div>
                     <div>制限ターン: 4ターン</div>
                     <div id="stage9-record" style="color: var(--accent-main); font-weight: 600; margin-top: 8px;">最速クリア: 未挑戦</div>
-                    <div class="stage-stats-row"><span id="stage9-global-record" class="stage-global-record">全体最速: 読込中...</span><button onclick="event.stopPropagation(); showStageStats(9)" class="btn-stage-stats"><span class="stats-icon">📊</span>集計を見る</button></div>
+                    <div class="stage-stats-row"><span id="stage9-global-record" class="stage-global-record">全体最速: 読込中...</span><button onclick="event.stopPropagation(); showStageStats(9)" class="btn-stage-stats">集計を見る</button></div>
                 </div>
             </div>
 
@@ -1145,7 +1160,7 @@
                     <div>難易度: ★★★★★</div>
                     <div>制限ターン: 5ターン</div>
                     <div id="stage10-record" style="color: var(--accent-main); font-weight: 600; margin-top: 8px;">最速クリア: 未挑戦</div>
-                    <div class="stage-stats-row"><span id="stage10-global-record" class="stage-global-record">全体最速: 読込中...</span><button onclick="event.stopPropagation(); showStageStats(10)" class="btn-stage-stats"><span class="stats-icon">📊</span>集計を見る</button></div>
+                    <div class="stage-stats-row"><span id="stage10-global-record" class="stage-global-record">全体最速: 読込中...</span><button onclick="event.stopPropagation(); showStageStats(10)" class="btn-stage-stats">集計を見る</button></div>
                 </div>
             </div>
 
@@ -1157,7 +1172,7 @@
                     <div>難易度: ★★★★★</div>
                     <div>制限ターン: 4ターン</div>
                     <div id="stage11-record" style="color: var(--accent-main); font-weight: 600; margin-top: 8px;">最速クリア: 未挑戦</div>
-                    <div class="stage-stats-row"><span id="stage11-global-record" class="stage-global-record">全体最速: 読込中...</span><button onclick="event.stopPropagation(); showStageStats(11)" class="btn-stage-stats"><span class="stats-icon">📊</span>集計を見る</button></div>
+                    <div class="stage-stats-row"><span id="stage11-global-record" class="stage-global-record">全体最速: 読込中...</span><button onclick="event.stopPropagation(); showStageStats(11)" class="btn-stage-stats">集計を見る</button></div>
                 </div>
             </div>
 
@@ -1169,7 +1184,7 @@
                     <div>難易度: ★★★★★</div>
                     <div>制限ターン: 3ターン</div>
                     <div id="stage12-record" style="color: var(--accent-main); font-weight: 600; margin-top: 8px;">最速クリア: 未挑戦</div>
-                    <div class="stage-stats-row"><span id="stage12-global-record" class="stage-global-record">全体最速: 読込中...</span><button onclick="event.stopPropagation(); showStageStats(12)" class="btn-stage-stats"><span class="stats-icon">📊</span>集計を見る</button></div>
+                    <div class="stage-stats-row"><span id="stage12-global-record" class="stage-global-record">全体最速: 読込中...</span><button onclick="event.stopPropagation(); showStageStats(12)" class="btn-stage-stats">集計を見る</button></div>
                 </div>
             </div>
 
@@ -1181,7 +1196,7 @@
                     <div>難易度: ★★★★★</div>
                     <div>制限ターン: 3ターン</div>
                     <div id="stage13-record" style="color: var(--accent-main); font-weight: 600; margin-top: 8px;">最速クリア: 未挑戦</div>
-                    <div class="stage-stats-row"><span id="stage13-global-record" class="stage-global-record">全体最速: 読込中...</span><button onclick="event.stopPropagation(); showStageStats(13)" class="btn-stage-stats"><span class="stats-icon">📊</span>集計を見る</button></div>
+                    <div class="stage-stats-row"><span id="stage13-global-record" class="stage-global-record">全体最速: 読込中...</span><button onclick="event.stopPropagation(); showStageStats(13)" class="btn-stage-stats">集計を見る</button></div>
                 </div>
             </div>
 
@@ -1193,7 +1208,7 @@
                     <div>難易度: ★★★★★</div>
                     <div>制限ターン: 4ターン</div>
                     <div id="stage14-record" style="color: var(--accent-main); font-weight: 600; margin-top: 8px;">最速クリア: 未挑戦</div>
-                    <div class="stage-stats-row"><span id="stage14-global-record" class="stage-global-record">全体最速: 読込中...</span><button onclick="event.stopPropagation(); showStageStats(14)" class="btn-stage-stats"><span class="stats-icon">📊</span>集計を見る</button></div>
+                    <div class="stage-stats-row"><span id="stage14-global-record" class="stage-global-record">全体最速: 読込中...</span><button onclick="event.stopPropagation(); showStageStats(14)" class="btn-stage-stats">集計を見る</button></div>
                 </div>
             </div>
 
@@ -1205,7 +1220,7 @@
                     <div>難易度: ★★★★★</div>
                     <div>制限ターン: 4ターン</div>
                     <div id="stage15-record" style="color: var(--accent-main); font-weight: 600; margin-top: 8px;">最速クリア: 未挑戦</div>
-                    <div class="stage-stats-row"><span id="stage15-global-record" class="stage-global-record">全体最速: 読込中...</span><button onclick="event.stopPropagation(); showStageStats(15)" class="btn-stage-stats"><span class="stats-icon">📊</span>集計を見る</button></div>
+                    <div class="stage-stats-row"><span id="stage15-global-record" class="stage-global-record">全体最速: 読込中...</span><button onclick="event.stopPropagation(); showStageStats(15)" class="btn-stage-stats">集計を見る</button></div>
                 </div>
             </div>
 
@@ -1217,7 +1232,7 @@
                     <div>難易度: ★★★★★</div>
                     <div>制限ターン: 4ターン</div>
                     <div id="stage16-record" style="color: var(--accent-main); font-weight: 600; margin-top: 8px;">最速クリア: 未挑戦</div>
-                    <div class="stage-stats-row"><span id="stage16-global-record" class="stage-global-record">全体最速: 読込中...</span><button onclick="event.stopPropagation(); showStageStats(16)" class="btn-stage-stats"><span class="stats-icon">📊</span>集計を見る</button></div>
+                    <div class="stage-stats-row"><span id="stage16-global-record" class="stage-global-record">全体最速: 読込中...</span><button onclick="event.stopPropagation(); showStageStats(16)" class="btn-stage-stats">集計を見る</button></div>
                 </div>
             </div>
 
@@ -1229,7 +1244,7 @@
                     <div>難易度: ★★★★★</div>
                     <div>制限ターン: 4ターン</div>
                     <div id="stage17-record" style="color: var(--accent-main); font-weight: 600; margin-top: 8px;">最速クリア: 未挑戦</div>
-                    <div class="stage-stats-row"><span id="stage17-global-record" class="stage-global-record">全体最速: 読込中...</span><button onclick="event.stopPropagation(); showStageStats(17)" class="btn-stage-stats"><span class="stats-icon">📊</span>集計を見る</button></div>
+                    <div class="stage-stats-row"><span id="stage17-global-record" class="stage-global-record">全体最速: 読込中...</span><button onclick="event.stopPropagation(); showStageStats(17)" class="btn-stage-stats">集計を見る</button></div>
                 </div>
             </div>
 
@@ -1241,7 +1256,7 @@
                     <div>難易度: ★★★★★</div>
                     <div>制限ターン: 4ターン</div>
                     <div id="stage18-record" style="color: var(--accent-main); font-weight: 600; margin-top: 8px;">最速クリア: 未挑戦</div>
-                    <div class="stage-stats-row"><span id="stage18-global-record" class="stage-global-record">全体最速: 読込中...</span><button onclick="event.stopPropagation(); showStageStats(18)" class="btn-stage-stats"><span class="stats-icon">📊</span>集計を見る</button></div>
+                    <div class="stage-stats-row"><span id="stage18-global-record" class="stage-global-record">全体最速: 読込中...</span><button onclick="event.stopPropagation(); showStageStats(18)" class="btn-stage-stats">集計を見る</button></div>
                 </div>
             </div>
 
@@ -1253,7 +1268,7 @@
                     <div>難易度: ★★★★★</div>
                     <div>制限ターン: 5ターン</div>
                     <div id="stage19-record" style="color: var(--accent-main); font-weight: 600; margin-top: 8px;">最速クリア: 未挑戦</div>
-                    <div class="stage-stats-row"><span id="stage19-global-record" class="stage-global-record">全体最速: 読込中...</span><button onclick="event.stopPropagation(); showStageStats(19)" class="btn-stage-stats"><span class="stats-icon">📊</span>集計を見る</button></div>
+                    <div class="stage-stats-row"><span id="stage19-global-record" class="stage-global-record">全体最速: 読込中...</span><button onclick="event.stopPropagation(); showStageStats(19)" class="btn-stage-stats">集計を見る</button></div>
                 </div>
             </div>
 
@@ -1265,7 +1280,7 @@
                     <div>難易度: ★★★★★</div>
                     <div>制限ターン: 6ターン</div>
                     <div id="stage20-record" style="color: var(--accent-main); font-weight: 600; margin-top: 8px;">最速クリア: 未挑戦</div>
-                    <div class="stage-stats-row"><span id="stage20-global-record" class="stage-global-record">全体最速: 読込中...</span><button onclick="event.stopPropagation(); showStageStats(20)" class="btn-stage-stats"><span class="stats-icon">📊</span>集計を見る</button></div>
+                    <div class="stage-stats-row"><span id="stage20-global-record" class="stage-global-record">全体最速: 読込中...</span><button onclick="event.stopPropagation(); showStageStats(20)" class="btn-stage-stats">集計を見る</button></div>
                 </div>
             </div>
         </div>
@@ -1278,8 +1293,8 @@
 
             <div class="header-actions">
                 <button class="btn-back" id="btn-back" onclick="backToStageSelect()">← ステージ選択に戻る</button>
-                <button class="btn-retry" onclick="retryStage()">🔄 リトライ</button>
-                <button class="btn-help" onclick="openHelpModal()">❓ カード説明</button>
+                <button class="btn-retry" onclick="retryStage()"> リトライ</button>
+                <button class="btn-help" onclick="openHelpModal()"> カード説明</button>
             </div>
 
             <div class="battle-area">
@@ -1312,12 +1327,10 @@
             <!-- モード表示 -->
             <div class="merge-mode-indicator" id="merge-indicator">
                 <div class="mode-label mode-normal active" id="mode-normal-label">
-                    <span class="mode-icon">🃏</span>
-                    カードを選んで使用ボタンを押してください
+                                        カードを選んで使用ボタンを押してください
                 </div>
                 <div class="mode-label mode-merge" id="mode-merge-label">
-                    <span class="mode-icon">✨</span>
-                    合成モード：同じカードを2枚選択してください
+                                        合成モード：同じカードを2枚選択してください
                 </div>
             </div>
 
@@ -1345,7 +1358,7 @@
                     <h2 id="modal-title"></h2>
                     <p id="modal-message"></p>
                     <div id="modal-buttons" style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
-                        <button class="btn btn-use" onclick="retryStage()">🔄 リトライ</button>
+                        <button class="btn btn-use" onclick="retryStage()"> リトライ</button>
                         <button class="btn btn-use" onclick="backToStageSelect()">ステージ選択に戻る</button>
                     </div>
                 </div>
@@ -2838,7 +2851,7 @@
                         <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
                             <span style="width:52px; font-size:0.85rem; font-weight:600; text-align:right;
                                 color:${isMe ? 'var(--accent-main)' : 'var(--text-primary)'};">
-                                ${turns}ターン${isMe ? ' 👈' : ''}
+                                ${turns}ターン${isMe ? ' ◀' : ''}
                             </span>
                             <div style="flex:1; background:var(--bg-primary); border-radius:4px; height:22px; overflow:hidden;">
                                 <div style="width:${barWidth}%; height:100%;
@@ -2861,14 +2874,14 @@
             document.getElementById('admin-pw-area').style.display = 'none';
             document.getElementById('admin-auth-error').textContent = '';
             document.getElementById('admin-status').textContent = '';
-            document.getElementById('admin-reset-btn').textContent = '🗑️ リセット実行';
+            document.getElementById('admin-reset-btn').textContent = 'リセット実行';
             document.getElementById('admin-panel-modal').classList.add('active');
         }
 
         function closeAdminPanel() {
             _adminAwaitingPassword = false;
             document.getElementById('admin-pw-area').style.display = 'none';
-            document.getElementById('admin-reset-btn').textContent = '🗑️ リセット実行';
+            document.getElementById('admin-reset-btn').textContent = 'リセット実行';
             document.getElementById('admin-panel-modal').classList.remove('active');
         }
 
@@ -2882,12 +2895,11 @@
             document.getElementById('admin-password-input').value = '';
             document.getElementById('admin-auth-error').textContent = '';
             document.getElementById('admin-status').textContent = '';
-            document.getElementById('admin-reset-btn').textContent = '✅ パスワードを確認して実行';
+            document.getElementById('admin-reset-btn').textContent = 'パスワードを確認して実行';
             setTimeout(() => document.getElementById('admin-password-input').focus(), 50);
         }
 
         async function handleAdminResetBtn() {
-            console.log('handleAdminResetBtn called, _adminAwaitingPassword =', _adminAwaitingPassword);
             if (_adminAwaitingPassword) {
                 await confirmAdminReset();
             } else {
@@ -2898,13 +2910,11 @@
         async function confirmAdminReset() {
             const input = document.getElementById('admin-password-input').value;
             const error = document.getElementById('admin-auth-error');
-            console.log('confirmAdminReset called, input =', input, 'expected =', ADMIN_PASSWORD);
             if (input !== ADMIN_PASSWORD) {
                 error.textContent = 'パスワードが違います';
                 document.getElementById('admin-password-input').value = '';
                 return;
             }
-            console.log('Password OK, proceeding to DELETE...');
 
             const val = document.getElementById('admin-stage-select').value;
             const status = document.getElementById('admin-status');
@@ -2913,7 +2923,7 @@
             // パスワード欄を隠してリセット処理
             _adminAwaitingPassword = false;
             document.getElementById('admin-pw-area').style.display = 'none';
-            document.getElementById('admin-reset-btn').textContent = '🗑️ リセット実行';
+            document.getElementById('admin-reset-btn').textContent = 'リセット実行';
             status.textContent = '処理中...';
             status.style.color = 'var(--text-secondary)';
 
@@ -2931,7 +2941,7 @@
                 });
 
                 if (res.ok) {
-                    status.textContent = `✅ ${label} の集計をリセットしました`;
+                    status.textContent = `${label} の集計をリセットしました`;
                     status.style.color = 'green';
                     loadGlobalStageRecords();
                 } else {
@@ -3218,7 +3228,7 @@
                     
                     let message = `${turnsUsed}ターンでクリア！\n目標の関数に変換しました！`;
                     if (isNewRecord) {
-                        message += '\n🎉 新記録達成！';
+                        message += '\n新記録達成！';
                     }
                     
                     showModal('victory', 'クリア！', message);
@@ -3238,7 +3248,7 @@
                         
                         let message = `${turnsUsed}ターンでクリア！`;
                         if (isNewRecord) {
-                            message += '\n🎉 新記録達成！';
+                            message += '\n新記録達成！';
                         }
                         
                         showModal('victory', 'クリア！', message);
@@ -3251,7 +3261,7 @@
                     
                     let message = `${turnsUsed}ターンでクリア！\n関数を定数 ${value} にしました！`;
                     if (isNewRecord) {
-                        message += '\n🎉 新記録達成！';
+                        message += '\n新記録達成！';
                     }
                     
                     showModal('victory', 'クリア！', message);
@@ -3292,7 +3302,7 @@
             if (type === 'victory' && gameState.operationHistory.length > 0) {
                 let historyHTML = '<div style="margin-bottom: 20px; font-size: 1.05rem;">' + message + '</div>';
                 historyHTML += '<div style="text-align: left; margin-top: 20px; padding: 18px; background: var(--bg-primary); border-radius: 8px; max-height: 320px; overflow-y: auto;">';
-                historyHTML += '<h3 style="margin-bottom: 15px; color: var(--accent-main); font-size: 1.1rem; text-align: center;">📝 あなたの操作</h3>';
+                historyHTML += '<h3 style="margin-bottom: 15px; color: var(--accent-main); font-size: 1.1rem; text-align: center;">あなたの操作</h3>';
                 
                 gameState.operationHistory.forEach((op, index) => {
                     historyHTML += `
@@ -3326,7 +3336,7 @@
             } else {
                 // 通常モードではリトライとステージ選択
                 buttonsElement.innerHTML = `
-                    <button class="btn btn-use" onclick="retryStage()">🔄 リトライ</button>
+                    <button class="btn btn-use" onclick="retryStage()"> リトライ</button>
                     <button class="btn btn-use" onclick="backToStageSelect()">ステージ選択に戻る</button>
                 `;
             }
@@ -3415,7 +3425,7 @@
             if (card.type === 'plus') {
                 html = `
                     <div style="margin-bottom: 20px;">
-                        <h3 style="color: var(--accent-main); margin-bottom: 10px;">📝 基本説明</h3>
+                        <h3 style="color: var(--accent-main); margin-bottom: 10px;">基本説明</h3>
                         <p>関数に定数を足すカードです。関数全体の値を上下にずらします。</p>
                     </div>
                     <div style="margin-bottom: 20px;">
@@ -3432,7 +3442,7 @@
                         </div>
                     </div>
                     <div>
-                        <h3 style="color: var(--accent-main); margin-bottom: 10px;">🔄 合成</h3>
+                        <h3 style="color: var(--accent-main); margin-bottom: 10px;">合成</h3>
                         <p>同じレベルの+1カード2枚を合成すると、レベルが上がります。</p>
                         <p>レベル${card.level} × 2 → レベル${card.level + 1} (+${card.level + 1}カード)</p>
                     </div>
@@ -3442,7 +3452,7 @@
                 const displayValue = card.type === 'substitute_pi' ? 'π' : card.level;
                 html = `
                     <div style="margin-bottom: 20px;">
-                        <h3 style="color: var(--accent-main); margin-bottom: 10px;">📝 基本説明</h3>
+                        <h3 style="color: var(--accent-main); margin-bottom: 10px;">基本説明</h3>
                         <p>関数のxに具体的な数値を代入して、定数（数値）に変換するカードです。</p>
                     </div>
                     <div style="margin-bottom: 20px;">
@@ -3461,7 +3471,7 @@
                     </div>
                     ${card.type === 'substitute' ? `
                     <div>
-                        <h3 style="color: var(--accent-main); margin-bottom: 10px;">🔄 合成</h3>
+                        <h3 style="color: var(--accent-main); margin-bottom: 10px;">合成</h3>
                         <p>同じレベルの代入カード2枚を合成すると、代入する値が増えます。</p>
                         <p>レベル${card.level} × 2 → レベル${card.level + 1} (x=${card.level + 1}代入)</p>
                     </div>
@@ -3471,7 +3481,7 @@
                 const isLv2 = card.level >= 2;
                 html = `
                     <div style="margin-bottom: 20px;">
-                        <h3 style="color: var(--accent-main); margin-bottom: 10px;">📝 基本説明</h3>
+                        <h3 style="color: var(--accent-main); margin-bottom: 10px;">基本説明</h3>
                         <p>微分は「変化率」を求める操作です。関数の次数を1つ下げます。</p>
                         ${isLv2 ? `<p style="margin-top: 12px; padding: 12px; background: rgba(106,90,205,0.12); border-left: 4px solid #6a5acd; border-radius: 4px;">
                             <strong style="color: #6a5acd;">⭐ レベル2になると「マクローリン展開」になります！</strong><br>
@@ -3507,7 +3517,7 @@
                         </div>
                     </div>
                     <div style="margin-bottom: 20px;">
-                        <h3 style="color: var(--accent-main); margin-bottom: 10px;">🔄 合成方法</h3>
+                        <h3 style="color: var(--accent-main); margin-bottom: 10px;">合成方法</h3>
                         <p>微分Lv1 を <strong>2枚合成</strong> すると、微分Lv2（マクローリン展開）になります。</p>
                     </div>
                     ` : `
@@ -3532,7 +3542,7 @@
                         </div>
                     </div>
                     <div style="margin-bottom: 15px;">
-                        <h3 style="color: var(--accent-main); margin-bottom: 10px;">🔄 合成</h3>
+                        <h3 style="color: var(--accent-main); margin-bottom: 10px;">合成</h3>
                         <p>2枚合成すると<strong>マクローリン展開</strong>になります。詳細はレベル2で確認できます。</p>
                     </div>
                     `}
@@ -3541,7 +3551,7 @@
                 const isLv2 = card.level >= 2;
                 html = `
                     <div style="margin-bottom: 20px;">
-                        <h3 style="color: var(--accent-main); margin-bottom: 10px;">📝 基本説明</h3>
+                        <h3 style="color: var(--accent-main); margin-bottom: 10px;">基本説明</h3>
                         <p>積分は微分の逆操作です。通常は関数の次数を1つ上げます。</p>
                         ${isLv2 ? `<p style="margin-top: 12px; padding: 12px; background: rgba(106,90,205,0.12); border-left: 4px solid #6a5acd; border-radius: 4px;">
                             <strong style="color: #6a5acd;">⭐ レベル2になると「特殊積分」になります！</strong><br>
@@ -3564,7 +3574,7 @@
                         </div>
                     </div>
                     <div style="margin-bottom: 20px;">
-                        <h3 style="color: var(--accent-main); margin-bottom: 10px;">🔄 合成方法</h3>
+                        <h3 style="color: var(--accent-main); margin-bottom: 10px;">合成方法</h3>
                         <p>積分Lv1 を <strong>2枚合成</strong> すると、特殊積分になります。</p>
                     </div>
                     ` : `
@@ -3583,7 +3593,7 @@
                         </div>
                     </div>
                     <div style="margin-bottom: 15px;">
-                        <h3 style="color: var(--accent-main); margin-bottom: 10px;">🔄 合成</h3>
+                        <h3 style="color: var(--accent-main); margin-bottom: 10px;">合成</h3>
                         <p>2枚合成すると<strong>特殊積分</strong>になります。詳細はレベル2で確認できます。</p>
                     </div>
                     `}
@@ -3592,7 +3602,7 @@
                 const multiplier = Math.pow(2, card.level);
                 html = `
                     <div style="margin-bottom: 20px;">
-                        <h3 style="color: var(--accent-main); margin-bottom: 10px;">📝 基本説明</h3>
+                        <h3 style="color: var(--accent-main); margin-bottom: 10px;">基本説明</h3>
                         <p>関数全体を定数倍するカードです。係数を調整できます。</p>
                     </div>
                     <div style="margin-bottom: 20px;">
@@ -3609,14 +3619,14 @@
                         </div>
                     </div>
                     <div>
-                        <h3 style="color: var(--accent-main); margin-bottom: 10px;">🔄 合成</h3>
+                        <h3 style="color: var(--accent-main); margin-bottom: 10px;">合成</h3>
                         <p>レベル${card.level} × 2 → レベル${card.level + 1} (×${multiplier * 2}カード)</p>
                     </div>
                 `;
             } else if (card.type === 'sinify') {
                 html = `
                     <div style="margin-bottom: 20px;">
-                        <h3 style="color: var(--accent-main); margin-bottom: 10px;">📝 基本説明</h3>
+                        <h3 style="color: var(--accent-main); margin-bottom: 10px;">基本説明</h3>
                         <p>三角関数のsin（サイン）に変換します。-1から1の間を波打つ関数です。</p>
                     </div>
                     <div style="margin-bottom: 20px;">
@@ -3637,7 +3647,7 @@
             } else if (card.type === 'expify') {
                 html = `
                     <div style="margin-bottom: 20px;">
-                        <h3 style="color: var(--accent-main); margin-bottom: 10px;">📝 基本説明</h3>
+                        <h3 style="color: var(--accent-main); margin-bottom: 10px;">基本説明</h3>
                         <p>自然対数の底e（≈2.718）を使った指数関数に変換します。</p>
                     </div>
                     <div style="margin-bottom: 20px;">
@@ -3657,7 +3667,7 @@
             } else if (card.type === 'logify') {
                 html = `
                     <div style="margin-bottom: 20px;">
-                        <h3 style="color: var(--accent-main); margin-bottom: 10px; font-size: 1.1rem;">📝 基本説明</h3>
+                        <h3 style="color: var(--accent-main); margin-bottom: 10px; font-size: 1.1rem;">基本説明</h3>
                         <p style="font-size: 1rem; line-height: 1.8;">自然対数（log<sub>e</sub>）に変換します。指数関数の逆操作です。</p>
                         <p style="margin-top: 12px; padding: 12px; background: rgba(217, 119, 87, 0.1); border-left: 4px solid var(--accent-main); border-radius: 4px; font-size: 1rem;">
                             <strong>💡 わかりやすく言うと：</strong><br>
@@ -3689,7 +3699,7 @@
             } else if (card.type === 'limit_zero') {
                 html = `
                     <div style="margin-bottom: 20px;">
-                        <h3 style="color: var(--accent-main); margin-bottom: 10px; font-size: 1.1rem;">📝 基本説明</h3>
+                        <h3 style="color: var(--accent-main); margin-bottom: 10px; font-size: 1.1rem;">基本説明</h3>
                         <p style="font-size: 1rem; line-height: 1.8;">極限カードは関数がx→0に近づくときの値を求めます。</p>
                         <p style="margin-top: 12px; padding: 12px; background: rgba(212, 184, 184, 0.15); border-left: 4px solid var(--card-limit); border-radius: 4px; font-size: 1rem;">
                             <strong style="color: #b86868;">💡 極限とは：</strong><br>
@@ -3732,7 +3742,7 @@
             } else if (card.type === 'inverse') {
                 html = `
                     <div style="margin-bottom: 20px;">
-                        <h3 style="color: var(--accent-main); margin-bottom: 10px;">📝 基本説明</h3>
+                        <h3 style="color: var(--accent-main); margin-bottom: 10px;">基本説明</h3>
                         <p>関数の逆数（1÷関数）を取ります。</p>
                     </div>
                     <div style="margin-bottom: 20px;">
@@ -3808,8 +3818,8 @@
     <!-- 管理者パネルモーダル -->
     <div class="modal" id="admin-panel-modal" onclick="if(event.target===this)this.classList.remove('active')">
         <div class="modal-content" style="max-width:400px; width:92%; padding:28px 24px; text-align:left;">
-            <h2 style="text-align:center; color:var(--accent-sub); margin-bottom:4px; font-size:1.1rem;">⚙️ 管理パネル</h2>
-            <p style="text-align:center; color:var(--text-secondary); font-size:0.82rem; margin-bottom:20px;">対象ステージを選んでリセットを実行できます<br><span style="font-size:0.78rem; display:block; margin-top:4px;">※ 実行時にパスワードが必要です</span><span style="font-size:0.78rem; display:block; margin-top:2px; color:var(--text-secondary);">（ ステージ内容を変更したときに使うやつ）</span></p>
+            <h2 style="text-align:center; color:var(--accent-sub); margin-bottom:4px; font-size:1.1rem;">管理パネル</h2>
+            <p style="text-align:center; color:var(--text-secondary); font-size:0.82rem; margin-bottom:20px;">対象ステージを選んでリセットを実行できます<br><span style="font-size:0.78rem; display:block; margin-top:4px;">※ 実行時にパスワードが必要です</span><span style="font-size:0.78rem; display:block; margin-top:2px; color:var(--text-secondary);">（ステージ内容を変更したときに使います）</span></p>
 
             <div style="display:flex; align-items:center; gap:10px; margin-bottom:16px;">
                 <label style="font-size:0.9rem; font-weight:600; color:var(--text-primary); white-space:nowrap;">対象ステージ:</label>
@@ -3857,7 +3867,7 @@
                     class="btn" style="padding:10px 24px; background:var(--bg-primary); border:1px solid rgba(0,0,0,0.15);">閉じる</button>
                 <button id="admin-reset-btn" onclick="event.stopPropagation(); handleAdminResetBtn()" class="btn" style="padding:10px 24px;
                     background:linear-gradient(135deg,#c0392b,#e74c3c); color:white; border:none;">
-                    🗑️ リセット実行
+                    リセット実行
                 </button>
             </div>
         </div>
