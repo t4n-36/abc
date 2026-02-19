@@ -2902,7 +2902,7 @@
 
             try {
                 const url = val === 'all'
-                    ? `${SUPABASE_URL}/rest/v1/stage_records?id=gte.0`
+                    ? `${SUPABASE_URL}/rest/v1/stage_records?stage=gte.1`
                     : `${SUPABASE_URL}/rest/v1/stage_records?stage=eq.${val}`;
 
                 const res = await fetch(url, {
