@@ -1626,6 +1626,8 @@
                 </div>
             </div>
 
+        </div>
+
         <!-- 投稿ステージエリア -->
         <div class="custom-stage-section">
             <div class="custom-stage-section-title">みんなのステージ</div>
@@ -1637,7 +1639,6 @@
             <div class="custom-stage-grid" id="custom-stage-grid">
                 <div class="custom-stage-empty">読み込み中...</div>
             </div>
-        </div>
         </div>
     </div>
 
@@ -4522,21 +4523,30 @@
 
         // トークン列 → JS評価可能文字列
         function tokensToExpr(tokens) {
-            return tokens.map(tok => {
-                if (tok.t === 'num')   return tok.v; // 1文字ずつ連結される
-                if (tok.t === 'var')   return 'x';
-                if (tok.t === 'const') return tok.v === 'π' ? 'Math.PI' : 'Math.E';
-                if (tok.t === 'op')    return tok.v === '×' ? '*' : tok.v === '÷' ? '/' : tok.v;
-                if (tok.t === 'lp')    return '(';
-                if (tok.t === 'rp')    return ')';
-                if (tok.t === 'fn')    return `Math.${tok.v}(`;
+            const parts = tokens.map(tok => {
+                if (tok.t === 'num')   return { s: tok.v,                      isVal: true  };
+                if (tok.t === 'var')   return { s: 'x',                        isVal: true  };
+                if (tok.t === 'const') return { s: tok.v === 'π' ? 'Math.PI' : 'Math.E', isVal: true };
+                if (tok.t === 'op')    return { s: tok.v === '×' ? '*' : tok.v === '÷' ? '/' : tok.v, isVal: false };
+                if (tok.t === 'lp')    return { s: '(',  isVal: false };
+                if (tok.t === 'rp')    return { s: ')',  isVal: true  };
+                if (tok.t === 'fn')    return { s: `Math.${tok.v}(`, isVal: false };
                 if (tok.t === 'pow') {
                     const base = tokensToExpr(tok.base);
-                    const exp  = tokensToExpr(tok.exp);
-                    return `Math.pow(${base},${exp})`;
+                    const exp  = tokensToExpr(tok.exp) || '1';
+                    return { s: `Math.pow(${base},${exp})`, isVal: true };
                 }
-                return '';
-            }).join('');
+                return { s: '', isVal: false };
+            });
+            // 隣接するval同士（num直後にvar/pow/constなど）の間に * を自動挿入
+            let result = '';
+            for (let i = 0; i < parts.length; i++) {
+                if (i > 0 && parts[i].isVal && parts[i-1].isVal) {
+                    result += '*';
+                }
+                result += parts[i].s;
+            }
+            return result;
         }
 
         function mkbRender(field) {
@@ -4558,38 +4568,43 @@
 
         // 式文字列をevalしてgameEngineが使える構造体に変換
         function parseExprToFunc(exprStr) {
-            // 簡単なケースをパース: 係数*x^n + 定数
-            // まずevalで数値計算が通るか確認
+            if (!exprStr || exprStr.trim() === '' || exprStr.trim() === '0') {
+                return { coefficient:0, exponent:0, constant:0, expr:'0' };
+            }
             try {
-                // x=0,1,2,3でサンプリングして多項式フィット
+                // new FunctionでMathをそのまま使えるようにする
                 const fn = new Function('x', `
-                    const Math_sin = Math.sin, Math_cos = Math.cos,
-                          Math_PI = Math.PI, Math_E = Math.E,
-                          Math_pow = Math.pow, Math_log = Math.log,
-                          Math_exp = Math.exp;
-                    return ${exprStr || '0'};
+                    const pow=Math.pow, sin=Math.sin, cos=Math.cos,
+                          PI=Math.PI, E=Math.E, log=Math.log, exp=Math.exp,
+                          sqrt=Math.sqrt, abs=Math.abs;
+                    return (${exprStr});
                 `);
                 const f0 = fn(0), f1 = fn(1), f2 = fn(2), f3 = fn(3);
-                if ([f0,f1,f2,f3].some(v => !isFinite(v))) return null;
+                if ([f0,f1,f2,f3].some(v => !isFinite(v) || isNaN(v))) return null;
+                const r = v => Math.round(v * 10000) / 10000;
                 // 定数判定
-                if (Math.abs(f1-f0)<1e-9 && Math.abs(f2-f0)<1e-9) {
-                    return { coefficient:0, exponent:0, constant: Math.round(f0*10000)/10000, expr: exprStr };
+                if (Math.abs(f1-f0) < 1e-9 && Math.abs(f2-f0) < 1e-9) {
+                    return { coefficient:0, exponent:0, constant:r(f0), expr:exprStr };
                 }
-                // 線形
+                // 線形 ax+c
                 if (Math.abs((f2-f0) - 2*(f1-f0)) < 1e-6) {
-                    const a = f1-f0, c = f0;
-                    return { coefficient: Math.round(a*10000)/10000, exponent:1, constant: Math.round(c*10000)/10000, expr: exprStr };
+                    return { coefficient:r(f1-f0), exponent:1, constant:r(f0), expr:exprStr };
                 }
-                // x^n
-                for (let n=2; n<=5; n++) {
-                    const c = f0, a = f1-f0;
-                    if (Math.abs(a*Math.pow(2,n)+c-f2)<1e-4 && Math.abs(a*Math.pow(3,n)+c-f3)<1e-4) {
-                        return { coefficient: Math.round(a*10000)/10000, exponent:n, constant: Math.round(c*10000)/10000, expr: exprStr };
+                // ax^n + c (n=2..5)
+                for (let n = 2; n <= 5; n++) {
+                    const c = f0;
+                    const a = (f1 - c); // f(1)=a*1^n+c → a=f1-c
+                    if (Math.abs(a*Math.pow(2,n)+c - f2) < 1e-4 &&
+                        Math.abs(a*Math.pow(3,n)+c - f3) < 1e-4) {
+                        return { coefficient:r(a), exponent:n, constant:r(c), expr:exprStr };
                     }
                 }
-                // sin/cos/exp → exprのみ保存、coefficient=0で当たり判定はeval
-                return { coefficient:0, exponent:1, constant:0, expr: exprStr };
-            } catch(e) { return null; }
+                // sin/cos/複雑な式 → exprだけ保存してゲームエンジン側でeval
+                return { coefficient:0, exponent:0, constant:0, expr:exprStr };
+            } catch(e) {
+                console.error('parseExprToFunc error:', e, 'expr:', exprStr);
+                return null;
+            }
         }
 
         let csHand = [];
@@ -4776,8 +4791,8 @@
             const author   = document.getElementById('cs-author').value.trim();
             const title    = document.getElementById('cs-title').value.trim();
             const desc     = document.getElementById('cs-desc').value.trim();
-            const initExpr = document.getElementById('cs-func-expr').value;
-            const initFunc = mkbExprToFuncObj(initExpr);
+            const initExpr = document.getElementById('cs-func-expr').value || '0';
+            const initFunc = parseExprToFunc(initExpr);
             const turns    = parseInt(document.getElementById('cs-turns').value);
             const cond     = document.getElementById('cs-condition').value;
             const pw       = document.getElementById('cs-password').value;
@@ -4789,13 +4804,14 @@
             if (!pw)            { errEl.textContent = '削除パスワードを設定してください'; return; }
             if (turns < 1 || turns > 10) { errEl.textContent = 'ターン数は1〜10で設定してください'; return; }
 
+            const safeInitFunc = initFunc || { coefficient:1, exponent:2, constant:0, expr: initExpr };
+            console.log('safeInitFunc:', safeInitFunc);
             errEl.textContent = '投稿中...';
 
             let targetFunction = null;
             if (cond === 'target') {
-                targetFunction = {
-                    ...mkbExprToFuncObj(document.getElementById('cs-tfunc-expr').value)
-                };
+                const targetExpr = document.getElementById('cs-tfunc-expr').value || '0';
+                targetFunction = parseExprToFunc(targetExpr);
             }
 
             const pwHash = await hashPassword(pw);
@@ -4805,7 +4821,7 @@
                 password_hash:   pwHash,
                 title:           title || 'タイトルなし',
                 description:     desc,
-                enemy_function:  initFunc,
+                enemy_function:  safeInitFunc,
                 initial_hand:    csHand,
                 card_queue:      csQueue,
                 max_turns:       turns,
