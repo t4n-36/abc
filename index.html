@@ -1229,46 +1229,118 @@
             background: var(--bg-primary);
             border: 1px solid rgba(0,0,0,0.18);
             border-radius: 8px;
-            padding: 10px;
+            padding: 10px 8px;
             margin-top: 6px;
         }
+        .math-display {
+            min-height: 2.2em;
+            font-size: 1.05rem;
+            color: var(--accent-main);
+            font-weight: 700;
+            padding: 8px 12px;
+            background: var(--bg-paper);
+            border: 1px solid rgba(0,0,0,0.12);
+            border-radius: 7px;
+            margin-bottom: 8px;
+            letter-spacing: 0.02em;
+            font-family: 'Georgia', serif;
+            position: relative;
+            word-break: break-all;
+        }
+        .math-display .cursor {
+            display: inline-block;
+            width: 2px;
+            height: 1.1em;
+            background: var(--accent-main);
+            vertical-align: middle;
+            animation: blink 1s step-end infinite;
+            margin: 0 1px;
+        }
+        .math-display .frac {
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            vertical-align: middle;
+            margin: 0 2px;
+            font-size: 0.85em;
+        }
+        .math-display .frac .num {
+            border-bottom: 1.5px solid var(--accent-main);
+            padding: 0 3px;
+            line-height: 1.3;
+        }
+        .math-display .frac .den {
+            padding: 0 3px;
+            line-height: 1.3;
+        }
+        @keyframes blink { 50% { opacity: 0; } }
         .math-kb-row {
             display: flex;
             flex-wrap: wrap;
-            gap: 5px;
+            gap: 4px;
             margin-bottom: 5px;
         }
         .math-kb-btn {
-            min-width: 38px;
+            min-width: 36px;
             height: 36px;
-            padding: 0 8px;
+            padding: 0 7px;
             background: var(--bg-paper);
             border: 1px solid rgba(0,0,0,0.15);
             border-radius: 6px;
-            font-size: 0.9rem;
+            font-size: 0.88rem;
             font-family: inherit;
             color: var(--text-primary);
             cursor: pointer;
-            transition: all 0.15s;
+            transition: all 0.12s;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: 500;
+            font-weight: 600;
             box-shadow: 0 1px 2px var(--shadow-light);
             -webkit-tap-highlight-color: transparent;
+            user-select: none;
         }
         .math-kb-btn:hover { background: var(--accent-main); color: white; border-color: var(--accent-main); }
-        .math-kb-btn:active { transform: scale(0.92); }
-        .math-kb-btn.wide { min-width: 56px; }
-        .math-kb-btn.action { background: var(--accent-sub); color: white; border-color: var(--accent-sub); font-size: 0.78rem; }
-        .math-kb-btn.action:hover { background: #7a6448; }
-        .math-kb-label {
-            font-size: 0.72rem;
-            color: var(--text-secondary);
-            margin-bottom: 4px;
-            font-weight: 600;
-            letter-spacing: 0.04em;
+        .math-kb-btn:active { transform: scale(0.9); }
+        .math-kb-btn.op { background: #eee8dc; font-size: 1rem; }
+        .math-kb-btn.op:hover { background: var(--accent-main); color: white; }
+        .math-kb-btn.fn { background: var(--card-derivative); font-size: 0.78rem; }
+        .math-kb-btn.fn:hover { background: #6aaa99; color: white; }
+        .math-kb-btn.exp-btn { background: var(--card-integral); font-size: 0.82rem; }
+        .math-kb-btn.exp-btn:hover { background: #9a79aa; color: white; }
+        .math-kb-btn.action-btn { background: var(--accent-sub); color: white; border-color: var(--accent-sub); }
+        .math-kb-btn.action-btn:hover { background: #7a6448; }
+        .math-kb-btn.nav-btn { background: var(--card-substitute); }
+        .math-kb-btn.nav-btn:hover { background: #8a7a5a; color: white; }
+        .math-kb-separator { width: 100%; height: 1px; background: rgba(0,0,0,0.06); margin: 4px 0; }
+
+
+        /* 数学キーボード トークン表示 */
+        .mkb-cursor {
+            display: inline-block;
+            width: 1.5px;
+            background: var(--accent-main);
+            animation: blink 0.8s step-end infinite;
+            margin: 0 0px;
+            vertical-align: text-bottom;
+            height: 1.2em;
         }
+        @keyframes blink { 50% { opacity: 0; } }
+        .mkb-num   { color: var(--text-primary); font-weight: 700; }
+        .mkb-var   { color: var(--accent-main); font-weight: 700; font-style: italic; }
+        .mkb-const { color: #7a8ab0; font-weight: 700; }
+        .mkb-op    { color: var(--accent-sub); font-weight: 600; margin: 0 1px; }
+        .mkb-fn    { color: #5a9a8a; font-weight: 700; font-size: 0.9em; }
+        .mkb-base  { display: inline; }
+        .mkb-exp sup, sup.mkb-exp {
+            font-size: 0.72em;
+            vertical-align: super;
+            color: var(--accent-sub);
+            font-weight: 700;
+        }
+        .math-kb-btn.var-btn   { background: #fde8d8; color: var(--accent-main); font-style: italic; font-weight: 700; }
+        .math-kb-btn.const-btn { background: #e8eaf8; color: #5a6a9a; font-weight: 700; }
+        .math-kb-btn.var-btn:hover, .math-kb-btn.const-btn:hover { background: var(--accent-main); color: white; }
 
     </style>
 </head>
@@ -4165,46 +4237,19 @@
 
         // ===== 投稿ステージ機能 =====
 
-        // ===== 数学キーボード =====
-        const _mathState = { coef:1, exp:2, const:0, tcoef:1, texp:1, tconst:0 };
-
-        function setMathVal(field, val) {
-            _mathState[field] = val;
-            document.getElementById(`cs-${field}`).value = val;
-            updateMathPreview();
-        }
-
-        function updateMathPreview() {
-            // 初期関数プレビュー
-            const c = _mathState.coef, e = _mathState.exp, k = _mathState.const;
-            document.getElementById('cs-func-preview').textContent = buildFuncStr('f', c, e, k);
-
-            // 目標関数プレビュー
-            const tc = _mathState.tcoef, te = _mathState.texp, tk = _mathState.tconst;
-            const tPrev = document.getElementById('cs-tfunc-preview');
-            if (tPrev) tPrev.textContent = buildFuncStr('h', tc, te, tk);
-        }
-
-        function buildFuncStr(name, coef, exp, con) {
-            const expSymbols = ['', '', '²', '³', '⁴', '⁵'];
-            let s = `${name}(x) = `;
-            if (exp === 0) {
-                s += coef + con;
-            } else {
-                const xPart = exp === 1 ? 'x' : `x${expSymbols[exp] || '^'+exp}`;
-                if (coef === 0) { s += '0'; }
-                else if (coef === 1) { s += xPart; }
-                else if (coef === -1) { s += `-${xPart}`; }
-                else if (coef === 0.5) { s += `½${xPart}`; }
-                else if (coef === -0.5) { s += `-½${xPart}`; }
-                else { s += `${coef}${xPart}`; }
-                if (con > 0) s += ` + ${con}`;
-                else if (con < 0) s += ` - ${Math.abs(con)}`;
-            }
-            return s;
-        }
-
-
+        const CARD_TYPE_LABELS = {
+            plus:          '+1カード',
+            substitute:    'x=1代入',
+            substitute_pi: 'x=π代入',
+            derivative:    '微分',
+            integral:      '積分',
+            multiply:      '×2カード',
+            inverse:       '逆数',
+            sinify:        'sin変換',
+            expify:        '指数化',
+            logify:        '対数化',
+            limit_zero:    '極限(x→0)'
+        };
 
         function getCardBgColor(type) {
             const map = {
@@ -4223,50 +4268,17 @@
             return map[type] || 'var(--card-plus)';
         }
 
-        function makeCardHtml(type, cls, removeFn) {
-            const info = cardTypes[type];
-            const mockCard = { ...info, level: 1 };
-            const effect = getCardCenterEffect(mockCard);
-            const desc   = getCardDescription(mockCard);
-            const bg     = getCardBgColor(type);
-            const removeBtn = removeFn ? `<div class="preview-card-remove" onclick="${removeFn}">×</div>` : '';
-            return `
-                <div class="${cls}" style="background:${bg};" ${removeFn ? `onclick="${removeFn}"` : ''}>
-                    ${removeBtn}
-                    <div class="${cls}-name">${info.name}</div>
-                    <div class="${cls}-effect">${effect}</div>
-                    <div class="${cls}-desc">${desc}</div>
-                </div>`;
-        }
-
-
-        const CARD_TYPE_LABELS = {
-            plus:        '+1カード',
-            substitute:  'x=1代入',
-            substitute_pi: 'x=π代入',
-            derivative:  '微分',
-            integral:    '積分',
-            multiply:    '×2カード',
-            inverse:     '逆数',
-            sinify:      'sin変換',
-            expify:      '指数化',
-            logify:      '対数化',
-            limit_zero:  '極限(x→0)'
-        };
-
-        // 簡易ハッシュ（パスワード照合用）
         async function hashPassword(pw) {
             const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(pw));
             return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
         }
 
-        // 投稿ステージ一覧を読み込む
         async function loadCustomStages() {
             const grid = document.getElementById('custom-stage-grid');
             grid.innerHTML = '<div class="custom-stage-empty">読み込み中...</div>';
             try {
                 const res = await fetch(
-                    `${SUPABASE_URL}/rest/v1/custom_stages?select=id,author_name,title,description,max_turns,clear_condition,created_at,likes&order=created_at.desc&limit=50`,
+                    `${SUPABASE_URL}/rest/v1/custom_stages?select=id,author_name,title,description,max_turns,clear_condition,initial_hand,created_at&order=created_at.desc&limit=50`,
                     { headers: { apikey: SUPABASE_KEY, Authorization: `Bearer ${SUPABASE_KEY}` } }
                 );
                 const stages = await res.json();
@@ -4288,8 +4300,7 @@
                             <div class="mini-card-desc">${desc}</div>
                         </div>`;
                     }).join('');
-                    return `
-                    <div class="custom-stage-card">
+                    return `<div class="custom-stage-card">
                         <div class="custom-stage-author">by ${escapeHtml(s.author_name)}</div>
                         <div class="custom-stage-title">${escapeHtml(s.title)}</div>
                         <div class="custom-stage-desc">${escapeHtml(s.description || '')}</div>
@@ -4300,7 +4311,7 @@
                         <div class="custom-card-preview">${handCards}</div>
                         <div class="custom-stage-actions">
                             <button class="btn-play-custom" onclick="playCustomStage(${s.id})">プレイ</button>
-                            <button class="btn-delete-custom" onclick="openDeleteCustomModal(${s.id}, '${escapeHtml(s.title).replace(/'/g,"\'")}')">削除</button>
+                            <button class="btn-delete-custom" onclick="openDeleteCustomModal(${s.id}, '${escapeHtml(s.title).replace(/'/g,"\\'")}')">削除</button>
                         </div>
                     </div>`;
                 }).join('');
@@ -4317,7 +4328,6 @@
             return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
         }
 
-        // 投稿ステージをプレイ
         async function playCustomStage(id) {
             try {
                 const res = await fetch(
@@ -4327,8 +4337,6 @@
                 const arr = await res.json();
                 if (!arr.length) { alert('ステージが見つかりません'); return; }
                 const s = arr[0];
-
-                // stageDataに動的に追加してゲームを起動
                 const customKey = `custom_${id}`;
                 stageData[customKey] = {
                     name: s.title,
@@ -4342,7 +4350,6 @@
                     description: s.description || '',
                     isCustom: true
                 };
-
                 document.getElementById('stage-select').style.display = 'none';
                 document.getElementById('game-screen').classList.add('active');
                 init(customKey);
@@ -4351,7 +4358,239 @@
             }
         }
 
-        // ===== ステージ作成フォーム =====
+        // ===== 数学キーボード (トークンエンジン版) =====
+        // トークン型:
+        //   { t:'num', v:'3' }          数字(複数桁を連続入力で結合)
+        //   { t:'var', v:'x' }          変数x
+        //   { t:'const', v:'π'|'e' }   定数
+        //   { t:'op', v:'+'|'-'|'*'|'/' }
+        //   { t:'lp'|'rp' }             括弧
+        //   { t:'fn', v:'sin'|'cos' }   関数
+        //   { t:'pow', base:[...], exp:[...] }  指数トークン(baseは前のトークン群、expは指数部)
+
+        // 状態: 2つのエディタ(init, target)
+        const mkbStates = {
+            init:   { tokens: [], cursor: 0, inExp: false },
+            target: { tokens: [], cursor: 0, inExp: false }
+        };
+        let mkbActive = 'init'; // 現在操作中のフィールド
+
+        function mkbInput(field, type, val) {
+            const s = mkbStates[field];
+            // inExpモード: 最後のpowトークンのexp部に追加
+            if (s.inExp) {
+                const powTok = _findLastPow(s);
+                if (powTok) {
+                    const newTok = _makeTok(type, val);
+                    if (newTok) powTok.exp.push(newTok);
+                    mkbRender(field);
+                    return;
+                }
+                s.inExp = false;
+            }
+            const newTok = _makeTok(type, val);
+            if (!newTok) return;
+            // numは1文字ずつ個別トークン（カーソル移動を文字単位にするため）
+            s.tokens.splice(s.cursor, 0, newTok);
+            s.cursor++;
+            mkbRender(field);
+        }
+
+        function mkbPow(field) {
+            const s = mkbStates[field];
+            // 直前のトークンをbaseにしてpowを作る
+            if (s.cursor === 0) return;
+            const baseTok = s.tokens.splice(s.cursor - 1, 1)[0];
+            const powTok = { t: 'pow', base: [baseTok], exp: [] };
+            s.tokens.splice(s.cursor - 1, 0, powTok);
+            // cursorはpowの後に置いたまま、inExpをtrueにして次の入力はexp部へ
+            s.inExp = true;
+            mkbRender(field);
+        }
+
+        function mkbExpExit(field) {
+            // >ボタン: 指数モードを抜けて通常入力に戻る
+            mkbStates[field].inExp = false;
+            mkbRender(field);
+        }
+
+        function mkbBackspace(field) {
+            const s = mkbStates[field];
+            if (s.inExp) {
+                const powTok = _findLastPow(s);
+                if (powTok && powTok.exp.length > 0) {
+                    powTok.exp.pop();
+                    mkbRender(field);
+                    return;
+                }
+                s.inExp = false; return;
+            }
+            if (s.cursor === 0) return;
+            // numの末尾1文字削除
+            const prev = s.tokens[s.cursor - 1];
+            if (prev && prev.t === 'num' && prev.v.length > 1) {
+                prev.v = prev.v.slice(0, -1);
+            } else {
+                s.tokens.splice(s.cursor - 1, 1);
+                s.cursor--;
+            }
+            mkbRender(field);
+        }
+
+        function mkbMoveCursor(field, dir) {
+            const s = mkbStates[field];
+            s.inExp = false;
+            if (dir === -1 && s.cursor > 0) s.cursor--;
+            if (dir === +1 && s.cursor < s.tokens.length) s.cursor++;
+            mkbRender(field);
+        }
+
+        function _makeTok(type, val) {
+            if (type === 'num')   return { t:'num', v: String(val) };
+            if (type === 'var')   return { t:'var', v: val };
+            if (type === 'const') return { t:'const', v: val };
+            if (type === 'op')    return { t:'op', v: val };
+            if (type === 'lp')    return { t:'lp' };
+            if (type === 'rp')    return { t:'rp' };
+            if (type === 'fn')    return { t:'fn', v: val };
+            return null;
+        }
+
+        function _findLastPow(s) {
+            // cursor直前のpowトークン
+            if (s.cursor > 0) {
+                const t = s.tokens[s.cursor - 1];
+                if (t && t.t === 'pow') return t;
+            }
+            return null;
+        }
+
+        // トークン列 → 表示文字列
+        function tokensToDisplay(tokens, cursor, inExp) {
+            let html = '';
+            let i = 0;
+            while (i < tokens.length) {
+                // カーソル挿入
+                if (i === cursor && !inExp) html += '<span class="mkb-cursor"></span>';
+
+                const tok = tokens[i];
+                // 連続するnumトークンをまとめて1つの数字として表示
+                if (tok.t === 'num') {
+                    let numStr = tok.v;
+                    // ただしカーソルが間に挟まる場合は分割して表示
+                    let j = i + 1;
+                    while (j < tokens.length && tokens[j].t === 'num' && cursor !== j) {
+                        numStr += tokens[j].v;
+                        j++;
+                    }
+                    // カーソルが数字列の途中にある場合
+                    if (cursor > i && cursor < j) {
+                        const before = tokens.slice(i, cursor).map(t => t.v).join('');
+                        const after  = tokens.slice(cursor, j).map(t => t.v).join('');
+                        html += `<span class="mkb-num">${before}</span><span class="mkb-cursor"></span><span class="mkb-num">${after}</span>`;
+                    } else {
+                        html += `<span class="mkb-num">${numStr}</span>`;
+                    }
+                    i = j;
+                    continue;
+                }
+
+                html += tokToHtml(tok, i === tokens.length - 1 && inExp);
+                i++;
+            }
+            if (cursor >= tokens.length && !inExp) html += '<span class="mkb-cursor"></span>';
+            return html;
+        }
+
+        function tokToHtml(tok, isLast) {
+            if (!tok) return '';
+            if (tok.t === 'num')   return `<span class="mkb-num">${tok.v}</span>`;
+            if (tok.t === 'var')   return `<span class="mkb-var">x</span>`;
+            if (tok.t === 'const') return `<span class="mkb-const">${tok.v}</span>`;
+            if (tok.t === 'op')    return `<span class="mkb-op"> ${tok.v} </span>`;
+            if (tok.t === 'lp')    return `<span class="mkb-op">(</span>`;
+            if (tok.t === 'rp')    return `<span class="mkb-op">)</span>`;
+            if (tok.t === 'fn')    return `<span class="mkb-fn">${tok.v}</span><span class="mkb-op">(</span>`;
+            if (tok.t === 'pow') {
+                const baseHtml = tok.base.map(b => tokToHtml(b, false)).join('');
+                const expHtml  = tok.exp.map(e => tokToHtml(e, false)).join('');
+                const cursor   = isLast ? '<span class="mkb-cursor">|</span>' : '';
+                return `<span class="mkb-base">${baseHtml}</span><sup class="mkb-exp">${expHtml}${cursor}</sup>`;
+            }
+            return '';
+        }
+
+        // トークン列 → JS評価可能文字列
+        function tokensToExpr(tokens) {
+            return tokens.map(tok => {
+                if (tok.t === 'num')   return tok.v; // 1文字ずつ連結される
+                if (tok.t === 'var')   return 'x';
+                if (tok.t === 'const') return tok.v === 'π' ? 'Math.PI' : 'Math.E';
+                if (tok.t === 'op')    return tok.v === '×' ? '*' : tok.v === '÷' ? '/' : tok.v;
+                if (tok.t === 'lp')    return '(';
+                if (tok.t === 'rp')    return ')';
+                if (tok.t === 'fn')    return `Math.${tok.v}(`;
+                if (tok.t === 'pow') {
+                    const base = tokensToExpr(tok.base);
+                    const exp  = tokensToExpr(tok.exp);
+                    return `Math.pow(${base},${exp})`;
+                }
+                return '';
+            }).join('');
+        }
+
+        function mkbRender(field) {
+            const s = mkbStates[field];
+            const previewId = field === 'init' ? 'cs-func-preview' : 'cs-tfunc-preview';
+            const el = document.getElementById(previewId);
+            if (!el) return;
+            const label = field === 'init' ? '<span style="color:var(--text-secondary);font-weight:400;">f(x) = </span>' : '<span style="color:var(--text-secondary);font-weight:400;">h(x) = </span>';
+            el.innerHTML = label + tokensToDisplay(s.tokens, s.cursor, s.inExp);
+            // hiddenフィールドに式を保存
+            const exprId = field === 'init' ? 'cs-func-expr' : 'cs-tfunc-expr';
+            const exprEl = document.getElementById(exprId);
+            if (exprEl) exprEl.value = tokensToExpr(s.tokens);
+        }
+
+        function mkbReset(field) {
+            mkbStates[field] = { tokens: [], cursor: 0, inExp: false };
+        }
+
+        // 式文字列をevalしてgameEngineが使える構造体に変換
+        function parseExprToFunc(exprStr) {
+            // 簡単なケースをパース: 係数*x^n + 定数
+            // まずevalで数値計算が通るか確認
+            try {
+                // x=0,1,2,3でサンプリングして多項式フィット
+                const fn = new Function('x', `
+                    const Math_sin = Math.sin, Math_cos = Math.cos,
+                          Math_PI = Math.PI, Math_E = Math.E,
+                          Math_pow = Math.pow, Math_log = Math.log,
+                          Math_exp = Math.exp;
+                    return ${exprStr || '0'};
+                `);
+                const f0 = fn(0), f1 = fn(1), f2 = fn(2), f3 = fn(3);
+                if ([f0,f1,f2,f3].some(v => !isFinite(v))) return null;
+                // 定数判定
+                if (Math.abs(f1-f0)<1e-9 && Math.abs(f2-f0)<1e-9) {
+                    return { coefficient:0, exponent:0, constant: Math.round(f0*10000)/10000, expr: exprStr };
+                }
+                // 線形
+                if (Math.abs((f2-f0) - 2*(f1-f0)) < 1e-6) {
+                    const a = f1-f0, c = f0;
+                    return { coefficient: Math.round(a*10000)/10000, exponent:1, constant: Math.round(c*10000)/10000, expr: exprStr };
+                }
+                // x^n
+                for (let n=2; n<=5; n++) {
+                    const c = f0, a = f1-f0;
+                    if (Math.abs(a*Math.pow(2,n)+c-f2)<1e-4 && Math.abs(a*Math.pow(3,n)+c-f3)<1e-4) {
+                        return { coefficient: Math.round(a*10000)/10000, exponent:n, constant: Math.round(c*10000)/10000, expr: exprStr };
+                    }
+                }
+                // sin/cos/exp → exprのみ保存、coefficient=0で当たり判定はeval
+                return { coefficient:0, exponent:1, constant:0, expr: exprStr };
+            } catch(e) { return null; }
+        }
 
         let csHand = [];
         let csQueue = [];
@@ -4367,16 +4606,10 @@
             document.getElementById('cs-error').textContent = '';
             document.getElementById('cs-condition').value = 'zero';
             document.getElementById('cs-target-area').style.display = 'none';
-            // 数学キーボードリセット
-            _mathState.coef=1; _mathState.exp=2; _mathState.const=0;
-            _mathState.tcoef=1; _mathState.texp=1; _mathState.tconst=0;
-            document.getElementById('cs-coef').value = '1';
-            document.getElementById('cs-exp').value = '2';
-            document.getElementById('cs-const').value = '0';
-            document.getElementById('cs-tcoef').value = '1';
-            document.getElementById('cs-texp').value = '1';
-            document.getElementById('cs-tconst').value = '0';
-            updateMathPreview();
+            mkbReset('init');
+            mkbReset('target');
+            mkbRender('init');
+            mkbRender('target');
             renderCSPicker('hand');
             renderCSPicker('queue');
             document.getElementById('create-stage-modal').classList.add('active');
@@ -4387,7 +4620,106 @@
             document.getElementById('cs-target-area').style.display = v === 'target' ? 'block' : 'none';
         }
 
-        // プレビュー更新は数学キーボードのsetMathValで行う
+
+        // トークン: {type:'num'|'op'|'var'|'fn'|'pow'|'frac', val?, base?, exp?, num?[], den?[]}
+
+        const _mkb = {
+            init:   { tokens: [], cursor: 0 },
+            target: { tokens: [], cursor: 0 }
+        };
+
+        function mkbInsert(field, val) {
+            const s = _mkb[field];
+            let type;
+            if (/^[0-9]$/.test(val))          type = 'num';
+            else if (val === 'x')              type = 'var';
+            else if (/^[+\-*]$/.test(val))     type = 'op';
+            else                               type = 'fn';
+            s.tokens.splice(s.cursor, 0, { type, val });
+            s.cursor++;
+            mkbRender(field);
+        }
+
+        // 指数ボタン：カーソル直前のトークン全体に指数を乗せる
+        function mkbExp(field, exp) {
+            const s = _mkb[field];
+            if (s.cursor === 0) return;
+            const prev = s.tokens[s.cursor - 1];
+            if (!prev || prev.type === 'op') return;
+            if (prev.type === 'pow') {
+                prev.exp = exp;
+            } else {
+                s.tokens.splice(s.cursor - 1, 1, { type: 'pow', base: prev, exp });
+            }
+            mkbRender(field);
+        }
+
+        // ÷ボタン：カーソルより前のトークン全体を分子に、以降を分母に
+        function mkbDiv(field) {
+            const s = _mkb[field];
+            const numTokens = s.tokens.splice(0, s.cursor);
+            s.tokens = [{ type: 'frac', num: numTokens, den: [] }];
+            s.cursor = 1;
+            // 以降の入力はfracのdenに追加するためフラグ管理
+            _mkb[field]._fracMode = true;
+            mkbRender(field);
+        }
+
+        // fracMode中のinsertはdenに追加
+        const _origInsert = mkbInsert;
+        // (fracModeはmkbInsert内で処理)
+
+        // カーソル移動
+        function mkbMove(field, dir) {
+            const s = _mkb[field];
+            s.cursor = Math.max(0, Math.min(s.tokens.length, s.cursor + dir));
+            mkbRender(field);
+        }
+
+        // バックスペース
+        function mkbBS(field) {
+            const s = _mkb[field];
+            if (s._fracMode) {
+                // 分母から削除
+                const frac = s.tokens[0];
+                if (frac && frac.type === 'frac') {
+                    if (frac.den.length > 0) {
+                        frac.den.pop();
+                    } else {
+                        // 分母が空になったら分数モード解除して分子を展開
+                        s.tokens = [...frac.num];
+                        s.cursor = s.tokens.length;
+                        s._fracMode = false;
+                    }
+                }
+            } else {
+                if (s.cursor === 0) return;
+                s.tokens.splice(s.cursor - 1, 1);
+                s.cursor--;
+            }
+            mkbRender(field);
+        }
+
+        // fracMode時のinsert上書き
+        function mkbInsertOrDen(field, val) {
+            const s = _mkb[field];
+            if (s._fracMode) {
+                const frac = s.tokens[0];
+                if (frac && frac.type === 'frac') {
+                    let type;
+                    if (/^[0-9]$/.test(val))       type = 'num';
+                    else if (val === 'x')           type = 'var';
+                    else if (/^[+\-*]$/.test(val))  type = 'op';
+                    else                            type = 'fn';
+                    frac.den.push({ type, val });
+                    mkbRender(field);
+                    return;
+                }
+            }
+            mkbInsert(field, val);
+        }
+
+
 
         function renderCSPicker(target) {
             const arr = target === 'hand' ? csHand : csQueue;
@@ -4444,9 +4776,8 @@
             const author   = document.getElementById('cs-author').value.trim();
             const title    = document.getElementById('cs-title').value.trim();
             const desc     = document.getElementById('cs-desc').value.trim();
-            const coef     = parseFloat(document.getElementById('cs-coef').value);
-            const exp      = parseInt(document.getElementById('cs-exp').value);
-            const con      = parseFloat(document.getElementById('cs-const').value);
+            const initExpr = document.getElementById('cs-func-expr').value;
+            const initFunc = mkbExprToFuncObj(initExpr);
             const turns    = parseInt(document.getElementById('cs-turns').value);
             const cond     = document.getElementById('cs-condition').value;
             const pw       = document.getElementById('cs-password').value;
@@ -4463,9 +4794,7 @@
             let targetFunction = null;
             if (cond === 'target') {
                 targetFunction = {
-                    coefficient: parseFloat(document.getElementById('cs-tcoef').value),
-                    exponent:    parseInt(document.getElementById('cs-texp').value),
-                    constant:    parseFloat(document.getElementById('cs-tconst').value)
+                    ...mkbExprToFuncObj(document.getElementById('cs-tfunc-expr').value)
                 };
             }
 
@@ -4476,7 +4805,7 @@
                 password_hash:   pwHash,
                 title:           title || 'タイトルなし',
                 description:     desc,
-                enemy_function:  { coefficient: coef, exponent: exp, constant: con },
+                enemy_function:  initFunc,
                 initial_hand:    csHand,
                 card_queue:      csQueue,
                 max_turns:       turns,
@@ -4655,12 +4984,12 @@
             <p style="text-align:center; color:var(--text-secondary); font-size:0.8rem; margin-bottom:18px;">作ったステージはみんながプレイできます</p>
 
             <div class="form-group">
-                <label class="form-label">作者名（12文字以内）</label>
-                <input id="cs-author" class="form-input" type="text" maxlength="2" placeholder="あなたの名前（2文字以内）">
+                <label class="form-label">作者名（2文字以内）</label>
+                <input id="cs-author" class="form-input" type="text" maxlength="2" placeholder="あなたの名前">
             </div>
             <div class="form-group">
-                <label class="form-label">ステージタイトル（20文字以内）</label>
-                <input id="cs-title" class="form-input" type="text" maxlength="20" placeholder="タイトル（省略可）">
+                <label class="form-label">ステージタイトル（任意・20文字以内）</label>
+                <input id="cs-title" class="form-input" type="text" maxlength="20" placeholder="省略すると「タイトルなし」になります">
             </div>
             <div class="form-group">
                 <label class="form-label">説明（任意）</label>
@@ -4668,53 +4997,43 @@
             </div>
 
             <div class="form-group">
-                <label class="form-label">初期関数　<span style="font-weight:400; font-size:0.78rem; color:var(--text-secondary);">数学キーボードで入力できます</span></label>
-                <div id="cs-func-preview" style="min-height:2em; font-size:1.1rem; color:var(--accent-main); font-weight:700; padding:8px 12px; background:var(--bg-paper); border:1px solid rgba(0,0,0,0.12); border-radius:7px; margin-bottom:6px;">f(x) = x² + 0</div>
-                <input id="cs-func-raw" class="form-input" style="display:none;">
-                <input id="cs-coef" type="hidden" value="1">
-                <input id="cs-exp" type="hidden" value="2">
-                <input id="cs-const" type="hidden" value="0">
-                <div class="math-keyboard" id="math-kb-initial">
-                    <div class="math-kb-label">係数</div>
+                <label class="form-label">初期関数</label>
+                <div id="cs-func-preview" style="font-size:1.1rem; color:var(--accent-main); font-weight:700; padding:8px 12px; background:var(--bg-paper); border:1px solid rgba(0,0,0,0.1); border-radius:7px; margin-bottom:8px; min-height:2.2em; line-height:1.8;"></div>
+                <input id="cs-func-expr" type="hidden" value="">
+<div class="math-keyboard">
                     <div class="math-kb-row">
-                        <button type="button" class="math-kb-btn" onclick="setMathVal('coef',-3)">-3</button>
-                        <button type="button" class="math-kb-btn" onclick="setMathVal('coef',-2)">-2</button>
-                        <button type="button" class="math-kb-btn" onclick="setMathVal('coef',-1)">-1</button>
-                        <button type="button" class="math-kb-btn" onclick="setMathVal('coef',-0.5)">-½</button>
-                        <button type="button" class="math-kb-btn" onclick="setMathVal('coef',0)">0</button>
-                        <button type="button" class="math-kb-btn" onclick="setMathVal('coef',0.5)">½</button>
-                        <button type="button" class="math-kb-btn" onclick="setMathVal('coef',1)">1</button>
-                        <button type="button" class="math-kb-btn" onclick="setMathVal('coef',2)">2</button>
-                        <button type="button" class="math-kb-btn" onclick="setMathVal('coef',3)">3</button>
-                        <button type="button" class="math-kb-btn" onclick="setMathVal('coef',4)">4</button>
-                        <button type="button" class="math-kb-btn" onclick="setMathVal('coef',5)">5</button>
-                        <button type="button" class="math-kb-btn" onclick="setMathVal('coef',6)">6</button>
+                        <button type="button" class="math-kb-btn" onclick="mkbInput('init','num','7')">7</button>
+                        <button type="button" class="math-kb-btn" onclick="mkbInput('init','num','8')">8</button>
+                        <button type="button" class="math-kb-btn" onclick="mkbInput('init','num','9')">9</button>
+                        <button type="button" class="math-kb-btn op" onclick="mkbInput('init','op','+')">+</button>
+                        <button type="button" class="math-kb-btn op" onclick="mkbInput('init','op','-')">−</button>
+                        <button type="button" class="math-kb-btn action-btn" onclick="mkbBackspace('init')">⌫</button>
                     </div>
-                    <div class="math-kb-label">指数 (x の乗数)</div>
                     <div class="math-kb-row">
-                        <button type="button" class="math-kb-btn" onclick="setMathVal('exp',0)">x⁰</button>
-                        <button type="button" class="math-kb-btn" onclick="setMathVal('exp',1)">x¹</button>
-                        <button type="button" class="math-kb-btn" onclick="setMathVal('exp',2)">x²</button>
-                        <button type="button" class="math-kb-btn" onclick="setMathVal('exp',3)">x³</button>
-                        <button type="button" class="math-kb-btn" onclick="setMathVal('exp',4)">x⁴</button>
-                        <button type="button" class="math-kb-btn" onclick="setMathVal('exp',5)">x⁵</button>
+                        <button type="button" class="math-kb-btn" onclick="mkbInput('init','num','4')">4</button>
+                        <button type="button" class="math-kb-btn" onclick="mkbInput('init','num','5')">5</button>
+                        <button type="button" class="math-kb-btn" onclick="mkbInput('init','num','6')">6</button>
+                        <button type="button" class="math-kb-btn op" onclick="mkbInput('init','op','×')">×</button>
+                        <button type="button" class="math-kb-btn op" onclick="mkbInput('init','op','÷')">÷</button>
+                        <button type="button" class="math-kb-btn nav-btn" onclick="mkbMoveCursor('init',-1)">＜</button>
+                        <button type="button" class="math-kb-btn nav-btn" onclick="mkbMoveCursor('init',+1)">＞</button>
                     </div>
-                    <div class="math-kb-label">定数 (+ の後ろ)</div>
                     <div class="math-kb-row">
-                        <button type="button" class="math-kb-btn" onclick="setMathVal('const',-9)">-9</button>
-                        <button type="button" class="math-kb-btn" onclick="setMathVal('const',-6)">-6</button>
-                        <button type="button" class="math-kb-btn" onclick="setMathVal('const',-4)">-4</button>
-                        <button type="button" class="math-kb-btn" onclick="setMathVal('const',-3)">-3</button>
-                        <button type="button" class="math-kb-btn" onclick="setMathVal('const',-2)">-2</button>
-                        <button type="button" class="math-kb-btn" onclick="setMathVal('const',-1)">-1</button>
-                        <button type="button" class="math-kb-btn" onclick="setMathVal('const',0)">0</button>
-                        <button type="button" class="math-kb-btn" onclick="setMathVal('const',1)">1</button>
-                        <button type="button" class="math-kb-btn" onclick="setMathVal('const',2)">2</button>
-                        <button type="button" class="math-kb-btn" onclick="setMathVal('const',3)">3</button>
-                        <button type="button" class="math-kb-btn" onclick="setMathVal('const',4)">4</button>
-                        <button type="button" class="math-kb-btn" onclick="setMathVal('const',6)">6</button>
-                        <button type="button" class="math-kb-btn" onclick="setMathVal('const',9)">9</button>
-                        <button type="button" class="math-kb-btn" onclick="setMathVal('const',Math.PI.toFixed(4)*1)" title="π ≈ 3.14159">π</button>
+                        <button type="button" class="math-kb-btn" onclick="mkbInput('init','num','1')">1</button>
+                        <button type="button" class="math-kb-btn" onclick="mkbInput('init','num','2')">2</button>
+                        <button type="button" class="math-kb-btn" onclick="mkbInput('init','num','3')">3</button>
+                        <button type="button" class="math-kb-btn op" onclick="mkbInput('init','lp')">(</button>
+                        <button type="button" class="math-kb-btn op" onclick="mkbInput('init','rp')">)</button>
+                        <button type="button" class="math-kb-btn exp-btn" onclick="mkbPow('init')">x^□</button>
+                        <button type="button" class="math-kb-btn nav-btn" onclick="mkbExpExit('init')">↵</button>
+                    </div>
+                    <div class="math-kb-row">
+                        <button type="button" class="math-kb-btn" onclick="mkbInput('init','num','0')">0</button>
+                        <button type="button" class="math-kb-btn var-btn" onclick="mkbInput('init','var','x')">x</button>
+                        <button type="button" class="math-kb-btn const-btn" onclick="mkbInput('init','const','π')">π</button>
+                        <button type="button" class="math-kb-btn const-btn" onclick="mkbInput('init','const','e')">e</button>
+                        <button type="button" class="math-kb-btn fn" onclick="mkbInput('init','fn','sin')">sin</button>
+                        <button type="button" class="math-kb-btn fn" onclick="mkbInput('init','fn','cos')">cos</button>
                     </div>
                 </div>
             </div>
@@ -4727,53 +5046,45 @@
                     <option value="target">指定の関数にする</option>
                 </select>
             </div>
+
             <div id="cs-target-area" style="display:none;" class="form-group">
                 <label class="form-label">目標関数</label>
-                <div id="cs-tfunc-preview" style="min-height:2em; font-size:1.1rem; color:var(--accent-sub); font-weight:700; padding:8px 12px; background:var(--bg-paper); border:1px solid rgba(0,0,0,0.12); border-radius:7px; margin-bottom:6px;">h(x) = x + 0</div>
-                <input id="cs-tcoef" type="hidden" value="1">
-                <input id="cs-texp" type="hidden" value="1">
-                <input id="cs-tconst" type="hidden" value="0">
-                <div class="math-keyboard">
-                    <div class="math-kb-label">係数</div>
+                <div id="cs-tfunc-preview" style="font-size:1.1rem; color:var(--accent-sub); font-weight:700; padding:8px 12px; background:var(--bg-paper); border:1px solid rgba(0,0,0,0.1); border-radius:7px; margin-bottom:8px; min-height:2.2em; line-height:1.8;"></div>
+                <input id="cs-tfunc-expr" type="hidden" value="">
+<div class="math-keyboard">
                     <div class="math-kb-row">
-                        <button type="button" class="math-kb-btn" onclick="setMathVal('tcoef',-3)">-3</button>
-                        <button type="button" class="math-kb-btn" onclick="setMathVal('tcoef',-2)">-2</button>
-                        <button type="button" class="math-kb-btn" onclick="setMathVal('tcoef',-1)">-1</button>
-                        <button type="button" class="math-kb-btn" onclick="setMathVal('tcoef',-0.5)">-½</button>
-                        <button type="button" class="math-kb-btn" onclick="setMathVal('tcoef',0)">0</button>
-                        <button type="button" class="math-kb-btn" onclick="setMathVal('tcoef',0.5)">½</button>
-                        <button type="button" class="math-kb-btn" onclick="setMathVal('tcoef',1)">1</button>
-                        <button type="button" class="math-kb-btn" onclick="setMathVal('tcoef',2)">2</button>
-                        <button type="button" class="math-kb-btn" onclick="setMathVal('tcoef',3)">3</button>
-                        <button type="button" class="math-kb-btn" onclick="setMathVal('tcoef',4)">4</button>
-                        <button type="button" class="math-kb-btn" onclick="setMathVal('tcoef',5)">5</button>
-                        <button type="button" class="math-kb-btn" onclick="setMathVal('tcoef',6)">6</button>
+                        <button type="button" class="math-kb-btn" onclick="mkbInput('target','num','7')">7</button>
+                        <button type="button" class="math-kb-btn" onclick="mkbInput('target','num','8')">8</button>
+                        <button type="button" class="math-kb-btn" onclick="mkbInput('target','num','9')">9</button>
+                        <button type="button" class="math-kb-btn op" onclick="mkbInput('target','op','+')">+</button>
+                        <button type="button" class="math-kb-btn op" onclick="mkbInput('target','op','-')">−</button>
+                        <button type="button" class="math-kb-btn action-btn" onclick="mkbBackspace('target')">⌫</button>
                     </div>
-                    <div class="math-kb-label">指数</div>
                     <div class="math-kb-row">
-                        <button type="button" class="math-kb-btn" onclick="setMathVal('texp',0)">x⁰</button>
-                        <button type="button" class="math-kb-btn" onclick="setMathVal('texp',1)">x¹</button>
-                        <button type="button" class="math-kb-btn" onclick="setMathVal('texp',2)">x²</button>
-                        <button type="button" class="math-kb-btn" onclick="setMathVal('texp',3)">x³</button>
-                        <button type="button" class="math-kb-btn" onclick="setMathVal('texp',4)">x⁴</button>
-                        <button type="button" class="math-kb-btn" onclick="setMathVal('texp',5)">x⁵</button>
+                        <button type="button" class="math-kb-btn" onclick="mkbInput('target','num','4')">4</button>
+                        <button type="button" class="math-kb-btn" onclick="mkbInput('target','num','5')">5</button>
+                        <button type="button" class="math-kb-btn" onclick="mkbInput('target','num','6')">6</button>
+                        <button type="button" class="math-kb-btn op" onclick="mkbInput('target','op','×')">×</button>
+                        <button type="button" class="math-kb-btn op" onclick="mkbInput('target','op','÷')">÷</button>
+                        <button type="button" class="math-kb-btn nav-btn" onclick="mkbMoveCursor('target',-1)">＜</button>
+                        <button type="button" class="math-kb-btn nav-btn" onclick="mkbMoveCursor('target',+1)">＞</button>
                     </div>
-                    <div class="math-kb-label">定数</div>
                     <div class="math-kb-row">
-                        <button type="button" class="math-kb-btn" onclick="setMathVal('tconst',-9)">-9</button>
-                        <button type="button" class="math-kb-btn" onclick="setMathVal('tconst',-6)">-6</button>
-                        <button type="button" class="math-kb-btn" onclick="setMathVal('tconst',-4)">-4</button>
-                        <button type="button" class="math-kb-btn" onclick="setMathVal('tconst',-3)">-3</button>
-                        <button type="button" class="math-kb-btn" onclick="setMathVal('tconst',-2)">-2</button>
-                        <button type="button" class="math-kb-btn" onclick="setMathVal('tconst',-1)">-1</button>
-                        <button type="button" class="math-kb-btn" onclick="setMathVal('tconst',0)">0</button>
-                        <button type="button" class="math-kb-btn" onclick="setMathVal('tconst',1)">1</button>
-                        <button type="button" class="math-kb-btn" onclick="setMathVal('tconst',2)">2</button>
-                        <button type="button" class="math-kb-btn" onclick="setMathVal('tconst',3)">3</button>
-                        <button type="button" class="math-kb-btn" onclick="setMathVal('tconst',4)">4</button>
-                        <button type="button" class="math-kb-btn" onclick="setMathVal('tconst',6)">6</button>
-                        <button type="button" class="math-kb-btn" onclick="setMathVal('tconst',9)">9</button>
-                        <button type="button" class="math-kb-btn" onclick="setMathVal('tconst',Math.PI.toFixed(4)*1)" title="π">π</button>
+                        <button type="button" class="math-kb-btn" onclick="mkbInput('target','num','1')">1</button>
+                        <button type="button" class="math-kb-btn" onclick="mkbInput('target','num','2')">2</button>
+                        <button type="button" class="math-kb-btn" onclick="mkbInput('target','num','3')">3</button>
+                        <button type="button" class="math-kb-btn op" onclick="mkbInput('target','lp')">(</button>
+                        <button type="button" class="math-kb-btn op" onclick="mkbInput('target','rp')">)</button>
+                        <button type="button" class="math-kb-btn exp-btn" onclick="mkbPow('target')">x^□</button>
+                        <button type="button" class="math-kb-btn nav-btn" onclick="mkbExpExit('target')">↵</button>
+                    </div>
+                    <div class="math-kb-row">
+                        <button type="button" class="math-kb-btn" onclick="mkbInput('target','num','0')">0</button>
+                        <button type="button" class="math-kb-btn var-btn" onclick="mkbInput('target','var','x')">x</button>
+                        <button type="button" class="math-kb-btn const-btn" onclick="mkbInput('target','const','π')">π</button>
+                        <button type="button" class="math-kb-btn const-btn" onclick="mkbInput('target','const','e')">e</button>
+                        <button type="button" class="math-kb-btn fn" onclick="mkbInput('target','fn','sin')">sin</button>
+                        <button type="button" class="math-kb-btn fn" onclick="mkbInput('target','fn','cos')">cos</button>
                     </div>
                 </div>
             </div>
@@ -4784,20 +5095,20 @@
             </div>
 
             <div class="form-group">
-                <label class="form-label">初期手札（1〜6枚、クリックで追加・チップをクリックで削除）</label>
+                <label class="form-label">初期手札（1〜6枚）　<span style="font-weight:400;font-size:0.75rem;color:var(--text-secondary);">クリックで削除</span></label>
                 <div class="card-picker" id="cs-hand-picker"></div>
                 <div style="display:flex; flex-wrap:wrap; gap:5px; margin-top:8px;" id="cs-hand-add-btns"></div>
             </div>
 
             <div class="form-group">
-                <label class="form-label">補充カード順（クリックで追加・チップをクリックで削除）</label>
+                <label class="form-label">補充カード順　<span style="font-weight:400;font-size:0.75rem;color:var(--text-secondary);">クリックで削除</span></label>
                 <div class="card-picker" id="cs-queue-picker"></div>
                 <div style="display:flex; flex-wrap:wrap; gap:5px; margin-top:8px;" id="cs-queue-add-btns"></div>
             </div>
 
             <div class="form-group">
-                <label class="form-label">削除パスワード（自分のステージを消すときに使います）</label>
-                <input id="cs-password" class="form-input" type="password" maxlength="20" placeholder="パスワード（必須）">
+                <label class="form-label">削除パスワード（必須）</label>
+                <input id="cs-password" class="form-input" type="password" maxlength="20" placeholder="自分のステージを消すときに使います">
             </div>
 
             <p id="cs-error" style="color:#c00; font-size:0.83rem; min-height:1.2em; margin-bottom:8px;"></p>
